@@ -1,10 +1,5 @@
-﻿using SharpDX.Direct2D1.Effects;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono
 {
@@ -40,7 +35,20 @@ namespace mono
                 }
             }
 
-            return new List<Node>();
+            Node current = Target;
+            Queue<Node> pathRev = new Queue<Node>();
+            List<Node> path = new List<Node>();
+            while (current != Start)
+            {
+                pathRev.Enqueue(current);
+                current = CameFromNode[current];
+            }
+            while (pathRev.Count > 0)
+            {
+                path.Add(pathRev.Dequeue());
+            }
+            
+            return path;
         }
 
         public static double Heuristic(Node Start, Node Target)
