@@ -35,13 +35,13 @@ namespace mono
                 }
             }
 
-            Node current = Target;
+            Node currentRev = Target;
             Queue<Node> pathRev = new Queue<Node>();
             List<Node> path = new List<Node>();
-            while (current != Start)
+            while (currentRev != Start)
             {
-                pathRev.Enqueue(current);
-                current = CameFromNode[current];
+                pathRev.Enqueue(currentRev);
+                currentRev = CameFromNode[currentRev];
             }
             while (pathRev.Count > 0)
             {
