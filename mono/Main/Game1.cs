@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.Entities;
 using System.Collections.Generic;
+using System.Timers;
 
 
 namespace mono.Main
@@ -11,13 +12,13 @@ namespace mono.Main
     {
         private GraphicsDeviceManager _graphics;
         public  SpriteBatch _spriteBatch;
-        
-
+        public Timer _timer;
+        public int GameClock = 0;
         //text
         SpriteFont font;
 
         //player
-        Player player;
+        public Player player;
 
         Enemy enemy;
 
@@ -33,7 +34,7 @@ namespace mono.Main
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            characterList = new List<Character>();
+            
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -50,11 +51,16 @@ namespace mono.Main
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _timer = new Timer();
+            _timer.Interval = 100;
+            _timer.Start();
+
+            characterList = new List<Character>();
 
             //player
             player = new Player(Content.Load<Texture2D>("player"));
             enemy = new Enemy(Content.Load<Texture2D>("enemy"));
-            characterList = new List<Character>();
+            
 
             map = new Map(Content.Load<Texture2D>("testmap"));
 
@@ -81,11 +87,11 @@ namespace mono.Main
 
             //movement
             
-            player.Dash(KB, GP);
+            player.Move(KB, GP);
 
             foreach (Character character in characterList)
             {
-                character.Move(KB, GP);
+                character.Move();
             }   
 
 

@@ -5,7 +5,7 @@ namespace mono
 {
     internal static class AStar
     {
-        public static List<Node> ASTAR(Node Start, Node Target)
+        public static Queue<Node> ASTAR(Node Start, Node Target)
         {
             PriorityQueue<Node, double> Border = new PriorityQueue<Node, double>();
             Dictionary<Node, double> CostToNode = new Dictionary<Node, double>();
@@ -36,18 +36,18 @@ namespace mono
             }
 
             Node currentRev = Target;
-            Queue<Node> pathRev = new Queue<Node>();
-            List<Node> path = new List<Node>();
+            Stack<Node> pathRev = new Stack<Node>();
+            Queue<Node> path = new Queue<Node>();
             while (currentRev != Start)
             {
-                pathRev.Enqueue(currentRev);
+                pathRev.Push(currentRev);
                 currentRev = CameFromNode[currentRev];
             }
             while (pathRev.Count > 0)
             {
-                path.Add(pathRev.Dequeue());
+                path.Enqueue(pathRev.Pop());
             }
-            
+             
             return path;
         }
 

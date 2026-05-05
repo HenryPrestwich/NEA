@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace mono.Entities
 {
-    internal class Player : Character
+    public class Player : Character
     {
         
-
         public double DashCool {  get; set; }
 
         
@@ -38,6 +38,8 @@ namespace mono.Entities
             {
                 Position = new Vector2(Position.X, Position.Y + 5);
             }
+
+            Dash(KB, GP);
         }
 
         public void Dash(KeyboardState KB, GamePadState GP)
