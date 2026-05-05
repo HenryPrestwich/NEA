@@ -19,6 +19,8 @@ namespace mono.Main
         //player
         Player player;
 
+        Enemy enemy;
+
         Map map;
         Graph graph;
 
@@ -51,12 +53,16 @@ namespace mono.Main
 
             //player
             player = new Player(Content.Load<Texture2D>("player"));
+            enemy = new Enemy(Content.Load<Texture2D>("enemy"));
             characterList = new List<Character>();
 
             map = new Map(Content.Load<Texture2D>("testmap"));
 
             graph = new Graph(map.texture.Height, map.texture.Width);
+
+
             characterList.Add(player);
+            characterList.Add(enemy);
 
 
             //camera
@@ -74,8 +80,13 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            player.Move(KB, GP);
+            
             player.Dash(KB, GP);
+
+            foreach (Character character in characterList)
+            {
+                character.Move(KB, GP);
+            }   
 
 
             camera.Track(player.Position);
