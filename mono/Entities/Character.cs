@@ -13,7 +13,6 @@ namespace mono.Entities
     {
         public int HP { get; set; }
         public Vector2 Position { get; set; }
-        public int[ , ] NodePosition { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Centre { get; set; }
 
@@ -23,7 +22,6 @@ namespace mono.Entities
             Position = new Vector2(12, 12);
             Texture = texture;
             Centre = new Vector2(texture.Width / 2, texture.Height / 2);
-            this.NodePosition = new int[Convert.ToInt32(this.Position.X) / 32, Convert.ToInt32(this.Position.Y) / 32];
         }
         public void Draw(SpriteBatch spriteBatch)
         {

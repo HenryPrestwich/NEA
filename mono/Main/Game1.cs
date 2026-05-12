@@ -20,10 +20,10 @@ namespace mono.Main
         //player
         public Player player;
 
-        Enemy enemy;
+        public Enemy enemy;
 
         Map map;
-        Graph graph;
+        public Graph graph;
 
         //Logs
         List<Character> characterList;
@@ -86,7 +86,7 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            
+            enemy.SetPath(player, graph);
             player.Move(KB, GP);
 
             foreach (Character character in characterList)
@@ -98,7 +98,7 @@ namespace mono.Main
             camera.Track(player.Position);
 
 
-            AStar.ASTAR(graph.grid[0, 0], graph.grid[10, 10]);
+            
             //dash
 
 

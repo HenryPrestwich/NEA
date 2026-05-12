@@ -9,10 +9,10 @@ using System.IO;
 
 namespace mono.Entities
 {
-    internal class Enemy : Character
+    public class Enemy : Character
     {
-        string state;
-        Queue<Node> path;
+        public string state;
+        public Queue<Node> path;
         public Enemy(Texture2D texture) : base(texture)
         {
             state = null;
@@ -23,15 +23,18 @@ namespace mono.Entities
             
         }
 
-        public void SetPath(Player player)
+        public void SetPath(Player player, Graph graph)
         {
-            path = AStar.ASTAR(this.NodePosition, player.NodePosition);
+            path = AStar.ASTAR(this.Position, player.Position, graph);
              
         }
 
         public override void Move()
         {
-
+            if (path.Count != 0)
+            {
+                this.Position = path.Dequeue().Position;
+            }
         }
     }
 }

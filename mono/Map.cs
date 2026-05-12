@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace mono
 {
-    internal class Map
+    public class Map
     {
         public Texture2D texture;
 
@@ -21,9 +21,9 @@ namespace mono
         }
     }
 
-    class Graph
+    public class Graph
     {
-        public Node[,] grid;
+        public Node[,] Grid { get; set; }
         int WidthNodes;
         int HeightNodes;
 
@@ -33,14 +33,14 @@ namespace mono
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
 
-            grid = new Node[WidthNodes, HeightNodes];
+            Grid = new Node[WidthNodes, HeightNodes];
 
             for (int x = 0; x < WidthNodes; x++)
             {
                 for (int y = 0; y < HeightNodes; y++)
                 {
                     Node n = new Node(x, y, 0); //Add tile type here
-                    grid [x, y] = n;
+                    Grid [x, y] = n;
                 }
             }
 
@@ -50,51 +50,53 @@ namespace mono
                 {
                     if (x > 0)
                     {
-                        grid[x, y].Neigbour.Add(grid[x - 1, y]);
+                        Grid[x, y].Neigbour.Add(Grid[x - 1, y]);
                     }
                     if (y > 0)
                     {
-                        grid[x, y].Neigbour.Add(grid[x, y - 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x, y - 1]);
                     }
                     if (x > 0 && y >0)
                     {
-                        grid[x, y].Neigbour.Add(grid[x - 1, y - 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x - 1, y - 1]);
 
                     }
                     if (x < WidthNodes -1)
                     {
-                        grid[x, y].Neigbour.Add(grid[x + 1, y]);
+                        Grid[x, y].Neigbour.Add(Grid[x + 1, y]);
                     }
                     if (y < HeightNodes - 1)
                     {
-                        grid[x, y].Neigbour.Add(grid[x, y + 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x, y + 1]);
                     }
                     if (x < WidthNodes - 1 && y < HeightNodes - 1)
                     {
-                        grid[x, y].Neigbour.Add(grid[x + 1, y + 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x + 1, y + 1]);
                     }
                     if (x < WidthNodes - 1 && y > 0)
                     {
-                        grid[x, y].Neigbour.Add(grid[x + 1, y - 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x + 1, y - 1]);
                     }
                     if (x > 0 && y < HeightNodes - 1)
                     {
-                        grid[x, y].Neigbour.Add(grid[x - 1, y + 1]);
+                        Grid[x, y].Neigbour.Add(Grid[x - 1, y + 1]);
                     }
                 }
-            }
+            } //neigbours 
         }
     }
 
-    class Node          //you will probably need to add another int for the A* bias
+    public class Node          //you will probably need to add another int for the A* bias
     {
         public Vector2 Location;
+        public Vector2 Position;
         public List<Node> Neigbour;
         public int TileType;
 
         public Node(int x, int y, int tileType)
         {
             this.Location = new Vector2(x, y);
+            this.Position = new Vector2(x * 32, y * 32);
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
         }
