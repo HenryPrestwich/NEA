@@ -33,7 +33,23 @@ namespace mono.Entities
         {
             if (path.Count != 0)
             {
-                this.Position = path.Dequeue().Position;
+                Node next = path.Dequeue();
+                if (next.Position.X > this.Position.X)
+                {
+                    this.Position = new Vector2(this.Position.X + 5, this.Position.Y);
+                }
+                if (next.Position.Y > this.Position.X)
+                {
+                    this.Position = new Vector2(this.Position.X, this.Position.Y + 5);
+                }
+                if (next.Position.X < this.Position.X)
+                {
+                    this.Position = new Vector2(this.Position.X - 5, this.Position.Y);
+                }
+                if (next.Position.Y < this.Position.X)
+                {
+                    this.Position = new Vector2(this.Position.X, this.Position.Y - 5);
+                }
             }
         }
     }

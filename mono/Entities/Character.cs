@@ -19,7 +19,7 @@ namespace mono.Entities
         public Character(Texture2D texture)
         {
             HP = 0;
-            Position = new Vector2(12, 12);
+            Position = new Vector2(56, 56);
             Texture = texture;
             Centre = new Vector2(texture.Width / 2, texture.Height / 2);
         }
