@@ -13,10 +13,12 @@ namespace mono.Main
         private GraphicsDeviceManager _graphics;
         public  SpriteBatch _spriteBatch;
         public Timer _timer;
-        public int GameClock = 0;
+        public static int GameClock = 0;
         //text
         SpriteFont font;
-
+        public const int SCREEN_HEIGHT = 1000;
+        public const int SCREEN_WIDTH = 1600; 
+        
         //player
         public Player player;
 
@@ -42,9 +44,9 @@ namespace mono.Main
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferHeight = 2000;
-            _graphics.PreferredBackBufferWidth = 2400;
-
+            _graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
+            _graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -58,8 +60,8 @@ namespace mono.Main
             characterList = new List<Character>();
 
             //player
-            player = new Player(Content.Load<Texture2D>("player"));
-            enemy = new Enemy(Content.Load<Texture2D>("enemy"));
+            player = new Player(Content.Load<Texture2D>("player"), new Vector2(10, 10));
+            enemy = new Enemy(Content.Load<Texture2D>("enemy"), new Vector2(800, 800));
             
 
             map = new Map(Content.Load<Texture2D>("testmap"));
@@ -86,11 +88,13 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            if (KB.GetPressedKeyCount() > 0)
+            if (GameClock %  150 == 0)
             {
                 enemy.SetPath(player, graph);
             }
+               
             
+           
             player.Move(KB, GP);
 
             foreach (Character character in characterList)
@@ -101,15 +105,7 @@ namespace mono.Main
 
             camera.Track(player.Position);
 
-
-            
-            //dash
-
-
-
-
-            // TODO: Add your update logic here
-
+            GameClock = (GameClock++) %3600; //reset clock every minute
             base.Update(gameTime);
         }
 
@@ -129,8 +125,9 @@ namespace mono.Main
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 
             _spriteBatch.DrawString(font, player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
-            
 
+
+            _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(player.Position.X + 700, player.Position.Y + 400), Color.Black);
             _spriteBatch.End();
 
 

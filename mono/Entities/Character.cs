@@ -15,13 +15,15 @@ namespace mono.Entities
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Centre { get; set; }
+        public int Speed    { get; set; }
 
-        public Character(Texture2D texture)
+        public Character(Texture2D texture, Vector2 Position)
         {
             HP = 0;
-            Position = new Vector2(56, 56);
+            this.Position = Position;
             Texture = texture;
             Centre = new Vector2(texture.Width / 2, texture.Height / 2);
+            Speed = 0;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

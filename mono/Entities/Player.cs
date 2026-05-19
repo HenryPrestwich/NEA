@@ -14,9 +14,10 @@ namespace mono.Entities
 
         
 
-        public Player(Texture2D texture) : base(texture)
+        public Player(Texture2D texture, Vector2 Position) : base(texture, Position)
         {
             DashCool = 120;
+
         }
 
      
