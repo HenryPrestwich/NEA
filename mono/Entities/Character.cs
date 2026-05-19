@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.Main;
-using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +15,7 @@ namespace mono.Entities
         public Texture2D Texture { get; set; }
         public Vector2 Centre { get; set; }
         public int Speed    { get; set; }
+
 
         public Character(Texture2D texture, Vector2 Position)
         {
@@ -33,7 +33,7 @@ namespace mono.Entities
         {
 
         }
-        public virtual void Move(KeyboardState KB, GamePadState GP)
+        public virtual void Move(KeyboardState KB, GamePadState GP, List<Character> charlist)
         {
 
         }

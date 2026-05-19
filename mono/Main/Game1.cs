@@ -88,14 +88,14 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            if (GameClock %  150 == 0)
+            if (GameClock %  100 == 0)
             {
                 enemy.SetPath(player, graph);
             }
                
             
            
-            player.Move(KB, GP);
+            player.Move(KB, GP, characterList);
 
             foreach (Character character in characterList)
             {
