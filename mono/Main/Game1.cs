@@ -86,7 +86,11 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            enemy.SetPath(player, graph);
+            if (KB.GetPressedKeyCount() > 0)
+            {
+                enemy.SetPath(player, graph);
+            }
+            
             player.Move(KB, GP);
 
             foreach (Character character in characterList)

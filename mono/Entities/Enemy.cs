@@ -25,13 +25,14 @@ namespace mono.Entities
 
         public void SetPath(Player player, Graph graph)
         {
+            if (path.)
             path = AStar.ASTAR(this.Position, player.Position, graph);
              
         }
 
         public override void Move()
         {
-            if (path.Count != 0)
+            if (path != null && path.Count != 0)
             {
                 Node next = path.Dequeue();
                 if (next.Position.X > this.Position.X)
