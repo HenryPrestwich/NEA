@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 namespace mono.Entities
@@ -24,14 +25,16 @@ namespace mono.Entities
             Vector2 OldLocation = Position;
             Vector2 NewLocation = CalcMove(KB, GP);
 
+            List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
+
             Rectangle PRect = new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), this.Texture.Width, this.Texture.Height);
-            foreach (Enemy E in charlist)
+            foreach (Enemy E in enemylist)
             {
-                Rectangle ERect = new Rectangle(Convert.ToInt32(E.Position.X), Convert.ToInt32(E.Position.Y), E.Texture.Width, E.Texture.Height);
-                if (!ERect.Intersects(PRect))
-                {
-                    this.Position = NewLocation;
-                }
+                    Rectangle ERect = new Rectangle(Convert.ToInt32(E.Position.X), Convert.ToInt32(E.Position.Y), E.Texture.Width, E.Texture.Height);
+                    if (!ERect.Intersects(PRect))
+                    {
+                        this.Position = NewLocation;
+                    }   
             }
         }
      
