@@ -29,7 +29,7 @@ namespace mono.Entities
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1.5f, SpriteEffects.None, Layers.Entity);
         }
-        public virtual void Move()
+        public virtual void Move(Player player)
         {
 
         }

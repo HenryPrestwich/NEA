@@ -5,6 +5,7 @@ using mono.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 
 namespace mono.Entities
@@ -38,29 +39,43 @@ namespace mono.Entities
             }
              
         }
+        public override void Move(Player p)
+        {
+            Vector2 OldLocation = Position;
+            Vector2 NewLocation = CalcMove();
 
-        public override void Move()
+            Rectangle PRect = new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), this.Texture.Width, this.Texture.Height);
+
+            Rectangle ERect = new Rectangle(Convert.ToInt32(p.Position.X), Convert.ToInt32(p.Position.Y), p.Texture.Width, p.Texture.Height);
+
+            if (!ERect.Intersects(PRect))
+            {
+                this.Position = NewLocation;
+            }
+        }
+        public Vector2 CalcMove()
         {
             if (path != null && path.Count != 0)
             {
                 Node next = path.Dequeue();
                 if (next.Position.X > this.Position.X)
                 {
-                    this.Position = new Vector2(this.Position.X + Speed, this.Position.Y);
+                    return new Vector2(this.Position.X + Speed, this.Position.Y);
                 }
                 if (next.Position.Y > this.Position.Y)
                 {
-                    this.Position = new Vector2(this.Position.X, this.Position.Y + Speed);
+                    return new Vector2(this.Position.X, this.Position.Y + Speed);
                 }
                 if (next.Position.X < this.Position.X)
                 {
-                    this.Position = new Vector2(this.Position.X - Speed, this.Position.Y);
+                    return new Vector2(this.Position.X - Speed, this.Position.Y);
                 }
                 if (next.Position.Y < this.Position.Y)
                 {
-                    this.Position = new Vector2(this.Position.X, this.Position.Y - Speed);
+                    return new Vector2(this.Position.X, this.Position.Y - Speed);
                 }
             }
+            return new Vector2(this.Position.X, this.Position.Y);
         }
     }
 }

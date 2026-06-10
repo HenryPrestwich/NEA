@@ -99,7 +99,7 @@ namespace mono.Main
 
             foreach (Character character in characterList)
             {
-                character.Move();
+                character.Move(player);
             }   
 
 
