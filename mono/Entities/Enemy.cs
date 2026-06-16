@@ -16,7 +16,7 @@ namespace mono.Entities
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
         
-        //ublic bool 
+        
 
         public Enemy(Texture2D texture, Vector2 Position) : base(texture,  Position)
         {
@@ -51,6 +51,7 @@ namespace mono.Entities
             if (!ERect.Intersects(PRect))
             {
                 this.Position = NewLocation;
+                
             }
         }
         public Vector2 CalcMove()

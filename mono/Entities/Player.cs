@@ -27,14 +27,20 @@ namespace mono.Entities
 
             List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
 
+            bool intersects = false;
+
             Rectangle PRect = new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), this.Texture.Width, this.Texture.Height);
             foreach (Enemy E in enemylist)
             {
                     Rectangle ERect = new Rectangle(Convert.ToInt32(E.Position.X), Convert.ToInt32(E.Position.Y), E.Texture.Width, E.Texture.Height);
-                    if (!ERect.Intersects(PRect))
+                    if (ERect.Intersects(PRect))
                     {
-                        this.Position = NewLocation;
+                    intersects = true;
                     }   
+            }
+            if (intersects == false)
+            {
+                this.Position = NewLocation;
             }
         }
      

@@ -15,6 +15,7 @@ namespace mono.Entities
         public Texture2D Texture { get; set; }
         public Vector2 Centre { get; set; }
         public int Speed    { get; set; }
+        public Rectangle Rectangle { get; set; }
 
 
         public Character(Texture2D texture, Vector2 Position)
