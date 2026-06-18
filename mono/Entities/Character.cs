@@ -5,6 +5,7 @@ using mono.Main;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace mono.Entities
 {
@@ -37,6 +38,22 @@ namespace mono.Entities
         public virtual void Move(KeyboardState KB, GamePadState GP, List<Character> charlist)
         {
 
+        }
+        public void updateRect()
+        {
+            this.Rectangle = new Rectangle(Convert.ToInt32(this.Position.X), Convert.ToInt32(this.Position.Y), this.Texture.Width, this.Texture.Height);
+        }
+
+        public void DrawRect(SpriteBatch spriteBatch, Texture2D pixel)
+        {
+           
+            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
+            
+            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
+            
+            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
+            
+            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
         }
     }
 }

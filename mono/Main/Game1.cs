@@ -24,6 +24,8 @@ namespace mono.Main
 
         public Enemy enemy;
 
+        public Texture2D pixel;
+
         Map map;
         public Graph graph;
 
@@ -62,7 +64,8 @@ namespace mono.Main
             //player
             player = new Player(Content.Load<Texture2D>("player"), new Vector2(10, 10));
             enemy = new Enemy(Content.Load<Texture2D>("enemy"), new Vector2(800, 800));
-            
+
+            pixel = Content.Load<Texture2D>("pixel");
 
             map = new Map(Content.Load<Texture2D>("testmap"));
 
@@ -120,6 +123,10 @@ namespace mono.Main
             foreach (Character character in characterList)
             {
                 character.Draw(_spriteBatch);
+            }
+            foreach (Character character in characterList)
+            {
+                character.DrawRect(_spriteBatch, pixel);
             }
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);

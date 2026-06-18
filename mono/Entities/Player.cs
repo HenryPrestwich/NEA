@@ -28,14 +28,12 @@ namespace mono.Entities
             List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
 
             bool intersects = false;
-
-            Rectangle PRect = new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), this.Texture.Width, this.Texture.Height);
             foreach (Enemy E in enemylist)
             {
-                    Rectangle ERect = new Rectangle(Convert.ToInt32(E.Position.X), Convert.ToInt32(E.Position.Y), E.Texture.Width, E.Texture.Height);
-                    if (ERect.Intersects(PRect))
+                    if (E.Rectangle.Intersects(this.Rectangle))
                     {
                     intersects = true;
+                    break;
                     }   
             }
             if (intersects == false)
@@ -97,15 +95,6 @@ namespace mono.Entities
             }
         }
 
-        public void Collision(Enemy enemy)
-        {
-            //if (
-            //    enemy.Position.X > this.Position.X &&
-            //    enemy.Position .Y 
-            //    )
-            //{
-
-            //}
-        }
+       
     }
 }
