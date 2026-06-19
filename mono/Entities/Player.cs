@@ -23,7 +23,7 @@ namespace mono.Entities
         public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist)
         {
             Vector2 OldLocation = Position;
-            Vector2 NewLocation = CalcMove(KB, GP);
+            Vector2 translation = CalcMove(KB, GP);
 
             List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
 
@@ -38,29 +38,31 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
-                this.Position = NewLocation;
+                this.Position += translation;
             }
         }
      
         public Vector2 CalcMove(KeyboardState KB, GamePadState GP)
         {
+            Vector2 transformation = new Vector2(0, 0);
             if (KB.IsKeyDown(Keys.A))
             {
-                return new Vector2(Position.X - 5, Position.Y);
+                transformation = new Vector2(-5, 0);
             }
-            if (KB.IsKeyDown(Keys.D))
+            else if (KB.IsKeyDown(Keys.D))
             {
-                return new Vector2(Position.X + 5, Position.Y);
+                transformation = new Vector2(5, 0);
             }
-            if (KB.IsKeyDown(Keys.W))
+            else if (KB.IsKeyDown(Keys.W))
             {
-                return new Vector2(Position.X, Position.Y - 5);
+                transformation = new Vector2(0, -5);
             }
-            if (KB.IsKeyDown(Keys.S))
+            else if (KB.IsKeyDown(Keys.S))
             {
-                return new Vector2(Position.X, Position.Y + 5);
+                transformation = new Vector2(0, 5);
             }
-            return new Vector2(Position.X, Position.Y);
+            transformation.Normalize();
+            return transformation
                 Dash(KB, GP);
         }
 

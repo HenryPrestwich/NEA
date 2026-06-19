@@ -103,6 +103,7 @@ namespace mono.Main
             foreach (Character character in characterList)
             {
                 character.Move(player);
+                character.updateRect();
             }   
 
 
@@ -123,9 +124,6 @@ namespace mono.Main
             foreach (Character character in characterList)
             {
                 character.Draw(_spriteBatch);
-            }
-            foreach (Character character in characterList)
-            {
                 character.DrawRect(_spriteBatch, pixel);
             }
 
