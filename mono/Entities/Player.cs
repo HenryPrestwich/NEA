@@ -61,9 +61,12 @@ namespace mono.Entities
             {
                 transformation = new Vector2(0, 5);
             }
-            transformation.Normalize();
-            return transformation
-                Dash(KB, GP);
+            if (transformation != Vector2.Zero)
+            {
+                transformation.Normalize();
+            } 
+
+            return transformation;
         }
 
         public void Dash(KeyboardState KB, GamePadState GP)
@@ -96,7 +99,5 @@ namespace mono.Entities
                 DashCool -= 1;
             }
         }
-
-       
     }
 }
