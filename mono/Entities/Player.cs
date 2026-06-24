@@ -47,24 +47,25 @@ namespace mono.Entities
             Vector2 transformation = new Vector2(0, 0);
             if (KB.IsKeyDown(Keys.A))
             {
-                transformation = new Vector2(-5, 0);
+                transformation.X -= 1;
             }
-            else if (KB.IsKeyDown(Keys.D))
+            if (KB.IsKeyDown(Keys.D))
             {
-                transformation = new Vector2(5, 0);
+                transformation.X += 1;
             }
-            else if (KB.IsKeyDown(Keys.W))
+            if (KB.IsKeyDown(Keys.W))
             {
-                transformation = new Vector2(0, -5);
+                transformation.Y -= 1;
             }
-            else if (KB.IsKeyDown(Keys.S))
+            if (KB.IsKeyDown(Keys.S))
             {
-                transformation = new Vector2(0, 5);
+                transformation.Y += 1;
             }
             if (transformation != Vector2.Zero)
             {
                 transformation.Normalize();
-            } 
+            }
+            transformation = transformation * 5;
 
             return transformation;
         }
