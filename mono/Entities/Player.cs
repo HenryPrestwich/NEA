@@ -41,7 +41,7 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
-                this.Position += translation;
+                this.Position = NewLocation;
             }
         }
      
