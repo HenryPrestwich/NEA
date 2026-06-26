@@ -14,6 +14,7 @@ namespace mono.Entities
         public int HP { get; set; }
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
+        public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
         public int Speed    { get; set; }
         public Rectangle Rectangle { get; set; }
@@ -26,10 +27,11 @@ namespace mono.Entities
             Texture = texture;
             Centre = new Vector2(texture.Width / 2, texture.Height / 2);
             Speed = 0;
+            this.Size = new Vector2(texture.Width , texture.Height);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1.5f, SpriteEffects.None, Layers.Entity);
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
         }
         public virtual void Move(Player player)
         {
@@ -41,7 +43,8 @@ namespace mono.Entities
         }
         public void updateRect()
         {
-            this.Rectangle = new Rectangle(Convert.ToInt32(this.Position.X), Convert.ToInt32(this.Position.Y), this.Texture.Width, this.Texture.Height);
+            Rectangle rect = Detection.RectCalc(this.Position, this.Size);
+            this.Rectangle = new Rectangle(Convert.ToInt32(this.Position.X - Texture.Width / 2), Convert.ToInt32(this.Position.Y - Texture.Height / 2), this.Texture.Width, this.Texture.Height);
         }
 
         public void DrawRect(SpriteBatch spriteBatch, Texture2D pixel)

@@ -24,13 +24,16 @@ namespace mono.Entities
         {
             Vector2 OldLocation = Position;
             Vector2 translation = CalcMove(KB, GP);
+            Vector2 NewLocation = OldLocation + translation;
 
             List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
+
+            Rectangle newRect = Detection.RectCalc(NewLocation, Size);
 
             bool intersects = false;
             foreach (Enemy E in enemylist)
             {
-                    if (E.Rectangle.Intersects(this.Rectangle))
+                    if (E.Rectangle.Intersects(newRect))
                     {
                     intersects = true;
                     break;

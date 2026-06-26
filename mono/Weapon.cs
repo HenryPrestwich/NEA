@@ -10,12 +10,4 @@ namespace mono
     {
 
     }
-    internal class Melee : Weapon
-    {
-
-    }
-    internal class Range : Weapon
-    {
-
-    }
 }

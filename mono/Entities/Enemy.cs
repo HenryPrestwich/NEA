@@ -50,8 +50,7 @@ namespace mono.Entities
 
             if (!ERect.Intersects(PRect))
             {
-                this.Position = NewLocation;
-                
+                this.Position = NewLocation;   
             }
         }
         public Vector2 CalcMove()
