@@ -29,13 +29,16 @@ namespace mono
 
                 foreach(Node n in current.Neigbour)
                 {
-                    double cost = CostToNode[current] + 1;
-                    if (!CostToNode.ContainsKey(n) || cost < CostToNode[n])
+                    if (n.Walkable == true)
                     {
-                        CostToNode[n] = cost;
-                        double priority = cost + Heuristic(n, Target);
-                        Border.Enqueue(n, priority);
-                        CameFromNode[n] = current;
+                        double cost = CostToNode[current] + 1;
+                        if (!CostToNode.ContainsKey(n) || cost < CostToNode[n])
+                        {
+                            CostToNode[n] = cost;
+                            double priority = cost + Heuristic(n, Target);
+                            Border.Enqueue(n, priority);
+                            CameFromNode[n] = current;
+                        }
                     }
                 }
             }

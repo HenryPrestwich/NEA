@@ -26,7 +26,7 @@ namespace mono.Main
 
         public Texture2D pixel;
 
-        Map map;
+        
         public Graph graph;
 
         //Logs
@@ -67,9 +67,9 @@ namespace mono.Main
 
             pixel = Content.Load<Texture2D>("pixel");
 
-            map = new Map(Content.Load<Texture2D>("testmap"));
+           
 
-            graph = new Graph(map.texture.Height, map.texture.Width);
+            graph = new Graph(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
 
 
             characterList.Add(player);
@@ -119,13 +119,14 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            map.Draw(_spriteBatch);
+            
             // player.Draw();
             foreach (Character character in characterList)
             {
                 character.Draw(_spriteBatch);
                 character.DrawRect(_spriteBatch, pixel);
             }
+            graph.DrawMap(_spriteBatch);
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 
