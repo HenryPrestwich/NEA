@@ -28,7 +28,7 @@ namespace mono.Entities
 
             List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
 
-            Rectangle newRect = Detection.RectCalc(NewLocation, Size);
+            Rectangle newRect = RectCalc(NewLocation, Size);
 
             bool intersects = false;
             foreach (Enemy E in enemylist)

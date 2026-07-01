@@ -16,8 +16,6 @@ namespace mono.Entities
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
         
-        
-
         public Enemy(Texture2D texture, Vector2 Position) : base(texture,  Position)
         {
             state = null;
@@ -31,22 +29,19 @@ namespace mono.Entities
 
         public void SetPath(Player player, Graph graph)
         {
-          
             if (path.Count == 0)
             {
                 path = AStar.ASTAR(this.Position, player.Position, graph);
-
             }
-             
         }
         public override void Move(Player p)
         {
             Vector2 OldLocation = Position;
             Vector2 NewLocation = CalcMove();
 
-            Rectangle PRect = new Rectangle(Convert.ToInt32(Position.X), Convert.ToInt32(Position.Y), this.Texture.Width, this.Texture.Height);
+            Rectangle PRect = p.Rectangle;
 
-            Rectangle ERect = new Rectangle(Convert.ToInt32(p.Position.X), Convert.ToInt32(p.Position.Y), p.Texture.Width, p.Texture.Height);
+            Rectangle ERect = RectCalc(Position, Size);
 
             if (!ERect.Intersects(PRect))
             {

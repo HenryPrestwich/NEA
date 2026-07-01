@@ -41,9 +41,18 @@ namespace mono.Entities
         }
         public void updateRect()
         {
-            Rectangle rect = Detection.RectCalc(this.Position, this.Size);
+            Rectangle rect = RectCalc(this.Position, this.Size);
             this.Rectangle = new Rectangle(Convert.ToInt32(this.Position.X - Texture.Width / 2), Convert.ToInt32(this.Position.Y - Texture.Height / 2), this.Texture.Width, this.Texture.Height);
         }
+
+        
+        
+        public static Rectangle RectCalc(Vector2 position, Vector2 size)
+        {
+            Rectangle rect = new Rectangle(Convert.ToInt32(position.X - size.X / 2), Convert.ToInt32(position.Y - size.Y / 2), Convert.ToInt32(size.X), Convert.ToInt32(size.Y));
+            return rect;
+        }
+        
 
         public void DrawRect(SpriteBatch spriteBatch, Texture2D pixel)
         {
