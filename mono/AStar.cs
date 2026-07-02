@@ -16,8 +16,13 @@ namespace mono
             Dictionary<Node, double> CostToNode = new Dictionary<Node, double>();
             Dictionary<Node, Node> CameFromNode = new Dictionary<Node, Node>();
             Border.Enqueue(Start, 0);
-            CostToNode.Add(Start, 0);
+            CostToNode.Add(Start, 0); 
 
+
+            if (Target.Walkable == false)
+            {
+                return null;
+            }
             while (Border.Count > 0)
             {
                 Node current = Border.Dequeue();
