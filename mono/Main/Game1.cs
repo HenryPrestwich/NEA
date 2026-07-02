@@ -98,7 +98,7 @@ namespace mono.Main
                
             
            
-            player.Move(KB, GP, characterList);
+            player.Move(KB, GP, characterList, graph);
 
             foreach (Character character in characterList)
             {

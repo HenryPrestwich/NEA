@@ -98,16 +98,20 @@ namespace mono
 
     public class Node          
     {
-        public Vector2 Location;
+        public Vector2 GridLocation;
         public Vector2 Position;
+        public Rectangle Rectangle;
         public List<Node> Neigbour;
         public bool Walkable;
         public int TileType;
 
         public Node(int x, int y, int tileType)
         {
-            this.Location = new Vector2(x, y);
+            this.GridLocation = new Vector2(x, y);
             this.Position = new Vector2(x * 32, y * 32);
+
+            this.Rectangle = new Rectangle(Convert.ToInt32(Position.X),Convert.ToInt32(Position.Y), 32, 32);
+
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
             Random rand = new Random();

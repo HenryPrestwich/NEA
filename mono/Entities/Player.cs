@@ -20,7 +20,7 @@ namespace mono.Entities
             DashCool = 120;
         }
 
-        public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist)
+        public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Graph graph)
         {
             Vector2 OldLocation = Position;
             Vector2 translation = CalcMove(KB, GP);
@@ -38,6 +38,14 @@ namespace mono.Entities
                     intersects = true;
                     break;
                     }   
+            }
+            foreach (Node N in graph.Grid)
+            {
+                if(N.Rectangle.Intersects(newRect) && N.Walkable == false) 
+                {
+                    intersects = true; 
+                    break; 
+                }
             }
             if (intersects == false)
             {

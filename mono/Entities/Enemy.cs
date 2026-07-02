@@ -29,10 +29,7 @@ namespace mono.Entities
 
         public void SetPath(Player player, Graph graph)
         {
-            if (path.Count == 0)
-            {
-                path = AStar.ASTAR(this.Position, player.Position, graph);
-            }
+            path = AStar.ASTAR(this.Position, player.Position, graph);   
         }
         public override void Move(Player p)
         {

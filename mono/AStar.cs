@@ -66,8 +66,8 @@ namespace mono
 
         public static double Heuristic(Node Start, Node Target)
         {
-            int a = Convert.ToInt32(Target.Location.X - Start.Location.X);
-            int b = Convert.ToInt32(Target.Location.Y - Start.Location.Y);
+            int a = Convert.ToInt32(Target.GridLocation.X - Start.GridLocation.X);
+            int b = Convert.ToInt32(Target.GridLocation.Y - Start.GridLocation.Y);
             double C = Math.Pow(a, 2) + Math.Pow(b, 2);
             double D = Math.Sqrt(C);
             return D;
