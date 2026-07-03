@@ -78,6 +78,11 @@ namespace mono
                     }
                 }
             }  
+
+            //for (int x = 0; x < 20; x++)
+            //{
+            //    SetWalk();
+            //}
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -94,6 +99,29 @@ namespace mono
                 }
             }
         }
+
+        //public void SetWalk()
+        //{
+        //    foreach (Node n in Grid)
+        //    {
+        //        int walkableN = 0;
+        //        foreach (Node o in n.Neigbour)
+        //        {
+        //            if (o.Walkable == true)
+        //            {
+        //                walkableN++;
+        //            }
+        //        }
+        //        if (walkableN > 6)
+        //        {
+        //            n.Walkable = true;
+        //        }
+        //        else if (walkableN < 4)
+        //        {
+        //            n.Walkable = false;
+        //        }
+        //    }
+        //}
     }
 
     public class Node          
