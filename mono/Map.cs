@@ -126,12 +126,12 @@ namespace mono
 
     public class Node          
     {
-        public Vector2 GridLocation;
-        public Vector2 Position;
-        public Rectangle Rectangle;
-        public List<Node> Neigbour;
-        public bool Walkable;
-        public int TileType;
+        public Vector2 GridLocation { get; set; }
+        public Vector2 Position { get; set; }
+        public Rectangle Rectangle { get; set; }
+        public List<Node> Neigbour  { get; set; }
+        public bool Walkable { get; set; }
+        public int TileType { get; set; }
 
         public Node(int x, int y, int tileType)
         {
@@ -152,6 +152,22 @@ namespace mono
                 Walkable = true;
             }
 
+        }
+    }
+
+    class PartitionTree
+    {
+        public Partition Root { get; set; }
+    }
+
+
+    public class Partition
+    {
+        public Vector2 Size {  get; set; }
+
+        public Partition(Vector2 size)
+        {
+            Size = size;
         }
     }
 }
