@@ -126,6 +126,7 @@ namespace mono.Main
                 character.Draw(_spriteBatch);
                 character.DrawRect(_spriteBatch, pixel);
             }
+            enemy.DrawPath(_spriteBatch, pixel);
             graph.DrawMap(_spriteBatch);
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);

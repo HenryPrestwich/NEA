@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using System.Windows.Forms;
 
 
@@ -128,6 +129,7 @@ namespace mono
     {
         public Vector2 GridLocation { get; set; }
         public Vector2 Position { get; set; }
+        public Vector2 Centre {  get; set; }
         public Rectangle Rectangle { get; set; }
         public List<Node> Neigbour  { get; set; }
         public bool Walkable { get; set; }

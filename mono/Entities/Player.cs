@@ -76,7 +76,7 @@ namespace mono.Entities
             {
                 transformation.Normalize();
             }
-            transformation = transformation * 5;
+            transformation = transformation * 5; //replace 5 with player.speed when it exists
 
             return transformation;
         }

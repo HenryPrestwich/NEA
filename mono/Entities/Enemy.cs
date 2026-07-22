@@ -49,25 +49,48 @@ namespace mono.Entities
         {
             if (path != null && path.Count != 0)
             {
-                Node next = path.Dequeue();
-                if (next.Position.X > this.Position.X)
-                {
-                    return new Vector2(this.Position.X + Speed, this.Position.Y);
-                }
-                if (next.Position.Y > this.Position.Y)
-                {
-                    return new Vector2(this.Position.X, this.Position.Y + Speed);
-                }
+                Node next = path.Peek();
+                
+                Vector2 transformation = new Vector2(0, 0);
+
                 if (next.Position.X < this.Position.X)
                 {
-                    return new Vector2(this.Position.X - Speed, this.Position.Y);
+                    transformation.X -= 1;
+                }
+                if (next.Position.X > this.Position.X)
+                {
+                    transformation.X += 1;
                 }
                 if (next.Position.Y < this.Position.Y)
                 {
-                    return new Vector2(this.Position.X, this.Position.Y - Speed);
+                    transformation.Y -= 1;
                 }
+                if (next.Position.Y > this.Position.Y)
+                {
+                    transformation.Y += 1;
+                }
+                if (transformation != Vector2.Zero)
+                {
+                    transformation.Normalize();
+                }
+                transformation = transformation * Speed; 
+
+                return transformation;
             }
             return new Vector2(this.Position.X, this.Position.Y);
+        }
+        public void DrawPath(SpriteBatch spriteBatch, Texture2D pixel)
+        {
+            foreach (Node n in path)
+            {
+                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 32, 1), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y) + 31, 32, 1), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X) + 31, Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+            }
         }
     }
 }
