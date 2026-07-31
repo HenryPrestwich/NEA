@@ -10,8 +10,8 @@ namespace mono
         public static Queue<Node> ASTAR(Vector2 enemy, Vector2 player, Graph graph)
         {
             Node Start = graph.Grid[Convert.ToInt32(enemy.X) / 32, Convert.ToInt32(enemy.Y) / 32];
-            Node Target = graph.Grid[Convert.ToInt32(player.X) /32, Convert.ToInt32(player.Y) / 32];
-
+            Node Target = graph.Grid[Convert.ToInt32(player.X) / 32, Convert.ToInt32(player.Y) / 32];
+          
             PriorityQueue<Node, double> Border = new PriorityQueue<Node, double>();
             Dictionary<Node, double> CostToNode = new Dictionary<Node, double>();
             Dictionary<Node, Node> CameFromNode = new Dictionary<Node, Node>();

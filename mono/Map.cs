@@ -92,11 +92,11 @@ namespace mono
             {
                 if (n.Walkable == true)
                 {
-                    spriteBatch.Draw(grass, n.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layers.Background);
+                    spriteBatch.Draw(grass, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
                 }
                 else
                 {
-                    spriteBatch.Draw(wall, n.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, Layers.Background);
+                    spriteBatch.Draw(wall, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
                 }
             }
         }
