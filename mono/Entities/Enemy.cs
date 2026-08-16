@@ -53,6 +53,15 @@ namespace mono.Entities
                 
                 Vector2 transformation = new Vector2(0, 0);
 
+                Vector2 distanceV = next.Position - this.Position;
+                double distanceD = Math.Sqrt(Math.Pow(distanceV.X, 2) +  Math.Pow(distanceV.Y, 2));
+                if (distanceD < this.Speed)
+                {
+                    transformation = distanceV;
+                    path.Dequeue();
+                    return transformation;
+                }
+
                 if (next.Position.X < this.Position.X)
                 {
                     transformation.X -= 1;
@@ -81,15 +90,18 @@ namespace mono.Entities
         }
         public void DrawPath(SpriteBatch spriteBatch, Texture2D pixel)
         {
-            foreach (Node n in path)
+            if (path != null)
             {
-                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 32, 1), Color.Red);
+                foreach (Node n in path)
+                {
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 32, 1), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y) + 31, 32, 1), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y) + 31, 32, 1), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X) + 31, Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X) + 31, Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+                }
             }
         }
     }

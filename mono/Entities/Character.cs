@@ -56,7 +56,8 @@ namespace mono.Entities
 
         public void DrawRect(SpriteBatch spriteBatch, Texture2D pixel)
         {
-           
+            spriteBatch.Draw(pixel, this.Position, Color.Red);
+
             spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
             
             spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);

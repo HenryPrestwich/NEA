@@ -139,13 +139,14 @@ namespace mono
         {
             this.GridLocation = new Vector2(x, y);
             this.Position = new Vector2(x * 32, y * 32);
+            
 
             this.Rectangle = new Rectangle(Convert.ToInt32(Position.X),Convert.ToInt32(Position.Y), 32, 32);
 
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
             Random rand = new Random();
-            if (rand.Next(0, 10) ==0)
+            if (rand.Next(1, 1) ==0)
             {
                 Walkable = false;
             }
