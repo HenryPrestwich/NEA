@@ -34,7 +34,7 @@ namespace mono.Entities
         public override void Move(Player p)
         {
             Vector2 OldLocation = Position;
-            Vector2 NewLocation = CalcMove();
+            Vector2 NewLocation = Position + CalcMove();
 
             Rectangle PRect = p.Rectangle;
 
