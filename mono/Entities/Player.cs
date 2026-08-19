@@ -18,6 +18,7 @@ namespace mono.Entities
         public Player(Texture2D texture, Vector2 Position) : base(texture, Position)
         {
             DashCool = 120;
+            this.Speed = 5;
         }
 
         public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Graph graph)
@@ -76,7 +77,7 @@ namespace mono.Entities
             {
                 transformation.Normalize();
             }
-            transformation = transformation * 5; //replace 5 with player.speed when it exists
+            transformation = transformation * Speed; //replace 5 with player.speed when it exists
 
             return transformation;
         }

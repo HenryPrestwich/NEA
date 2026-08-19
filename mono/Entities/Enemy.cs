@@ -34,21 +34,24 @@ namespace mono.Entities
         public override void Move(Player p)
         {
             Vector2 OldLocation = Position;
-            Vector2 NewLocation = Position + CalcMove();
+            Vector2 NewLocation = Position + CalcMove(p);
 
             Rectangle PRect = p.Rectangle;
 
-            Rectangle ERect = RectCalc(Position, Size);
+            Rectangle ERect = RectCalc(NewLocation, Size);
 
             if (!ERect.Intersects(PRect))
             {
                 this.Position = NewLocation;   
             }
         }
-        public Vector2 CalcMove()
+        public Vector2 CalcMove(Player player)
         {
             if (path != null && path.Count != 0)
             {
+                
+
+
                 Node next = path.Peek();
                 
                 Vector2 transformation = new Vector2(0, 0);

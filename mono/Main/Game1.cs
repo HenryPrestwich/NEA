@@ -62,7 +62,7 @@ namespace mono.Main
             characterList = new List<Character>();
 
             //player
-            player = new Player(Content.Load<Texture2D>("player"), new Vector2(800, 800));
+            player = new Player(Content.Load<Texture2D>("player"), new Vector2(1230,1230));
             enemy = new Enemy(Content.Load<Texture2D>("enemy"), new Vector2(1200, 1200));
 
             pixel = Content.Load<Texture2D>("pixel");
@@ -91,7 +91,7 @@ namespace mono.Main
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
             //movement
-            if (GameClock %  100 == 0)
+            if (GameClock %  40 == 0)
             {
                 enemy.SetPath(player, graph);
             }
@@ -109,7 +109,7 @@ namespace mono.Main
 
             camera.Track(player.Position);
 
-            GameClock = (GameClock++) %3600; //reset clock every minute
+            GameClock = (GameClock + 1) %3600; //reset clock every minute
             base.Update(gameTime);
         }
 
