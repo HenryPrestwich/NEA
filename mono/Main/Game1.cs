@@ -62,7 +62,7 @@ namespace mono.Main
             characterList = new List<Character>();
 
             //player
-            player = new Player(Content.Load<Texture2D>("player"), new Vector2(1230,1230));
+            player = new Player(Content.Load<Texture2D>("player"), new Vector2(1400,1400));
             enemy = new Enemy(Content.Load<Texture2D>("enemy"), new Vector2(1200, 1200));
 
             pixel = Content.Load<Texture2D>("pixel");

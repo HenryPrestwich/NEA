@@ -59,7 +59,7 @@ namespace mono.Entities
         public Vector2 CalcMove(Node Next)
         {
 
-            Node next = path.Peek();
+            Node next = Next;
 
             Vector2 transformation = new Vector2(0, 0);
 
@@ -87,7 +87,7 @@ namespace mono.Entities
 
             return transformation;
 
-            return new Vector2(this.Position.X, this.Position.Y);
+            
         }
         public void DrawPath(SpriteBatch spriteBatch, Texture2D pixel)
         {
@@ -95,13 +95,13 @@ namespace mono.Entities
             {
                 foreach (Node n in path)
                 {
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 32, 1), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 32, 1), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y) + 31, 32, 1), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y) + 31, 32, 1), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X), Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Position.X) + 31, Convert.ToInt32(n.Position.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X) + 31, Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
                 }
             }
         }

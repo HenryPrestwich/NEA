@@ -42,7 +42,7 @@ namespace mono.Entities
         public void updateRect()
         {
             Rectangle rect = RectCalc(this.Position, this.Size);
-            this.Rectangle = new Rectangle(Convert.ToInt32(this.Position.X - Texture.Width / 2), Convert.ToInt32(this.Position.Y - Texture.Height / 2), this.Texture.Width, this.Texture.Height);
+            this.Rectangle = rect;
         }
 
         

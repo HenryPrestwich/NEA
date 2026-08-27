@@ -79,11 +79,6 @@ namespace mono
                     }
                 }
             }  
-
-            //for (int x = 0; x < 20; x++)
-            //{
-            //    SetWalk();
-            //}
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -100,29 +95,6 @@ namespace mono
                 }
             }
         }
-
-        //public void SetWalk()
-        //{
-        //    foreach (Node n in Grid)
-        //    {
-        //        int walkableN = 0;
-        //        foreach (Node o in n.Neigbour)
-        //        {
-        //            if (o.Walkable == true)
-        //            {
-        //                walkableN++;
-        //            }
-        //        }
-        //        if (walkableN > 6)
-        //        {
-        //            n.Walkable = true;
-        //        }
-        //        else if (walkableN < 4)
-        //        {
-        //            n.Walkable = false;
-        //        }
-        //    }
-        //}
     }
 
     public class Node          
@@ -131,17 +103,20 @@ namespace mono
         public Vector2 Position { get; set; }
         public Vector2 Centre {  get; set; }
         public Rectangle Rectangle { get; set; }
+        public Vector2 Size { get; set; }
         public List<Node> Neigbour  { get; set; }
         public bool Walkable { get; set; }
         public int TileType { get; set; }
 
         public Node(int x, int y, int tileType)
         {
+            this.Size = new Vector2(32, 32);
             this.GridLocation = new Vector2(x, y);
             this.Position = new Vector2(x * 32, y * 32);
+            this.Centre = new Vector2(16, 16);
             
 
-            this.Rectangle = new Rectangle(Convert.ToInt32(Position.X),Convert.ToInt32(Position.Y), 32, 32);
+            this.Rectangle = new Rectangle(Convert.ToInt32(Position.X - Size.X / 2), Convert.ToInt32(Position.Y - Size.Y / 2), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y));
 
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
@@ -158,19 +133,14 @@ namespace mono
         }
     }
 
-    class PartitionTree
+    public class Room
     {
-        public Partition Root { get; set; }
+        public Rectangle Size { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+
+
     }
-
-
-    public class Partition
-    {
-        public Vector2 Size {  get; set; }
-
-        public Partition(Vector2 size)
-        {
-            Size = size;
-        }
-    }
+    
 }
