@@ -21,7 +21,7 @@ namespace mono.Entities
             this.Speed = 5;
         }
 
-        public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Graph graph)
+        public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Map map)
         {
             Vector2 OldLocation = Position;
             Vector2 translation = CalcMove(KB, GP);
@@ -40,7 +40,7 @@ namespace mono.Entities
                     break;
                     }   
             }
-            foreach (Node N in graph.Grid)
+            foreach (Node N in map.Grid)
             {
                 if(N.Rectangle.Intersects(newRect) && N.Walkable == false) 
                 {

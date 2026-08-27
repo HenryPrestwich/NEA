@@ -16,12 +16,11 @@ namespace mono
         public Texture2D wall;
 
         public Rectangle Rectangle {  get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
+        
 
         public Node[,] Grid { get; set; }
-        int WidthNodes;
-        int HeightNodes;
+        public int WidthNodes {  get; set; }
+        public int HeightNodes { get; set; }
 
         public Map(int height, int width, Texture2D grass, Texture2D wall)
         {
@@ -31,11 +30,10 @@ namespace mono
             
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
-            this.Width = WidthNodes * 32;
-            this.Height = HeightNodes * 32;
+            
             
 
-            this.Rectangle = new Rectangle(0, 0, Width, Height);
+            this.Rectangle = new Rectangle(0, 0, WidthNodes * 32, HeightNodes * 32);
 
             Grid = new Node[WidthNodes, HeightNodes];
 
@@ -152,7 +150,7 @@ namespace mono
         private Room(Map Map)
         {
             Random rand = new Random();
-            Position = new Vector2(rand.Next(0, Map.Width), rand.Next(0, Map.Height));
+            Position = new Vector2(rand.Next(0, Map.WidthNodes), rand.Next(0, Map.HeightNodes)); //THIS MUST ALIGN WITH NODES NOT PIXELS!!!
             Width = rand.Next(12, 25);
             Height = rand.Next(12, 25);
             
