@@ -27,7 +27,7 @@ namespace mono.Main
         public Texture2D pixel;
 
         
-        public Graph graph;
+        public Map Map;
 
         //Logs
         List<Character> characterList;
@@ -69,7 +69,7 @@ namespace mono.Main
 
            
 
-            graph = new Graph(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
+            Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
 
 
             characterList.Add(player);
@@ -93,12 +93,12 @@ namespace mono.Main
             //movement
             if (GameClock %  40 == 0)
             {
-                enemy.SetPath(player, graph);
+                enemy.SetPath(player, Map);
             }
                
             
            
-            player.Move(KB, GP, characterList, graph);
+            player.Move(KB, GP, characterList, Map);
 
             foreach (Character character in characterList)
             {
@@ -127,7 +127,7 @@ namespace mono.Main
                 character.DrawRect(_spriteBatch, pixel);
             }
             enemy.DrawPath(_spriteBatch, pixel);
-            graph.DrawMap(_spriteBatch);
+            Map.DrawMap(_spriteBatch);
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 

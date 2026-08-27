@@ -35,7 +35,7 @@ namespace mono.Entities
         {
 
         }
-        public virtual void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Graph graph)
+        public virtual void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Map map)
         {
 
         }

@@ -23,9 +23,9 @@ namespace mono.Entities
 
         }
 
-        public void SetPath(Player player, Graph graph)
+        public void SetPath(Player player, Map map)
         {
-            path = AStar.ASTAR(this.Position, player.Position, graph);
+            path = AStar.ASTAR(this.Position, player.Position, map);
         }
         public override void Move(Player p)
         {
