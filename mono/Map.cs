@@ -22,6 +22,8 @@ namespace mono
         public int WidthNodes {  get; set; }
         public int HeightNodes { get; set; }
 
+        public List<Room> Rooms { get; set; }
+
         public Map(int height, int width, Texture2D grass, Texture2D wall)
         {
             this.grass = grass;
@@ -30,10 +32,8 @@ namespace mono
             
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
-            
-            
 
-            this.Rectangle = new Rectangle(0, 0, WidthNodes * 32, HeightNodes * 32);
+            this.Rectangle = new Rectangle(0, 0, WidthNodes, HeightNodes);
 
             Grid = new Node[WidthNodes, HeightNodes];
 
@@ -87,6 +87,34 @@ namespace mono
             }  
         }
 
+        public void BuildMap()
+        {
+            this.Rooms = new List<Room>();
+            int tries = 0;
+            while (Rooms.Count < 25 && tries < 25)
+            {
+                Room newRoom = new Room(this);
+                bool Overlap = false;
+
+                foreach (Room r in Rooms)
+                {
+                    if (r.Size.Intersects(newRoom.Size))
+                    {
+                        Overlap = true; break;
+                    }
+                }
+                if (Overlap == false && this.Rectangle.Contains(newRoom.Size))
+                {
+                    Rooms.Add(newRoom);
+                    tries = 0;
+                }
+                else
+                {
+                    tries++;
+                }
+            }
+        }
+
         public void DrawMap(SpriteBatch spriteBatch)
         {
             foreach (Node n in Grid)
@@ -99,6 +127,19 @@ namespace mono
                 {
                     spriteBatch.Draw(wall, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
                 }
+            }
+        }
+        public void DrawRooms(SpriteBatch spriteBatch, Texture2D pixel)
+        {
+            foreach (Room r in Rooms)
+            {
+                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16) , (r.Size.Y * 32 - 16), (r.Size.Width * 32), 1), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16), (r.Size.Y * 32 - 16) + (r.Size.Height * 32) - 1, (r.Size.Width * 32), 1), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16), (r.Size.Y * 32 - 16), 1, (r.Size.Height * 32)), Color.Red);
+
+                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16) + (r.Size.Width * 32) - 1, (r.Size.Y * 32 - 16), 1, (r.Size.Height * 32)), Color.Red);
             }
         }
     }
@@ -141,19 +182,19 @@ namespace mono
 
     public class Room
     {
-        public Vector2 Position { get; set; }
         public Rectangle Size { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
 
-        private Room(Map Map)
+        public Room(Map Map)
         {
             Random rand = new Random();
-            Position = new Vector2(rand.Next(0, Map.WidthNodes), rand.Next(0, Map.HeightNodes)); //THIS MUST ALIGN WITH NODES NOT PIXELS!!!
             Width = rand.Next(12, 25);
             Height = rand.Next(12, 25);
+            Size = new Rectangle(rand.Next(0, Map.WidthNodes) , rand.Next(0, Map.HeightNodes) , Width, Height); // make sure it always works with nodes not pixels
             
         }
     }
 }
+    

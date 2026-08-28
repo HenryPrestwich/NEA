@@ -70,6 +70,7 @@ namespace mono.Main
            
 
             Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
+            Map.BuildMap();
 
 
             characterList.Add(player);
@@ -128,6 +129,7 @@ namespace mono.Main
             }
             enemy.DrawPath(_spriteBatch, pixel);
             Map.DrawMap(_spriteBatch);
+            Map.DrawRooms(_spriteBatch, pixel);
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 
