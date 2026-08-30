@@ -23,6 +23,7 @@ namespace mono
         public int HeightNodes { get; set; }
 
         public List<Room> Rooms { get; set; }
+        public List<Connection> Connections { get; set; }
 
         public Map(int height, int width, Texture2D grass, Texture2D wall)
         {
@@ -114,10 +115,22 @@ namespace mono
                 }
             }
 
-            foreach (Room r in Rooms)
+            Connections = GenerateConnections(Rooms);
+        }
+
+        public List<Connection> GenerateConnections(List<Room> rooms)
+        {
+            List<Connection> connections = new List<Connection>();
+
+            for (int i = 0; i < rooms.Count; i++)
             {
-                r.GenerateConections(Rooms);
+                for (int j = i + 1; j < rooms.Count; j++)
+                {
+
+                }
             }
+
+            return connections;
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -185,7 +198,6 @@ namespace mono
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public Queue<Connection> Connections { get; set; }
 
         public Room(Map Map)
         {
@@ -194,46 +206,19 @@ namespace mono
             Height = rand.Next(12, 25);
             Size = new Rectangle(rand.Next(0, Map.WidthNodes) , rand.Next(0, Map.HeightNodes) , Width, Height); // make sure it always works with nodes not pixels
             Centre = Size.Center;
-            Connections = new Queue<Connection>();
-        }
-        public void GenerateConections(List<Room> rooms)
-        {
-            List<Connection> unorderedConnections = new List<Connection>();
-            foreach (Room r in rooms)
-            {
-                if (r != this)
-                {
-                    double distance = Math.Sqrt(Math.Pow((this.Centre.X - r.Centre.X), 2) + Math.Pow((this.Centre.Y - r.Centre.Y), 2));
-                    unorderedConnections.Add(new Connection(distance));
-                }
-            }
-
-            Connection shortest = null;
-            for (int i = 0; i < 2; i++) //change the i < X to the amount of connections needing to be ordered. higher number allows for pottential of more cycles in final map
-            {
-                foreach (Connection c in unorderedConnections)
-                {
-                    if (shortest == null)
-                    {
-                        shortest = c;
-                    }
-                    else if (c.Length <  shortest.Length)
-                    {
-                        shortest = c;
-                    }
-                }
-                Connections.Enqueue(shortest);
-                shortest = null;
-            }
         }
     }
 
     public class Connection
     {
+        Room RoomA {  get; set; }
+        Room RoomB { get; set; }
         public double Length { get; set; }
 
-        public Connection(double length)
+        public Connection(Room a, Room b, double length)
         {
+            RoomA = a;
+            RoomB = b;
             Length = length;
         }
     }
