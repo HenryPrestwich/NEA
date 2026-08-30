@@ -129,7 +129,7 @@ namespace mono
                 }
             }
         }
-        public void DrawRooms(SpriteBatch spriteBatch, Texture2D pixel)
+        public void DrawRoomsHitbox(SpriteBatch spriteBatch, Texture2D pixel)
         {
             foreach (Room r in Rooms)
             {
@@ -183,6 +183,7 @@ namespace mono
     public class Room
     {
         public Rectangle Size { get; set; }
+        public Point Centre { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -193,7 +194,7 @@ namespace mono
             Width = rand.Next(12, 25);
             Height = rand.Next(12, 25);
             Size = new Rectangle(rand.Next(0, Map.WidthNodes) , rand.Next(0, Map.HeightNodes) , Width, Height); // make sure it always works with nodes not pixels
-            
+            Centre = Size.Center;
         }
     }
 }

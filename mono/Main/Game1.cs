@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.Entities;
+using SharpDX.XAudio2;
 using System.Collections.Generic;
 using System.Timers;
 
@@ -127,9 +128,7 @@ namespace mono.Main
                 character.Draw(_spriteBatch);
                 character.DrawRect(_spriteBatch, pixel);
             }
-            enemy.DrawPath(_spriteBatch, pixel);
-            Map.DrawMap(_spriteBatch);
-            Map.DrawRooms(_spriteBatch, pixel);
+            
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 
@@ -137,10 +136,20 @@ namespace mono.Main
 
 
             _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(player.Position.X + 700, player.Position.Y + 400), Color.Black);
+
+
+            DrawHitBoxes(_spriteBatch);
             _spriteBatch.End();
 
 
             base.Draw(gameTime);
+        }
+
+        private void DrawHitBoxes(SpriteBatch spriteBatch)
+        {
+            enemy.DrawPath(_spriteBatch, pixel);
+            Map.DrawMap(_spriteBatch);
+            Map.DrawRoomsHitbox(_spriteBatch, pixel);
         }
     }
 }
