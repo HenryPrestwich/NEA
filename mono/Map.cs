@@ -113,6 +113,11 @@ namespace mono
                     tries++;
                 }
             }
+
+            foreach (Room r in Rooms)
+            {
+                r.GenerateConections(Rooms);
+            }
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -168,14 +173,7 @@ namespace mono
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
             Random rand = new Random();
-            if (rand.Next(1, 1) ==0)
-            {
-                Walkable = false;
-            }
-            else
-            {
-                Walkable = true;
-            }
+            Walkable = false;
 
         }
     }
@@ -187,6 +185,7 @@ namespace mono
         public int Width { get; set; }
         public int Height { get; set; }
 
+        public Queue<Connection> Connections { get; set; }
 
         public Room(Map Map)
         {
@@ -195,6 +194,45 @@ namespace mono
             Height = rand.Next(12, 25);
             Size = new Rectangle(rand.Next(0, Map.WidthNodes) , rand.Next(0, Map.HeightNodes) , Width, Height); // make sure it always works with nodes not pixels
             Centre = Size.Center;
+            Connections = new Queue<Connection>();
+        }
+        public void GenerateConections(List<Room> rooms)
+        {
+            List<Connection> unorderedConnections = new List<Connection>();
+            foreach (Room r in rooms)
+            {
+                if (r != this)
+                {
+                    double distance = Math.Sqrt(Math.Pow((this.Centre.X - r.Centre.X), 2) + Math.Pow((this.Centre.Y - r.Centre.Y), 2));
+                    unorderedConnections.Add(new Connection(distance));
+                }
+            }
+
+            Connection shortest = null;
+            while (unorderedConnections.Count > 0)
+            {
+                foreach (Connection c in unorderedConnections)
+                {
+                    if (c.Length < shortest.Length || shortest == null)
+                    {
+                        shortest = c;
+                    }
+                }
+                Connections.Enqueue(shortest);
+                shortest = null;
+            }
+
+
+        }
+    }
+
+    public class Connection
+    {
+        public double Length { get; set; }
+
+        public Connection(double length)
+        {
+            Length = length;
         }
     }
 }
