@@ -209,11 +209,15 @@ namespace mono
             }
 
             Connection shortest = null;
-            while (unorderedConnections.Count > 0)
+            for (int i = 0; i < 2; i++) 
             {
                 foreach (Connection c in unorderedConnections)
                 {
-                    if (c.Length < shortest.Length || shortest == null)
+                    if (shortest == null)
+                    {
+                        shortest = c;
+                    }
+                    else if (c.Length <  shortest.Length)
                     {
                         shortest = c;
                     }
