@@ -209,7 +209,7 @@ namespace mono
             }
 
             Connection shortest = null;
-            for (int i = 0; i < 2; i++) 
+            for (int i = 0; i < 2; i++) //change the i < X to the amount of connections needing to be ordered. higher number allows for pottential of more cycles in final map
             {
                 foreach (Connection c in unorderedConnections)
                 {
@@ -225,8 +225,6 @@ namespace mono
                 Connections.Enqueue(shortest);
                 shortest = null;
             }
-
-
         }
     }
 
