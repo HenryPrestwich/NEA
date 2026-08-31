@@ -126,10 +126,14 @@ namespace mono
             {
                 for (int j = i + 1; j < rooms.Count; j++)
                 {
+                    Room a = rooms[i];
+                    Room b = rooms[j];
 
+                    double distance = Math.Sqrt(Math.Pow(a.Centre.X - b.Centre.X, 2) + Math.Pow(a.Centre.Y - b.Centre.Y, 2));
+
+                    connections.Add(new Connection(a, b, distance));
                 }
             }
-
             return connections;
         }
 
@@ -211,8 +215,8 @@ namespace mono
 
     public class Connection
     {
-        Room RoomA {  get; set; }
-        Room RoomB { get; set; }
+        public Room RoomA {  get; set; }
+        public Room RoomB { get; set; }
         public double Length { get; set; }
 
         public Connection(Room a, Room b, double length)
