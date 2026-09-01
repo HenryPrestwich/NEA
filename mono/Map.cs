@@ -136,7 +136,7 @@ namespace mono
             return connections;
         }
 
-        public List<Connection>  PRIMS(List<Connection> connections)
+        public List<Connection>  PRIMS(List<Connection> connections)  //currently adding the same connection to the mst multiple times?? weird
         {
             List<Connection> mst = new List<Connection>();
             List<Room> visited = new List<Room>();
