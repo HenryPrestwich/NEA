@@ -115,26 +115,65 @@ namespace mono
                 }
             }
 
-            Connections = GenerateConnections(Rooms);
+            Connections = GenerateConnections();
         }
 
-        public List<Connection> GenerateConnections(List<Room> rooms)
+        public List<Connection> GenerateConnections()
         {
             List<Connection> connections = new List<Connection>();
 
-            for (int i = 0; i < rooms.Count; i++)
+            for (int i = 0; i < Rooms.Count; i++)
             {
-                for (int j = i + 1; j < rooms.Count; j++)
+                for (int j = i + 1; j < Rooms.Count; j++)
                 {
-                    Room a = rooms[i];
-                    Room b = rooms[j];
+                    Room a = Rooms[i];
+                    Room b = Rooms[j];
 
-                    double distance = Math.Sqrt(Math.Pow(a.Centre.X - b.Centre.X, 2) + Math.Pow(a.Centre.Y - b.Centre.Y, 2));
-
-                    connections.Add(new Connection(a, b, distance));
+                    connections.Add(new Connection(a, b));
                 }
             }
+            connections = PRIMS(connections);
             return connections;
+        }
+
+        public List<Connection>  PRIMS(List<Connection> connections)
+        {
+            List<Connection> mst = new List<Connection>();
+            List<Room> visited = new List<Room>();
+
+            
+            visited.Add(Rooms[0]);
+
+            Connection cheapest = null;
+
+            while(visited.Count < Rooms.Count)
+            {
+                foreach (Room r in visited)
+                {
+                    foreach (Connection c in connections)
+                    {
+                        if (cheapest == null)
+                        {
+                            cheapest = c;
+                        }
+                        else if((c.RoomA == r && !visited.Contains(c.RoomB) || (c.RoomB == r && !visited.Contains(c.RoomA))) && c.Length < cheapest.Length)
+                        {
+                            cheapest = c;
+                        }
+                    }
+                }
+                mst.Add(cheapest);
+                if (visited.Contains(cheapest.RoomA))
+                {
+                    visited.Add(cheapest.RoomB);
+                }
+                else
+                {
+                    visited.Add(cheapest.RoomB);
+                }
+            }
+
+            return mst;
         }
 
         public void DrawMap(SpriteBatch spriteBatch)
@@ -219,11 +258,13 @@ namespace mono
         public Room RoomB { get; set; }
         public double Length { get; set; }
 
-        public Connection(Room a, Room b, double length)
+        public Connection(Room a, Room b)
         {
             RoomA = a;
             RoomB = b;
-            Length = length;
+
+            double distance = Math.Sqrt(Math.Pow(a.Centre.X - b.Centre.X, 2) + Math.Pow(a.Centre.Y - b.Centre.Y, 2));
+            Length = distance;
         }
     }
 }
