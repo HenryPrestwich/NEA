@@ -144,21 +144,26 @@ namespace mono
             
             visited.Add(Rooms[0]);
 
-            Connection cheapest = null;
+            
 
             while(visited.Count < Rooms.Count)
             {
+                Connection cheapest = null;
                 foreach (Room r in visited)
                 {
                     foreach (Connection c in connections)
                     {
-                        if (cheapest == null)
+                        if(c.RoomA == r && !visited.Contains(c.RoomB) || 
+                            c.RoomB == r && !visited.Contains(c.RoomA))
                         {
-                            cheapest = c;
-                        }
-                        else if((c.RoomA == r && !visited.Contains(c.RoomB) || (c.RoomB == r && !visited.Contains(c.RoomA))) && c.Length < cheapest.Length)
-                        {
-                            cheapest = c;
+                            if (cheapest == null)
+                            {
+                                cheapest = c;
+                            }
+                            else if (c.Length < cheapest.Length)
+                            {
+                                cheapest = c;
+                            }
                         }
                     }
                 }
@@ -169,7 +174,7 @@ namespace mono
                 }
                 else
                 {
-                    visited.Add(cheapest.RoomB);
+                    visited.Add(cheapest.RoomA);
                 }
             }
 
@@ -202,6 +207,25 @@ namespace mono
 
                 spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16) + (r.Size.Width * 32) - 1, (r.Size.Y * 32 - 16), 1, (r.Size.Height * 32)), Color.Red);
             }
+            foreach (Connection c in Connections)
+            {
+                Vector2 edge = c.RoomB.Centre.ToVector2() - c.RoomA.Centre.ToVector2();
+
+                float angle = MathF.Atan2(edge.Y, edge.X);
+                float length = edge.Length() * 16;
+
+                spriteBatch.Draw(
+                    pixel,
+                    c.RoomA.Centre.ToVector2() * 32,
+                    null,
+                    Color.Red,
+                    angle,
+                    new Vector2(0, 0.5f),
+                    new Vector2(length, 1f),
+                    SpriteEffects.None,
+                    0
+                );
+            }
         }
     }
 
@@ -229,7 +253,7 @@ namespace mono
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
             Random rand = new Random();
-            Walkable = false;
+            Walkable = true;
 
         }
     }
