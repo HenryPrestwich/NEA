@@ -16,6 +16,7 @@ namespace mono
         public Texture2D wall;
 
         public Rectangle Rectangle {  get; set; }
+        public Rectangle RectanglePixel { get; set; }
         
 
         public Node[,] Grid { get; set; }
@@ -35,6 +36,8 @@ namespace mono
             this.HeightNodes = height / 32;
 
             this.Rectangle = new Rectangle(0, 0, WidthNodes, HeightNodes);
+            this.RectanglePixel = new Rectangle(-16, -16, WidthNodes * 32, HeightNodes * 32);
+
 
             Grid = new Node[WidthNodes, HeightNodes];
 

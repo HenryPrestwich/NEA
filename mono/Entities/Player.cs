@@ -48,6 +48,10 @@ namespace mono.Entities
                     break; 
                 }
             }
+            if (!map.RectanglePixel.Contains(newRect))
+            {
+                intersects = true;
+            }
             if (intersects == false)
             {
                 this.Position = NewLocation;
