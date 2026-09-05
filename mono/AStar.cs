@@ -47,21 +47,25 @@ namespace mono
                     }
                 }
             }
+            if (CameFromNode.ContainsKey(Target))
+            {
+                Node currentRev = Target;
+                Stack<Node> pathRev = new Stack<Node>();
+                Queue<Node> path = new Queue<Node>();
+                while (currentRev != Start)
+                {
+                    pathRev.Push(currentRev);
+                    currentRev = CameFromNode[currentRev];
+                }
+                while (pathRev.Count > 0)
+                {
+                    path.Enqueue(pathRev.Pop());
+                }
 
-            Node currentRev = Target;
-            Stack<Node> pathRev = new Stack<Node>();
-            Queue<Node> path = new Queue<Node>();
-            while (currentRev != Start)
-            {
-                pathRev.Push(currentRev);
-                currentRev = CameFromNode[currentRev];
+                return path;
             }
-            while (pathRev.Count > 0)
-            {
-                path.Enqueue(pathRev.Pop());
-            }
-             
-            return path;
+
+            return null;
         }
 
         public static double Heuristic(Node Start, Node Target)

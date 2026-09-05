@@ -74,16 +74,20 @@ namespace mono.Main
 
             characterList = new List<Character>();
 
+            //MAP
+            Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
+            Map.BuildMap();
+
+
             //player
-            player = new Player(Content.Load<Texture2D>("player"), new Vector2(1400,1400));
-            enemy = new Enemy(Content.Load<Texture2D>("enemy"), new Vector2(1200, 1200));
+            player = new Player(Content.Load<Texture2D>("player"), Map.Rooms[0].Centre.ToVector2() * 32);
+            enemy = new Enemy(Content.Load<Texture2D>("enemy"), Map.Rooms[1].Centre.ToVector2() * 32);
 
             pixel = Content.Load<Texture2D>("pixel");
 
            
 
-            Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
-            Map.BuildMap();
+            
 
 
             characterList.Add(player);

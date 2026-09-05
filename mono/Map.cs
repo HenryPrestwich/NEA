@@ -20,8 +20,10 @@ namespace mono
         
 
         public Node[,] Grid { get; set; }
+
         public int WidthNodes {  get; set; }
         public int HeightNodes { get; set; }
+        
 
         public List<Room> Rooms { get; set; }
         public List<Connection> Connections { get; set; }
@@ -104,12 +106,12 @@ namespace mono
 
                 foreach (Room r in Rooms)
                 {
-                    if (r.Size.Intersects(newRoom.Size))
+                    if (r.Rectangle.Intersects(newRoom.Rectangle))
                     {
                         Overlap = true; break;
                     }
                 }
-                if (Overlap == false && this.Rectangle.Contains(newRoom.Size))
+                if (Overlap == false && this.Rectangle.Contains(newRoom.Rectangle))
                 {
                     Rooms.Add(newRoom);
                     tries = 0;
@@ -117,6 +119,17 @@ namespace mono
                 else
                 {
                     tries++;
+                }
+            }
+
+            foreach (Node n in Grid)
+            {
+                foreach (Room r in Rooms)
+                {
+                    if (r.RectanglePixel.Contains(n.Rectangle))
+                    {
+                        n.Walkable = true;
+                    }
                 }
             }
 
@@ -242,13 +255,13 @@ namespace mono
         {
             foreach (Room r in Rooms)
             {
-                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16) , (r.Size.Y * 32 - 16), (r.Size.Width * 32), 1), Color.Red);
+                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X) , (r.RectanglePixel.Y), (r.RectanglePixel.Width), 1), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16), (r.Size.Y * 32 - 16) + (r.Size.Height * 32) - 1, (r.Size.Width * 32), 1), Color.Red);
+                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y) + (r.RectanglePixel.Height) - 1, (r.RectanglePixel.Width), 1), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16), (r.Size.Y * 32 - 16), 1, (r.Size.Height * 32)), Color.Red);
+                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
 
-                spriteBatch.Draw(pixel, new Rectangle((r.Size.X * 32 - 16) + (r.Size.Width * 32) - 1, (r.Size.Y * 32 - 16), 1, (r.Size.Height * 32)), Color.Red);
+                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X) + (r.RectanglePixel.Width) - 1, (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
             }
             foreach (Connection c in Connections)
             {
@@ -296,14 +309,15 @@ namespace mono
             this.Neigbour = new List<Node>();
             this.TileType = tileType;
             Random rand = new Random();
-            Walkable = true;
+            Walkable = false;
 
         }
     }
 
     public class Room
     {
-        public Rectangle Size { get; set; }
+        public Rectangle Rectangle { get; set; }
+        public Rectangle RectanglePixel { get; set; }
         public Point Centre { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -314,8 +328,11 @@ namespace mono
             Random rand = new Random();
             Width = rand.Next(12, 25);
             Height = rand.Next(12, 25);
-            Size = new Rectangle(rand.Next(0, Map.WidthNodes) , rand.Next(0, Map.HeightNodes) , Width, Height); // make sure it always works with nodes not pixels
-            Centre = Size.Center;
+            int X = rand.Next(0, Map.WidthNodes);
+            int Y = rand.Next(0, Map.HeightNodes);
+            Rectangle = new Rectangle(X, Y, Width, Height); 
+            RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
+            Centre = Rectangle.Center;
         }
     }
 
