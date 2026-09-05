@@ -41,6 +41,8 @@ namespace mono
 
             Grid = new Node[WidthNodes, HeightNodes];
 
+            Connections = new List<Connection>();
+
             for (int x = 0; x < WidthNodes; x++)
             {
                 for (int y = 0; y < HeightNodes; y++)
@@ -123,7 +125,7 @@ namespace mono
 
         public List<Connection> GenerateConnections()
         {
-            List<Connection> connections = new List<Connection>();
+            
 
             for (int i = 0; i < Rooms.Count; i++)
             {
@@ -132,14 +134,14 @@ namespace mono
                     Room a = Rooms[i];
                     Room b = Rooms[j];
 
-                    connections.Add(new Connection(a, b));
+                    Connections.Add(new Connection(a, b));
                 }
             }
-            connections = PRIMS(connections);
-            return connections;
+            Connections = PRIMS();
+            return Connections;
         }
 
-        public List<Connection>  PRIMS(List<Connection> connections)  //currently adding the same connection to the mst multiple times?? weird
+        public List<Connection>  PRIMS()  
         {
             List<Connection> mst = new List<Connection>();
             List<Room> visited = new List<Room>();
@@ -154,7 +156,7 @@ namespace mono
                 Connection cheapest = null;
                 foreach (Room r in visited)
                 {
-                    foreach (Connection c in connections)
+                    foreach (Connection c in Connections)
                     {
                         if(c.RoomA == r && !visited.Contains(c.RoomB) || 
                             c.RoomB == r && !visited.Contains(c.RoomA))
@@ -171,6 +173,7 @@ namespace mono
                     }
                 }
                 mst.Add(cheapest);
+                Connections.Remove(cheapest);
                 if (visited.Contains(cheapest.RoomA))
                 {
                     visited.Add(cheapest.RoomB);
@@ -181,6 +184,43 @@ namespace mono
                 }
             }
 
+            mst = AddCycles(mst);
+
+            return mst;
+        }
+
+        private List<Connection> AddCycles(List<Connection> mst)
+        {
+            int extraCycles = 0;
+            Random rand = new Random();
+            List<Connection> toRemove = new List<Connection>();
+
+            while (extraCycles < 4)
+            {
+                for (int i = 0; i < Connections.Count; i++)
+                {
+                    Connection c = Connections[i];
+                    if (rand.Next(1, 50) == 1)
+                    {
+                        mst.Add(c);
+                        Connections.Remove(c);
+                        extraCycles++;
+                        i++;
+
+                        foreach (Connection c2 in Connections)
+                        {
+                            if (c2.RoomA == c.RoomA || c2.RoomA == c.RoomB || c2.RoomB == c.RoomA || c2.RoomB == c.RoomB)
+                            {
+                                toRemove.Add(c2);
+                            }
+                        }
+                        foreach (Connection r in toRemove)
+                        {
+                            Connections.Remove(r);
+                        }
+                    }
+                }
+            }
             return mst;
         }
 

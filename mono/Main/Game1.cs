@@ -15,10 +15,10 @@ namespace mono.Main
         public  SpriteBatch _spriteBatch;
         public Timer _timer;
         public static int GameClock = 0;
+
+        public int GameState;
         //text
         SpriteFont font;
-        public const int SCREEN_HEIGHT = 1000;
-        public const int SCREEN_WIDTH = 1600; 
         
         //player
         public Player player;
@@ -32,9 +32,16 @@ namespace mono.Main
 
         //Logs
         List<Character> characterList;
-        
+
         //camera
         Camera2D camera;
+
+
+        //Settings
+        public const int SCREEN_HEIGHT = 1000;
+        public const int SCREEN_WIDTH = 1600;
+        public bool HitboxesDrawn;
+
 
         public Game1()
         {
@@ -59,6 +66,11 @@ namespace mono.Main
             _timer = new Timer();
             _timer.Interval = 100;
             _timer.Start();
+
+            //SETTINGS
+            HitboxesDrawn = true;
+
+            GameState = GameStates.MainMenu;
 
             characterList = new List<Character>();
 
