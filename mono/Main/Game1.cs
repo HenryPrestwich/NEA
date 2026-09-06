@@ -137,12 +137,14 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            
+            Map.DrawMap(_spriteBatch);
+
+
             // player.Draw();
-            foreach (Character character in characterList)
+            foreach (Character c in characterList)
             {
-                character.Draw(_spriteBatch);
-                character.DrawRect(_spriteBatch, pixel);
+                c.Draw(_spriteBatch);
+                
             }
             
 
@@ -154,7 +156,8 @@ namespace mono.Main
             _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(player.Position.X + 700, player.Position.Y + 400), Color.Black);
 
 
-            DrawHitBoxes(_spriteBatch);
+            //DrawHitBoxes(_spriteBatch);
+
             _spriteBatch.End();
 
 
@@ -164,8 +167,11 @@ namespace mono.Main
         private void DrawHitBoxes(SpriteBatch spriteBatch)
         {
             enemy.DrawPath(_spriteBatch, pixel);
-            Map.DrawMap(_spriteBatch);
             Map.DrawRoomsHitbox(_spriteBatch, pixel);
+            foreach (Character c in characterList)
+            {
+                c.DrawRect(_spriteBatch, pixel);
+            }
         }
     }
 }
