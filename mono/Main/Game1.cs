@@ -155,8 +155,11 @@ namespace mono.Main
 
             _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(player.Position.X + 700, player.Position.Y + 400), Color.Black);
 
-
-            //DrawHitBoxes(_spriteBatch);
+            if (HitboxesDrawn)
+            {
+                DrawHitBoxes(_spriteBatch);
+            }
+            
 
             _spriteBatch.End();
 

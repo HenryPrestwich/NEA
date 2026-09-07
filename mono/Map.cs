@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using mono.Main;
 using System;
 using System.Collections.Generic;
-using System.Security.Permissions;
-using System.Windows.Forms;
 
 
 namespace mono
@@ -15,15 +11,14 @@ namespace mono
         public Texture2D grass;
         public Texture2D wall;
 
-        public Rectangle Rectangle {  get; set; }
+        public Rectangle Rectangle { get; set; }
         public Rectangle RectanglePixel { get; set; }
-        
+
 
         public Node[,] Grid { get; set; }
 
-        public int WidthNodes {  get; set; }
+        public int WidthNodes { get; set; }
         public int HeightNodes { get; set; }
-        
 
         public List<Room> Rooms { get; set; }
         public List<Connection> Connections { get; set; }
@@ -33,7 +28,7 @@ namespace mono
             this.grass = grass;
             this.wall = wall;
 
-            
+
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
 
@@ -49,12 +44,12 @@ namespace mono
             {
                 for (int y = 0; y < HeightNodes; y++)
                 {
-                    Node n = new Node(x, y, 0); 
-                    Grid [x, y] = n;
+                    Node n = new Node(x, y, 0);
+                    Grid[x, y] = n;
                 }
             }
 
-            for (int x = 0;x < WidthNodes; x++)
+            for (int x = 0; x < WidthNodes; x++)
             {
                 for (int y = 0; y < HeightNodes; y++)
                 {
@@ -66,12 +61,12 @@ namespace mono
                     {
                         Grid[x, y].Neigbour.Add(Grid[x, y - 1]);
                     }
-                    if (x > 0 && y >0)
+                    if (x > 0 && y > 0)
                     {
                         Grid[x, y].Neigbour.Add(Grid[x - 1, y - 1]);
 
                     }
-                    if (x < WidthNodes -1)
+                    if (x < WidthNodes - 1)
                     {
                         Grid[x, y].Neigbour.Add(Grid[x + 1, y]);
                     }
@@ -92,7 +87,7 @@ namespace mono
                         Grid[x, y].Neigbour.Add(Grid[x - 1, y + 1]);
                     }
                 }
-            }  
+            }
         }
 
         public void BuildMap()
@@ -138,8 +133,6 @@ namespace mono
 
         public List<Connection> GenerateConnections()
         {
-            
-
             for (int i = 0; i < Rooms.Count; i++)
             {
                 for (int j = i + 1; j < Rooms.Count; j++)
@@ -154,24 +147,24 @@ namespace mono
             return Connections;
         }
 
-        public List<Connection>  PRIMS()  
+        public List<Connection> PRIMS()
         {
             List<Connection> mst = new List<Connection>();
             List<Room> visited = new List<Room>();
 
-            
+
             visited.Add(Rooms[0]);
 
-            
 
-            while(visited.Count < Rooms.Count)
+
+            while (visited.Count < Rooms.Count)
             {
                 Connection cheapest = null;
                 foreach (Room r in visited)
                 {
                     foreach (Connection c in Connections)
                     {
-                        if(c.RoomA == r && !visited.Contains(c.RoomB) || 
+                        if (c.RoomA == r && !visited.Contains(c.RoomB) ||
                             c.RoomB == r && !visited.Contains(c.RoomA))
                         {
                             if (cheapest == null)
@@ -255,7 +248,7 @@ namespace mono
         {
             foreach (Room r in Rooms)
             {
-                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X) , (r.RectanglePixel.Y), (r.RectanglePixel.Width), 1), Color.Red);
+                spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), (r.RectanglePixel.Width), 1), Color.Red);
 
                 spriteBatch.Draw(pixel, new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y) + (r.RectanglePixel.Height) - 1, (r.RectanglePixel.Width), 1), Color.Red);
 
@@ -285,14 +278,14 @@ namespace mono
         }
     }
 
-    public class Node          
+    public class Node
     {
         public Vector2 GridLocation { get; set; }
         public Vector2 Position { get; set; }
-        public Vector2 Centre {  get; set; }
+        public Vector2 Centre { get; set; }
         public Rectangle Rectangle { get; set; }
         public Vector2 Size { get; set; }
-        public List<Node> Neigbour  { get; set; }
+        public List<Node> Neigbour { get; set; }
         public bool Walkable { get; set; }
         public int TileType { get; set; }
 
@@ -302,7 +295,7 @@ namespace mono
             this.GridLocation = new Vector2(x, y);
             this.Position = new Vector2(x * 32, y * 32);
             this.Centre = new Vector2(16, 16);
-            
+
 
             this.Rectangle = new Rectangle(Convert.ToInt32(Position.X - Size.X / 2), Convert.ToInt32(Position.Y - Size.Y / 2), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y));
 
@@ -330,7 +323,7 @@ namespace mono
             Height = rand.Next(12, 25);
             int X = rand.Next(0, Map.WidthNodes);
             int Y = rand.Next(0, Map.HeightNodes);
-            Rectangle = new Rectangle(X, Y, Width, Height); 
+            Rectangle = new Rectangle(X, Y, Width, Height);
             RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
             Centre = Rectangle.Center;
         }
@@ -338,7 +331,7 @@ namespace mono
 
     public class Connection
     {
-        public Room RoomA {  get; set; }
+        public Room RoomA { get; set; }
         public Room RoomB { get; set; }
         public double Length { get; set; }
 
@@ -352,4 +345,3 @@ namespace mono
         }
     }
 }
-    
