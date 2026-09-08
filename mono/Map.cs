@@ -14,7 +14,6 @@ namespace mono
         public Rectangle Rectangle { get; set; }
         public Rectangle RectanglePixel { get; set; }
 
-
         public Node[,] Grid { get; set; }
 
         public int WidthNodes { get; set; }
@@ -117,6 +116,8 @@ namespace mono
                 }
             }
 
+            Connections = GenerateConnections();
+
             foreach (Node n in Grid)
             {
                 foreach (Room r in Rooms)
@@ -128,7 +129,28 @@ namespace mono
                 }
             }
 
-            Connections = GenerateConnections();
+            foreach (Connection c in Connections)
+            {
+                Rectangle r = new Rectangle(c.RoomA.Centre.X, c.RoomA.Centre.Y, 32, 32);
+                Vector2 vS = new Vector2(r.X, r.Y);
+                Vector2 vT = new Vector2(c.RoomB.Centre.X, c.RoomB.Centre.Y);
+
+
+                while (vS != vT)
+                {
+                    vS = Vector2.Lerp(vS, vT, 0.7f);
+                    r.X = Convert.ToInt32(vS.X);
+                    r.Y = Convert.ToInt32(vS.Y);
+
+                    foreach (Node n in Grid)
+                    {
+                        if (n.Rectangle.Intersects(r))
+                        {
+                            n.Walkable = true;
+                        }
+                    }
+                }
+            }
         }
 
         public List<Connection> GenerateConnections()
