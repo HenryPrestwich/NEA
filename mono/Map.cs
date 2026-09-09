@@ -131,14 +131,14 @@ namespace mono
 
             foreach (Connection c in Connections)
             {
-                Rectangle r = new Rectangle(c.RoomA.Centre.X, c.RoomA.Centre.Y, 32, 32);
+                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X, c.RoomA.CentrePixel.Y, 64, 64);
                 Vector2 vS = new Vector2(r.X, r.Y);
-                Vector2 vT = new Vector2(c.RoomB.Centre.X, c.RoomB.Centre.Y);
+                Vector2 vT = new Vector2(c.RoomB.CentrePixel.X, c.RoomB.CentrePixel.Y);
 
 
                 while (vS != vT)
                 {
-                    vS = Vector2.Lerp(vS, vT, 0.7f);
+                    vS = Vector2.Lerp(vS, vT, 0.5f);
                     r.X = Convert.ToInt32(vS.X);
                     r.Y = Convert.ToInt32(vS.Y);
 
@@ -334,6 +334,7 @@ namespace mono
         public Rectangle Rectangle { get; set; }
         public Rectangle RectanglePixel { get; set; }
         public Point Centre { get; set; }
+        public Point CentrePixel { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -348,6 +349,7 @@ namespace mono
             Rectangle = new Rectangle(X, Y, Width, Height);
             RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
             Centre = Rectangle.Center;
+            CentrePixel = RectanglePixel.Center;
         }
     }
 
