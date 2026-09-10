@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace mono
@@ -138,7 +139,41 @@ namespace mono
 
                 while (vS != vT)
                 {
-                    vS = Vector2.Lerp(vS, vT, 0.5f);
+                    Vector2 transform = new Vector2(0, 0);
+
+                    if (vT.X < vS.X)
+                    {
+                        transform.X -= 1;
+                    }
+                    if (vT.X > vS.X)
+                    {
+                        transform.X += 1;
+                    }
+                    if (vT.Y < vS.Y)
+                    {
+                        transform.Y -= 1;
+                    }
+                    if (vT.Y > vS.Y)
+                    {
+                        transform.Y += 1;
+                    }
+                    if (transform != Vector2.Zero)
+                    {
+                        transform.Normalize();
+                    }
+                    transform = transform * 64;
+
+                    vS.X += transform.X;
+                    vS.Y += transform.Y;
+
+                    Vector2 distanceV = vT - vS;
+                    double dist = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
+
+                    if (dist < 64)
+                    {
+                        vS = vT;
+                    }
+
                     r.X = Convert.ToInt32(vS.X);
                     r.Y = Convert.ToInt32(vS.Y);
 
