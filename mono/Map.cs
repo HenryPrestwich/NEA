@@ -132,7 +132,7 @@ namespace mono
 
             foreach (Connection c in Connections)
             {
-                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X, c.RoomA.CentrePixel.Y, 64, 64);
+                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 32, c.RoomA.CentrePixel.Y - 32, 64, 64);
                 Vector2 vS = new Vector2(r.X, r.Y);
                 Vector2 vT = new Vector2(c.RoomB.CentrePixel.X, c.RoomB.CentrePixel.Y);
 
