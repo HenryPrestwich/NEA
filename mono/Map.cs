@@ -139,40 +139,20 @@ namespace mono
 
                 while (vS != vT)
                 {
-                    Vector2 transform = new Vector2(0, 0);
-
-                    if (vT.X < vS.X)
-                    {
-                        transform.X -= 1;
-                    }
-                    if (vT.X > vS.X)
-                    {
-                        transform.X += 1;
-                    }
-                    if (vT.Y < vS.Y)
-                    {
-                        transform.Y -= 1;
-                    }
-                    if (vT.Y > vS.Y)
-                    {
-                        transform.Y += 1;
-                    }
-                    if (transform != Vector2.Zero)
-                    {
-                        transform.Normalize();
-                    }
-                    transform = transform * 64;
-
-                    vS.X += transform.X;
-                    vS.Y += transform.Y;
-
                     Vector2 distanceV = vT - vS;
+
+                    double angle = Math.Atan2(distanceV.Y, distanceV.X);
+
+                    Vector2 transform = new Vector2((float)(Math.Sin(angle) * 64), (float)(Math.Cos(angle) * 64));
+
                     double dist = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
 
                     if (dist < 64)
                     {
                         vS = vT;
                     }
+
+                    vS += transform;
 
                     r.X = Convert.ToInt32(vS.X);
                     r.Y = Convert.ToInt32(vS.Y);
