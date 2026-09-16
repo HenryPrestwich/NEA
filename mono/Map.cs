@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Transactions;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -22,6 +24,10 @@ namespace mono
 
         public List<Room> Rooms { get; set; }
         public List<Connection> Connections { get; set; }
+
+
+        Random rand = new Random();
+
 
         public Map(int height, int width, Texture2D grass, Texture2D wall)
         {
@@ -132,7 +138,7 @@ namespace mono
 
             foreach (Connection c in Connections)
             {
-                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 32, c.RoomA.CentrePixel.Y - 32, 64, 64);
+                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 48, c.RoomA.CentrePixel.Y - 48, 96, 96);
                 Vector2 vS = new Vector2(r.X, r.Y);
                 Vector2 vT = new Vector2(c.RoomB.CentrePixel.X, c.RoomB.CentrePixel.Y);
 
@@ -140,31 +146,67 @@ namespace mono
                 while (vS != vT)
                 {
                     Vector2 distanceV = vT - vS;
-
-                    double angle = Math.Atan2(distanceV.Y, distanceV.X);
-
-                    Vector2 transform = new Vector2((float)(Math.Sin(angle) * 64), (float)(Math.Cos(angle) * 64));
-
                     double dist = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
+
+                    double n = dist / 64;
+
+                    Vector2 transform = new Vector2((float) (distanceV.X / n),(float) (distanceV.Y / n));
+                    
 
                     if (dist < 64)
                     {
                         vS = vT;
                     }
-
-                    vS += transform;
+                    else
+                    {
+                        vS += transform;
+                    }
 
                     r.X = Convert.ToInt32(vS.X);
                     r.Y = Convert.ToInt32(vS.Y);
 
-                    foreach (Node n in Grid)
+                    WalkableTilesFromRect(r);
+                }
+            }
+
+            //RandomExtraWalk();
+        }
+        public void WalkableTilesFromRect(Rectangle r)
+        {
+            foreach (Node n in Grid)
+            {
+                if (n.Rectangle.Intersects(r))
+                {
+                    n.Walkable = true;
+                }
+            }
+        }
+        public void RandomExtraWalk()
+        {
+            List<Node> makeWalk = new List<Node>();
+
+            foreach (Node n in Grid)
+            {
+                bool walkableN = false;
+                foreach (Node o in n.Neigbour)
+                {
+                    if (o.Walkable == true)
                     {
-                        if (n.Rectangle.Intersects(r))
-                        {
-                            n.Walkable = true;
-                        }
+                        walkableN = true;
+                        break;
                     }
                 }
+                if (walkableN == true)
+                {
+                    if (rand.Next(0, 3) == 0)
+                    {
+                        makeWalk.Add(n);
+                    }
+                }
+            }
+            foreach(Node n in makeWalk)
+            {
+                n.Walkable = true;
             }
         }
 
@@ -235,7 +277,7 @@ namespace mono
         private List<Connection> AddCycles(List<Connection> mst)
         {
             int extraCycles = 0;
-            Random rand = new Random();
+            
             List<Connection> toRemove = new List<Connection>();
 
             while (extraCycles < 4)
