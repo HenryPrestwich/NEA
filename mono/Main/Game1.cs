@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using mono.Entities;
 using SharpDX.XAudio2;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 
@@ -23,7 +24,7 @@ namespace mono.Main
         //player
         public Player player;
 
-        public Enemy enemy;
+        
 
         public Texture2D pixel;
 
@@ -31,7 +32,7 @@ namespace mono.Main
         public Map Map;
 
         //Logs
-        List<Character> characterList;
+        List<Enemy> enemyList;
 
         //camera
         Camera2D camera;
@@ -72,7 +73,7 @@ namespace mono.Main
 
             GameState = GameStates.MainMenu;
 
-            characterList = new List<Character>();
+            enemyList = new List<Enemy>();
 
             //MAP
             Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
@@ -80,8 +81,8 @@ namespace mono.Main
 
 
             //player
-            player = new Player(Content.Load<Texture2D>("player"), Map.Rooms[0].Centre.ToVector2() * 32);
-            enemy = new Enemy(Content.Load<Texture2D>("enemy"), Map.Rooms[1].Centre.ToVector2() * 32);
+            player = new Player(Content.Load<Texture2D>("player"), Map.Rooms[0].CentrePixel.ToVector2());
+            
 
             pixel = Content.Load<Texture2D>("pixel");
 
@@ -90,8 +91,12 @@ namespace mono.Main
             
 
 
-            characterList.Add(player);
-            characterList.Add(enemy);
+            
+            for (int i = 1; i < 3 ; i++)
+            {
+                enemyList.Add(new Enemy(Content.Load<Texture2D>("enemy"), Map.Rooms[i].CentrePixel.ToVector2()));
+            }
+            
 
 
             //camera
@@ -108,20 +113,26 @@ namespace mono.Main
             KeyboardState KB = Keyboard.GetState();
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
+            
+
             //movement
             if (GameClock %  40 == 0)
             {
-                enemy.SetPath(player, Map);
+                foreach (Enemy enemy in enemyList)
+                {
+                    enemy.SetPath(player, Map);
+                }
             }
                
             
            
-            player.Move(KB, GP, characterList, Map);
+            player.Move(KB, GP, enemyList, Map);
+            player.updateRect();
 
-            foreach (Character character in characterList)
+            foreach (Enemy e in enemyList)
             {
-                character.Move(player);
-                character.updateRect();
+                e.Move(player);
+                e.updateRect();
             }   
 
 
@@ -140,8 +151,8 @@ namespace mono.Main
             Map.DrawMap(_spriteBatch);
 
 
-            // player.Draw();
-            foreach (Character c in characterList)
+            player.Draw(_spriteBatch);
+            foreach (Character c in enemyList)
             {
                 c.Draw(_spriteBatch);
                 
@@ -157,7 +168,7 @@ namespace mono.Main
 
             if (HitboxesDrawn)
             {
-                DrawHitBoxes(_spriteBatch);
+                //DrawHitBoxes(_spriteBatch);
             }
             
 
@@ -169,11 +180,15 @@ namespace mono.Main
 
         private void DrawHitBoxes(SpriteBatch spriteBatch)
         {
-            enemy.DrawPath(_spriteBatch, pixel);
-            Map.DrawRoomsHitbox(_spriteBatch, pixel);
-            foreach (Character c in characterList)
+            foreach (Enemy e in enemyList)
             {
-                c.DrawRect(_spriteBatch, pixel);
+                e.DrawPath(_spriteBatch, pixel);
+            }
+            Map.DrawRoomsHitbox(_spriteBatch, pixel);
+            player.DrawRect(_spriteBatch, pixel);
+            foreach (Enemy e in enemyList)
+            {
+                e.DrawRect(_spriteBatch, pixel);
             }
         }
     }

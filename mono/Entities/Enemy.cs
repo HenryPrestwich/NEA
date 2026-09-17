@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 
 namespace mono.Entities
@@ -105,5 +106,10 @@ namespace mono.Entities
                 }
             }
         }
+    }
+
+    public static class EnemyState()
+    {
+        public const int 
     }
 }

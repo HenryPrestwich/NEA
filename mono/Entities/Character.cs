@@ -9,14 +9,23 @@ namespace mono.Entities
 {
     public class Character
     {
-        public int HP { get; set; }
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
-        public int Speed { get; set; }
         public Rectangle Rectangle { get; set; }
 
+
+
+        public int Speed { get; set; }
+        public int HP { get; set; }
+        public int MaxHP { get; set; }
+        public int Range { get; set; }
+        public int Damage { get; set; }
+        
+
+
+        public State State { get; set; }
 
         public Character(Texture2D texture, Vector2 Position)
         {
@@ -35,7 +44,7 @@ namespace mono.Entities
         {
 
         }
-        public virtual void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Map map)
+        public virtual void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemylist, Map map)
         {
 
         }

@@ -21,18 +21,16 @@ namespace mono.Entities
             this.Speed = 5;
         }
 
-        public override void Move(KeyboardState KB, GamePadState GP, List<Character> charlist, Map map)
+        public override void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemyList, Map map)
         {
             Vector2 OldLocation = Position;
             Vector2 translation = CalcMove(KB, GP);
             Vector2 NewLocation = OldLocation + translation;
 
-            List<Enemy> enemylist = charlist.OfType<Enemy>().ToList();
-
             Rectangle newRect = RectCalc(NewLocation, Size);
 
             bool intersects = false;
-            foreach (Enemy E in enemylist)
+            foreach (Enemy E in enemyList)
             {
                     if (E.Rectangle.Intersects(newRect))
                     {
