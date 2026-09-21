@@ -9,19 +9,22 @@ namespace mono.Entities
 {
     public class Enemy : Character
     {
-        public string state;
+        public int state;
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
         public Enemy(Texture2D texture, Vector2 Position) : base(texture, Position)
         {
-            state = null;
             this.Speed = 3;
+            this.state = EnemyState.IDLE;
         }
 
-        public void CheckState()
+        public void CheckState(Player p)
         {
+            if (state == EnemyState.IDLE)
+            {
 
+            } 
         }
 
         public void SetPath(Player player, Map map)
@@ -108,8 +111,8 @@ namespace mono.Entities
         }
     }
 
-    public static class EnemyState()
+    public static class EnemyState
     {
-        public const int 
+        public const int IDLE = 0;
     }
 }

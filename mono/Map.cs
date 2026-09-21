@@ -100,7 +100,7 @@ namespace mono
         {
             this.Rooms = new List<Room>();
             int tries = 0;
-            while (Rooms.Count < 25 && tries < 25)
+            while (Rooms.Count < 50 && tries < 50)
             {
                 Room newRoom = new Room(this);
                 bool Overlap = false;
@@ -399,8 +399,8 @@ namespace mono
         public Room(Map Map)
         {
             Random rand = new Random();
-            Width = rand.Next(12, 25);
-            Height = rand.Next(12, 25);
+            Width = rand.Next(20, 35);
+            Height = rand.Next(20, 35);
             int X = rand.Next(0, Map.WidthNodes);
             int Y = rand.Next(0, Map.HeightNodes);
             Rectangle = new Rectangle(X, Y, Width, Height);

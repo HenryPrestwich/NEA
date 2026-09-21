@@ -25,7 +25,7 @@ namespace mono.Entities
         
 
 
-        public State State { get; set; }
+        public int State { get; set; }
 
         public Character(Texture2D texture, Vector2 Position)
         {

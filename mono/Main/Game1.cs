@@ -76,7 +76,7 @@ namespace mono.Main
             enemyList = new List<Enemy>();
 
             //MAP
-            Map = new Map(3200, 3200, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
+            Map = new Map(12800, 12800, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
             Map.BuildMap();
 
 
