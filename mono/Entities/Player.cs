@@ -38,7 +38,7 @@ namespace mono.Entities
                     break;
                     }   
             }
-            foreach (Node N in map.Grid)
+            foreach (Node N in map.Grid) 
             {
                 if(N.Rectangle.Intersects(newRect) && N.Walkable == false) 
                 {
