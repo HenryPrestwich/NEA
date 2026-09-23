@@ -38,12 +38,19 @@ namespace mono.Entities
                     break;
                     }   
             }
-            foreach (Node N in map.Grid) 
+            for (int i = Convert.ToInt32((this.Position.X / 32) - 20); i <= this.Position.X / 32 + 20; i++)
             {
-                if(N.Rectangle.Intersects(newRect) && N.Walkable == false) 
+                for (int j = Convert.ToInt32((this.Position.Y / 32) - 20); j <= this.Position.Y / 32 + 20; j++)
                 {
-                    intersects = true; 
-                    break; 
+                    if (i >= 0 && j >= 0)
+                    {
+                        Node N = map.Grid[i, j];
+                        if (N.Rectangle.Intersects(newRect) && N.Walkable == false)
+                        {
+                            intersects = true;
+                            break;
+                        }
+                    }
                 }
             }
             if (!map.RectanglePixel.Contains(newRect))

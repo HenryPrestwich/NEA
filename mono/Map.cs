@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using System.Transactions;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -11,9 +13,6 @@ namespace mono
 {
     public class Map
     {
-        public Texture2D grass;
-        public Texture2D wall;
-
         public Rectangle Rectangle { get; set; }
         public Rectangle RectanglePixel { get; set; }
 
@@ -29,12 +28,8 @@ namespace mono
         Random rand = new Random();
 
 
-        public Map(int height, int width, Texture2D grass, Texture2D wall)
+        public Map(int height, int width)
         {
-            this.grass = grass;
-            this.wall = wall;
-
-
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
 
@@ -50,7 +45,7 @@ namespace mono
             {
                 for (int y = 0; y < HeightNodes; y++)
                 {
-                    Node n = new Node(x, y, 0);
+                    Node n = new Node(x, y);
                     Grid[x, y] = n;
                 }
             }
@@ -96,7 +91,7 @@ namespace mono
             }
         }
 
-        public void BuildMap()
+        public void BuildMap(List<Texture2D> textures)
         {
             this.Rooms = new List<Room>();
             int tries = 0;
@@ -166,6 +161,18 @@ namespace mono
                     r.Y = Convert.ToInt32(vS.Y);
 
                     WalkableTilesFromRect(r);
+                }
+
+                foreach (Node n in Grid)
+                {
+                    if (n.Walkable == true)
+                    {
+                        n.Texture = textures[1];
+                    }
+                    else
+                    {
+                        n.Texture = textures[0];
+                    }
                 }
             }
 
@@ -309,17 +316,24 @@ namespace mono
             return mst;
         }
 
-        public void DrawMap(SpriteBatch spriteBatch)
+        public void DrawMap(SpriteBatch spriteBatch,Player p)
         {
-            foreach (Node n in Grid)
+            for (int i = Convert.ToInt32((p.Position.X / 32) - 20); i <= p.Position.X / 32 + 20; i++)
             {
-                if (n.Walkable == true)
+                for (int j = Convert.ToInt32((p.Position.Y / 32) - 20); j <= p.Position.Y / 32 + 20; j++)
                 {
-                    spriteBatch.Draw(grass, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
-                }
-                else
-                {
-                    spriteBatch.Draw(wall, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
+                    if (i >= 0 && j >= 0)
+                    {
+                        Node n = this.Grid[i, j];
+                        if (n.Walkable == true)
+                        {
+                            spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
+                        }
+                    }
                 }
             }
         }
@@ -361,16 +375,18 @@ namespace mono
     {
         public Vector2 GridLocation { get; set; }
         public Vector2 Position { get; set; }
-        public Vector2 Centre { get; set; }
         public Rectangle Rectangle { get; set; }
-        public Vector2 Size { get; set; }
+
+        public Vector2 Size = new Vector2(32, 32);
+        public Vector2 Centre = new Vector2(16, 16);
+
         public List<Node> Neigbour { get; set; }
         public bool Walkable { get; set; }
-        public int TileType { get; set; }
 
-        public Node(int x, int y, int tileType)
+        public Texture2D Texture { get; set; }
+
+        public Node(int x, int y)
         {
-            this.Size = new Vector2(32, 32);
             this.GridLocation = new Vector2(x, y);
             this.Position = new Vector2(x * 32, y * 32);
             this.Centre = new Vector2(16, 16);
@@ -379,7 +395,6 @@ namespace mono
             this.Rectangle = new Rectangle(Convert.ToInt32(Position.X - Size.X / 2), Convert.ToInt32(Position.Y - Size.Y / 2), Convert.ToInt32(Size.X), Convert.ToInt32(Size.Y));
 
             this.Neigbour = new List<Node>();
-            this.TileType = tileType;
             Random rand = new Random();
             Walkable = false;
 
@@ -394,7 +409,7 @@ namespace mono
         public Point CentrePixel { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-
+        public int Type { get; set; }
 
         public Room(Map Map)
         {
@@ -408,6 +423,15 @@ namespace mono
             Centre = Rectangle.Center;
             CentrePixel = RectanglePixel.Center;
         }
+    }
+
+
+    public enum RoomType
+    {
+        Basic = 0,
+        Shop,
+        Loot,
+        Boss
     }
 
     public class Connection

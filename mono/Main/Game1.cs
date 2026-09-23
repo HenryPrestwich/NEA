@@ -76,8 +76,13 @@ namespace mono.Main
             enemyList = new List<Enemy>();
 
             //MAP
-            Map = new Map(12800, 12800, Content.Load<Texture2D>("grass"), Content.Load<Texture2D>("wall"));
-            Map.BuildMap();
+            List<Texture2D> MapTextures = new List<Texture2D>();
+
+            MapTextures.Add(Content.Load<Texture2D>("wall"));
+            MapTextures.Add(Content.Load<Texture2D>("grass"));
+
+            Map = new Map(12800, 12800);
+            Map.BuildMap(MapTextures);
 
 
             //player
@@ -148,7 +153,7 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            Map.DrawMap(_spriteBatch);
+            Map.DrawMap(_spriteBatch, player);
 
 
             player.Draw(_spriteBatch);
