@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.Entities;
-using SharpDX.XAudio2;
 using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 
 
@@ -13,22 +11,22 @@ namespace mono.Main
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
-        public  SpriteBatch _spriteBatch;
+        public SpriteBatch _spriteBatch;
         public Timer _timer;
         public static int GameClock = 0;
 
         public int GameState;
         //text
         SpriteFont font;
-        
+
         //player
         public Player player;
 
-        
+
 
         public Texture2D pixel;
 
-        
+
         public Map Map;
 
         //Logs
@@ -47,7 +45,7 @@ namespace mono.Main
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            
+
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -87,21 +85,16 @@ namespace mono.Main
 
             //player
             player = new Player(Content.Load<Texture2D>("player"), Map.Rooms[0].CentrePixel.ToVector2());
-            
+
 
             pixel = Content.Load<Texture2D>("pixel");
 
-           
 
-            
-
-
-            
-            for (int i = 1; i < 3 ; i++)
+            for (int i = 1; i < 3; i++)
             {
                 enemyList.Add(new Enemy(Content.Load<Texture2D>("enemy"), Map.Rooms[i].CentrePixel.ToVector2()));
             }
-            
+
 
 
             //camera
@@ -118,19 +111,19 @@ namespace mono.Main
             KeyboardState KB = Keyboard.GetState();
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
-            
+
 
             //movement
-            if (GameClock %  40 == 0)
+            if (GameClock % 40 == 0)
             {
                 foreach (Enemy enemy in enemyList)
                 {
                     enemy.SetPath(player, Map);
                 }
             }
-               
-            
-           
+
+
+
             player.Move(KB, GP, enemyList, Map);
             player.updateRect();
 
@@ -138,12 +131,12 @@ namespace mono.Main
             {
                 e.Move(player);
                 e.updateRect();
-            }   
+            }
 
 
             camera.Track(player.Position);
 
-            GameClock = (GameClock + 1) %3600; //reset clock every minute
+            GameClock = (GameClock + 1) % 3600; //reset clock every minute
             base.Update(gameTime);
         }
 
@@ -153,16 +146,16 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            Map.DrawMap(_spriteBatch, player);
+            Map.DrawMap(_spriteBatch, player, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
             player.Draw(_spriteBatch);
             foreach (Character c in enemyList)
             {
                 c.Draw(_spriteBatch);
-                
+
             }
-            
+
 
             //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
 
@@ -175,7 +168,7 @@ namespace mono.Main
             {
                 //DrawHitBoxes(_spriteBatch);
             }
-            
+
 
             _spriteBatch.End();
 

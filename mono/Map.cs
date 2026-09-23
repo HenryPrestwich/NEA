@@ -316,11 +316,15 @@ namespace mono
             return mst;
         }
 
-        public void DrawMap(SpriteBatch spriteBatch,Player p)
+        public void DrawMap(SpriteBatch spriteBatch,Player p, int sHeight, int sWidth)
         {
-            for (int i = Convert.ToInt32((p.Position.X / 32) - 20); i <= p.Position.X / 32 + 20; i++)
+
+            int sNHeight = sHeight / 32;
+            int sNWidth = sWidth / 32;
+
+            for (int i = Convert.ToInt32((p.Position.X / 32) - 2 - sNWidth / 2); i <= p.Position.X / 32 + 2 + sNWidth / 2; i++)
             {
-                for (int j = Convert.ToInt32((p.Position.Y / 32) - 20); j <= p.Position.Y / 32 + 20; j++)
+                for (int j = Convert.ToInt32((p.Position.Y / 32) - 2 - sNHeight / 2); j <= p.Position.Y / 32 + 2 + sNHeight / 2; j++)
                 {
                     if (i >= 0 && j >= 0)
                     {
