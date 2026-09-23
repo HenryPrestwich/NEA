@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 
 namespace mono.Entities
 {
     public class Enemy : Character
     {
-        public int state;
+        public int state { get; set; }
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
@@ -24,7 +23,7 @@ namespace mono.Entities
             if (state == EnemyState.IDLE)
             {
 
-            } 
+            }
         }
 
         public void SetPath(Player player, Map map)
@@ -91,7 +90,7 @@ namespace mono.Entities
 
             return transformation;
 
-            
+
         }
         public void DrawPath(SpriteBatch spriteBatch, Texture2D pixel)
         {

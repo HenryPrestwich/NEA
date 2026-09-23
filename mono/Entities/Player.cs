@@ -3,17 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
 
 namespace mono.Entities
 {
     public class Player : Character
     {
-        
-        public double DashCool {  get; set; }
-
-        
+        public double DashCool { get; set; }
 
         public Player(Texture2D texture, Vector2 Position) : base(texture, Position)
         {
@@ -32,23 +27,26 @@ namespace mono.Entities
             bool intersects = false;
             foreach (Enemy E in enemyList)
             {
-                    if (E.Rectangle.Intersects(newRect))
-                    {
+                if (E.Rectangle.Intersects(newRect))
+                {
                     intersects = true;
                     break;
-                    }   
+                }
             }
-            for (int i = Convert.ToInt32((this.Position.X / 32) - 20); i <= this.Position.X / 32 + 20; i++)
+            if (intersects == false)
             {
-                for (int j = Convert.ToInt32((this.Position.Y / 32) - 20); j <= this.Position.Y / 32 + 20; j++)
+                for (int i = Convert.ToInt32((this.Position.X / 32) - 20); i <= this.Position.X / 32 + 20; i++)
                 {
-                    if (i >= 0 && j >= 0)
+                    for (int j = Convert.ToInt32((this.Position.Y / 32) - 20); j <= this.Position.Y / 32 + 20; j++)
                     {
-                        Node N = map.Grid[i, j];
-                        if (N.Rectangle.Intersects(newRect) && N.Walkable == false)
+                        if (i >= 0 && j >= 0)
                         {
-                            intersects = true;
-                            break;
+                            Node N = map.Grid[i, j];
+                            if (N.Rectangle.Intersects(newRect) && N.Walkable == false)
+                            {
+                                intersects = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -62,7 +60,7 @@ namespace mono.Entities
                 this.Position = NewLocation;
             }
         }
-     
+
         public Vector2 CalcMove(KeyboardState KB, GamePadState GP)
         {
             Vector2 transformation = new Vector2(0, 0);
@@ -86,40 +84,14 @@ namespace mono.Entities
             {
                 transformation.Normalize();
             }
-            transformation = transformation * Speed; //replace 5 with player.speed when it exists
+            transformation = transformation * Speed; 
 
             return transformation;
         }
 
-        public void Dash(KeyboardState KB, GamePadState GP)
+        public void attack(KeyboardState KB, GamePadState GP)
         {
-            if (KB.IsKeyDown(Keys.Space))
-            {
-                if (DashCool == 0)
-                {
-                    if (KB.IsKeyDown(Keys.A))
-                    {
-                        Position = new Vector2(Position.X - 75, Position.Y);
-                    }
-                    if (KB.IsKeyDown(Keys.D))
-                    {
-                        Position = new Vector2(Position.X + 75, Position.Y);
-                    }
-                    if (KB.IsKeyDown(Keys.W))
-                    {
-                        Position = new Vector2(Position.X, Position.Y - 75);
-                    }
-                    if (KB.IsKeyDown(Keys.S))
-                    {
-                        Position = new Vector2(Position.X, Position.Y + 75);
-                    }
-                    DashCool += 120;
-                }
-            }
-            if (DashCool > 0)
-            {
-                DashCool -= 1;
-            }
+
         }
     }
 }
