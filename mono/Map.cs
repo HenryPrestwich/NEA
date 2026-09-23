@@ -3,10 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using mono.Entities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Transactions;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace mono
@@ -145,8 +141,8 @@ namespace mono
 
                     double n = dist / 64;
 
-                    Vector2 transform = new Vector2((float) (distanceV.X / n),(float) (distanceV.Y / n));
-                    
+                    Vector2 transform = new Vector2((float)(distanceV.X / n), (float)(distanceV.Y / n));
+
 
                     if (dist < 64)
                     {
@@ -211,7 +207,7 @@ namespace mono
                     }
                 }
             }
-            foreach(Node n in makeWalk)
+            foreach (Node n in makeWalk)
             {
                 n.Walkable = true;
             }
@@ -284,7 +280,7 @@ namespace mono
         private List<Connection> AddCycles(List<Connection> mst)
         {
             int extraCycles = 0;
-            
+
             List<Connection> toRemove = new List<Connection>();
 
             while (extraCycles < 4)
@@ -316,7 +312,7 @@ namespace mono
             return mst;
         }
 
-        public void DrawMap(SpriteBatch spriteBatch,Player p, int sHeight, int sWidth)
+        public void DrawMap(SpriteBatch spriteBatch, Player p, int sHeight, int sWidth)
         {
 
             int sNHeight = sHeight / 32;
@@ -329,14 +325,7 @@ namespace mono
                     if (i >= 0 && j >= 0)
                     {
                         Node n = this.Grid[i, j];
-                        if (n.Walkable == true)
-                        {
-                            spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
-                        }
-                        else
-                        {
-                            spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
-                        }
+                        spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
                     }
                 }
             }
