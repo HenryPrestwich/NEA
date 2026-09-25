@@ -21,7 +21,11 @@ namespace mono.Entities
         public int MaxHP { get; set; }
         public int Range { get; set; }
         public int Damage { get; set; }
+        public int AttackSpeed { get; set; }
+        public int AttackCool {  get; set; }
         public int ProjectileSpeed { get; set; }
+
+        public List<Projectile> Projectiles { get; set; }
 
         
 
@@ -37,23 +41,6 @@ namespace mono.Entities
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
-        }
-        public virtual void Move(Player player)
-        {
-
-        }
-        public virtual void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemylist, Map map)
-        {
-
-        }
-
-        public virtual void attack()
-        {
-
-        }
-        public virtual void attack(KeyboardState KB, GamePadState GP)
-        {
-
         }
         public void updateRect()
         {
@@ -91,9 +78,11 @@ namespace mono.Entities
         public Vector2 Velocity {  get; set; }
         public int RemainingTime { get; set; }
 
-        public void Projectile()
+        public Projectile(Vector2 position, int speedX, int speedY, int range)
         {
-
+            Position = position;
+            Velocity = new Vector2(speedX, speedY);
+            RemainingTime = range;
         }
     }
 }

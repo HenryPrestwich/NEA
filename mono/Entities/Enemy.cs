@@ -30,7 +30,7 @@ namespace mono.Entities
         {
             path = AStar.ASTAR(this.Position, player.Position, map);
         }
-        public override void Move(Player p)
+        public void Move(Player p)
         {
             if (path != null && path.Count > 0)
             {

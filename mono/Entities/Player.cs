@@ -14,9 +14,13 @@ namespace mono.Entities
         {
             DashCool = 120;
             this.Speed = 5;
+            this.AttackSpeed = 750;
+            AttackCool = 0;
+
+            Projectiles = new List<Projectile>();
         }
 
-        public override void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemyList, Map map)
+        public void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemyList, Map map)
         {
             Vector2 OldLocation = Position;
             Vector2 translation = CalcMove(KB, GP);
@@ -84,14 +88,30 @@ namespace mono.Entities
             {
                 transformation.Normalize();
             }
-            transformation = transformation * Speed; 
+            transformation = transformation * Speed;
 
             return transformation;
         }
 
-        public void attack(KeyboardState KB, GamePadState GP)
+        public void Attack(KeyboardState KB, GamePadState GP)
         {
-
+            Vector2 transformation = new Vector2(0, 0);
+            if (KB.IsKeyDown(Keys.Down))
+            {
+                Projectiles.Add(new Projectile(Position, 0, -AttackSpeed, Range));
+            }
+            if (KB.IsKeyDown(Keys.Up))
+            {
+                Projectiles.Add(new Projectile(Position, 0, AttackSpeed, Range));
+            }
+            if (KB.IsKeyDown(Keys.Left))
+            {
+                Projectiles.Add(new Projectile(Position, -AttackSpeed, 0, Range));
+            }
+            if (KB.IsKeyDown(Keys.Right))
+            {
+                Projectiles.Add(new Projectile(Position, AttackSpeed, 0, Range));
+            }
         }
     }
 }
