@@ -43,7 +43,7 @@ namespace mono.Entities
                 {
                     for (int j = Convert.ToInt32((this.Position.Y / 32) - 20); j <= this.Position.Y / 32 + 20; j++)
                     {
-                        if (i >= 0 && j >= 0)
+                        if (i >= 0 && i< map.WidthNodes && j >= 0 && j < map.HeightNodes)
                         {
                             Node N = map.Grid[i, j];
                             if (N.Rectangle.Intersects(newRect) && N.Walkable == false)

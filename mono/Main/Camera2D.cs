@@ -19,7 +19,7 @@ namespace mono.Main
         public Camera2D(Viewport viewport)
         {
             this.viewport = viewport;
-            Scale = 1.0f;
+            Scale = 0.6f;
         }
 
         public Matrix GetCamMatrix()

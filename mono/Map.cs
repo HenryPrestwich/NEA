@@ -322,7 +322,7 @@ namespace mono
             {
                 for (int j = Convert.ToInt32((p.Position.Y / 32) - 2 - sNHeight / 2); j <= p.Position.Y / 32 + 2 + sNHeight / 2; j++)
                 {
-                    if (i >= 0 && j >= 0)
+                    if (i >= 0 && i < this.WidthNodes && j >= 0 && j < this.HeightNodes)
                     {
                         Node n = this.Grid[i, j];
                         spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
