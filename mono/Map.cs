@@ -87,7 +87,7 @@ namespace mono
             }
         }
 
-        public void BuildMap(List<Texture2D> textures)
+        public void BuildMap()
         {
             this.Rooms = new List<Room>();
             int tries = 0;
@@ -163,11 +163,11 @@ namespace mono
                 {
                     if (n.Walkable == true)
                     {
-                        n.Texture = textures[1];
+                        n.Texture = TextureManager.GetTexture("grass");
                     }
                     else
                     {
-                        n.Texture = textures[0];
+                        n.Texture = TextureManager.GetTexture("wall");
                     }
                 }
             }

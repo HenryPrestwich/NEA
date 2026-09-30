@@ -64,6 +64,7 @@ namespace mono.Main
             _timer = new Timer();
             _timer.Interval = 100;
             _timer.Start();
+            TextureManager.CreateTextures(Content);
 
             
 
@@ -80,17 +81,12 @@ namespace mono.Main
 
 
             //MAP
-            List<Texture2D> MapTextures = new List<Texture2D>();
-
-            MapTextures.Add(Content.Load<Texture2D>("wall"));
-            MapTextures.Add(Content.Load<Texture2D>("grass"));
-
             Map = new Map(12800, 12800);
-            Map.BuildMap(MapTextures);
+            Map.BuildMap();
 
 
             //player
-            player = new Player(Content.Load<Texture2D>("player"), Map.Rooms[0].CentrePixel.ToVector2());
+            player = new Player(Map.Rooms[0].CentrePixel.ToVector2());
 
 
             pixel = Content.Load<Texture2D>("pixel");
@@ -98,7 +94,7 @@ namespace mono.Main
 
             for (int i = 1; i < 3; i++)
             {
-                enemyList.Add(new Enemy(Content.Load<Texture2D>("enemy"), Map.Rooms[i].CentrePixel.ToVector2()));
+                enemyList.Add(new Enemy(Map.Rooms[i].CentrePixel.ToVector2()));
             }
 
 

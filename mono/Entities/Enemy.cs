@@ -12,10 +12,15 @@ namespace mono.Entities
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
-        public Enemy(Texture2D texture, Vector2 Position) : base(texture, Position)
+        public Enemy(Vector2 Position) : base(Position)
         {
             this.Speed = 3;
             this.state = EnemyState.IDLE;
+
+            this.Texture = TextureManager.GetTexture("enemy");
+
+            Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            this.Size = new Vector2(Texture.Width, Texture.Height);
         }
 
         public void CheckState(Player p)

@@ -11,7 +11,7 @@ namespace mono.Entities
         public double DashCool { get; set; }
         public string PlayerType { get; set; }
 
-        public Player(Texture2D texture, Vector2 Position) : base(texture, Position)
+        public Player(Vector2 Position) : base(Position)
         {
             DashCool = 120;
             this.Speed = 5;
@@ -19,6 +19,10 @@ namespace mono.Entities
             AttackCool = 0;
 
             Projectiles = new List<Projectile>();
+
+            this.Texture = TextureManager.GetTexture("player");
+            Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            this.Size = new Vector2(Texture.Width, Texture.Height);
         }
 
         public void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemyList, Map map)

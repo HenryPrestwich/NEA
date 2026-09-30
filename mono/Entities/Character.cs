@@ -29,14 +29,12 @@ namespace mono.Entities
 
         
 
-        public Character(Texture2D texture, Vector2 Position)
+        public Character(Vector2 Position)
         {
             HP = 0;
             this.Position = Position;
-            Texture = texture;
-            Centre = new Vector2(texture.Width / 2, texture.Height / 2);
-            Speed = 0;
-            this.Size = new Vector2(texture.Width, texture.Height);
+            
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -85,7 +83,7 @@ namespace mono.Entities
             Velocity = new Vector2(speedX, speedY);
             RemainingTime = range;
 
-            
+            Texture = TextureManager.GetTexture("projectile");
         }
     }
 }
