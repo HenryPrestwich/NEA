@@ -74,6 +74,7 @@ namespace mono.Entities
 
     public class Projectile
     {
+        public Texture2D Texture;
         public Vector2 Position { get; set; }
         public Vector2 Velocity {  get; set; }
         public int RemainingTime { get; set; }
@@ -83,6 +84,8 @@ namespace mono.Entities
             Position = position;
             Velocity = new Vector2(speedX, speedY);
             RemainingTime = range;
+
+            
         }
     }
 }

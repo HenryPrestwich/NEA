@@ -23,7 +23,6 @@ namespace mono.Main
         public Player player;
 
 
-
         public Texture2D pixel;
 
 
@@ -66,12 +65,19 @@ namespace mono.Main
             _timer.Interval = 100;
             _timer.Start();
 
+            
+
             //SETTINGS
             HitboxesDrawn = true;
 
             GameState = GameStates.MainMenu;
 
             enemyList = new List<Enemy>();
+
+
+
+
+
 
             //MAP
             List<Texture2D> MapTextures = new List<Texture2D>();

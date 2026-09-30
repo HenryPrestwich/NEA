@@ -9,6 +9,7 @@ namespace mono.Entities
     public class Player : Character
     {
         public double DashCool { get; set; }
+        public string PlayerType { get; set; }
 
         public Player(Texture2D texture, Vector2 Position) : base(texture, Position)
         {
