@@ -19,6 +19,8 @@ namespace mono.Entities
 
             this.Texture = TextureManager.GetTexture("enemy");
 
+            Projectiles = new List<Projectile>();
+
             Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
         }

@@ -39,6 +39,10 @@ namespace mono.Entities
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
+            foreach (Projectile p in Projectiles)
+            {
+                spriteBatch.Draw(p.Texture, p.Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
+            }
         }
         public void updateRect()
         {
@@ -76,6 +80,7 @@ namespace mono.Entities
         public Vector2 Position { get; set; }
         public Vector2 Velocity {  get; set; }
         public int RemainingTime { get; set; }
+        float rotation {  get; set; }
 
         public Projectile(Vector2 position, int speedX, int speedY, int range)
         {
@@ -83,7 +88,19 @@ namespace mono.Entities
             Velocity = new Vector2(speedX, speedY);
             RemainingTime = range;
 
+            rotation = 0f;
+
             Texture = TextureManager.GetTexture("projectile");
+        }
+
+        public void MoveProjectile()
+        {
+            Position = Position + Velocity;
+            rotation += 1;
+        }
+        public void UpdateRect()
+        {
+
         }
     }
 }

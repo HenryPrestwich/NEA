@@ -128,6 +128,7 @@ namespace mono.Main
 
             player.Move(KB, GP, enemyList, Map);
             player.updateRect();
+            player.Attack(KB, GP);
 
             foreach (Enemy e in enemyList)
             {
