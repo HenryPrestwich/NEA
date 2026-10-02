@@ -22,16 +22,14 @@ namespace mono.Entities
         public int Range { get; set; }
         public int Damage { get; set; }
         public int AttackSpeed { get; set; }
-        public int AttackCool {  get; set; }
+        public int AttackCooldown {  get; set; }
         public int ProjectileSpeed { get; set; }
 
 
-        public Character(Vector2 Position)
+        public Character(Vector2 position)
         {
-            HP = 0;
-            this.Position = Position;
-            
-            
+            this.HP = 0;
+            this.Position = position;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

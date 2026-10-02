@@ -33,9 +33,9 @@ namespace mono
             this.RectanglePixel = new Rectangle(-16, -16, WidthNodes * 32, HeightNodes * 32);
 
 
-            Grid = new Node[WidthNodes, HeightNodes];
+            this.Grid = new Node[WidthNodes, HeightNodes];
 
-            Connections = new List<Connection>();
+            this.Connections = new List<Connection>();
 
             for (int x = 0; x < WidthNodes; x++)
             {
@@ -114,7 +114,7 @@ namespace mono
                 }
             }
 
-            Connections = GenerateConnections();
+            this.Connections = GenerateConnections();
 
             foreach (Node n in Grid)
             {
@@ -225,7 +225,7 @@ namespace mono
                     Connections.Add(new Connection(a, b));
                 }
             }
-            Connections = PRIMS();
+            this.Connections = PRIMS();
             return Connections;
         }
 
@@ -389,7 +389,7 @@ namespace mono
 
             this.Neigbour = new List<Node>();
             Random rand = new Random();
-            Walkable = false;
+            this.Walkable = false;
 
         }
     }
@@ -407,14 +407,14 @@ namespace mono
         public Room(Map Map)
         {
             Random rand = new Random();
-            Width = rand.Next(20, 35);
-            Height = rand.Next(20, 35);
+            this.Width = rand.Next(20, 35);
+            this.Height = rand.Next(20, 35);
             int X = rand.Next(0, Map.WidthNodes);
             int Y = rand.Next(0, Map.HeightNodes);
-            Rectangle = new Rectangle(X, Y, Width, Height);
-            RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
-            Centre = Rectangle.Center;
-            CentrePixel = RectanglePixel.Center;
+            this.Rectangle = new Rectangle(X, Y, Width, Height);
+            this.RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
+            this.Centre = Rectangle.Center;
+            this.CentrePixel = RectanglePixel.Center;
         }
     }
 
@@ -435,11 +435,11 @@ namespace mono
 
         public Connection(Room a, Room b)
         {
-            RoomA = a;
-            RoomB = b;
+            this.RoomA = a;
+            this.RoomB = b;
 
             double distance = Math.Sqrt(Math.Pow(a.Centre.X - b.Centre.X, 2) + Math.Pow(a.Centre.Y - b.Centre.Y, 2));
-            Length = distance;
+            this.Length = distance;
         }
     }
 }

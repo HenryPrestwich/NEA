@@ -16,7 +16,14 @@ namespace mono.Entities
             {
                 p.DrawProjectile(spriteBatch);
             }
-        } 
+        }
+        public static void UpdateProjectiles(int clock)
+        {
+            foreach (Projectile p in Projectiles)
+            {
+                p.MoveProjectile();
+            }
+        }
     }
     public class Projectile
     {
@@ -26,25 +33,28 @@ namespace mono.Entities
         public Vector2 Centre { get; set; }
         public Vector2 Velocity { get; set; }
         public int RemainingTime { get; set; }
-        float rotation { get; set; }
+        float Rotation { get; set; }
 
         public Projectile(Vector2 position, int speedX, int speedY, int range)
         {
-            Position = position;
-            Centre = Vector2.Zero;
 
-            Velocity = new Vector2(speedX, speedY);
-            RemainingTime = range;
+            this.Position = position;
+            this.Centre = new Vector2(16, 16);
 
-            rotation = 0f;
+            this.Velocity = new Vector2(speedX, speedY);
+            this.RemainingTime = range;
 
-            Texture = TextureManager.GetTexture("projectile");
+            this.Rotation = 0f;
+
+            this.Texture = TextureManager.GetTexture("projectile");
         }
 
         public void MoveProjectile()
         {
             Position = Position + Velocity;
-            rotation += 1;
+            Rotation += 1;
+
+            UpdateRect();
         }
         public void UpdateRect()
         {
@@ -53,7 +63,7 @@ namespace mono.Entities
 
         public void DrawProjectile(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
+            spriteBatch.Draw(Texture, Position, null, Color.White, Rotation, Centre, 1f, SpriteEffects.None, Layers.Entity);
         }
     }
 

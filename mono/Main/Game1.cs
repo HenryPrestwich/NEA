@@ -116,7 +116,7 @@ namespace mono.Main
             KeyboardState KB = Keyboard.GetState();
             GamePadState GP = GamePad.GetState(PlayerIndex.One);
 
-
+            ProjectileManager.UpdateProjectiles(GameClock);
 
             //movement
             if (GameClock % 40 == 0)
