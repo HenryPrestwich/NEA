@@ -25,9 +25,6 @@ namespace mono.Entities
         public int AttackCool {  get; set; }
         public int ProjectileSpeed { get; set; }
 
-        public List<Projectile> Projectiles { get; set; }
-
-        
 
         public Character(Vector2 Position)
         {
@@ -39,18 +36,12 @@ namespace mono.Entities
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
-            foreach (Projectile p in Projectiles)
-            {
-                spriteBatch.Draw(p.Texture, p.Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
-            }
         }
         public void updateRect()
         {
             Rectangle rect = RectCalc(this.Position, this.Size);
             this.Rectangle = rect;
         }
-
-
 
         public static Rectangle RectCalc(Vector2 position, Vector2 size)
         {
@@ -70,37 +61,6 @@ namespace mono.Entities
             spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
 
             spriteBatch.Draw(pixel, new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
-        }
-    }
-
-
-    public class Projectile
-    {
-        public Texture2D Texture;
-        public Vector2 Position { get; set; }
-        public Vector2 Velocity {  get; set; }
-        public int RemainingTime { get; set; }
-        float rotation {  get; set; }
-
-        public Projectile(Vector2 position, int speedX, int speedY, int range)
-        {
-            Position = position;
-            Velocity = new Vector2(speedX, speedY);
-            RemainingTime = range;
-
-            rotation = 0f;
-
-            Texture = TextureManager.GetTexture("projectile");
-        }
-
-        public void MoveProjectile()
-        {
-            Position = Position + Velocity;
-            rotation += 1;
-        }
-        public void UpdateRect()
-        {
-
         }
     }
 }

@@ -18,8 +18,6 @@ namespace mono.Entities
             this.AttackSpeed = 750;
             AttackCool = 0;
 
-            Projectiles = new List<Projectile>();
-
             this.Texture = TextureManager.GetTexture("player");
             Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
@@ -103,19 +101,19 @@ namespace mono.Entities
             Vector2 transformation = new Vector2(0, 0);
             if (KB.IsKeyDown(Keys.Down))
             {
-                Projectiles.Add(new Projectile(Position, 0, -AttackSpeed, Range));
+                ProjectileManager.Projectiles.Add(new Projectile(Position, 0, -AttackSpeed, Range));
             }
             if (KB.IsKeyDown(Keys.Up))
             {
-                Projectiles.Add(new Projectile(Position, 0, AttackSpeed, Range));
+                ProjectileManager.Projectiles.Add(new Projectile(Position, 0, AttackSpeed, Range));
             }
             if (KB.IsKeyDown(Keys.Left))
             {
-                Projectiles.Add(new Projectile(Position, -AttackSpeed, 0, Range));
+                ProjectileManager.Projectiles.Add(new Projectile(Position, -AttackSpeed, 0, Range));
             }
             if (KB.IsKeyDown(Keys.Right))
             {
-                Projectiles.Add(new Projectile(Position, AttackSpeed, 0, Range));
+                ProjectileManager.Projectiles.Add(new Projectile(Position, AttackSpeed, 0, Range));
             }
         }
     }

@@ -30,6 +30,8 @@ namespace mono.Main
 
         //Logs
         List<Enemy> enemyList;
+        
+        
 
         //camera
         Camera2D camera;
@@ -65,6 +67,7 @@ namespace mono.Main
             _timer.Interval = 100;
             _timer.Start();
             TextureManager.CreateTextures(Content);
+            
 
             
 
@@ -124,7 +127,7 @@ namespace mono.Main
                 }
             }
 
-
+            
 
             player.Move(KB, GP, enemyList, Map);
             player.updateRect();
@@ -159,8 +162,8 @@ namespace mono.Main
 
             }
 
-
-            //  _spriteBatch.Draw(player.Texture, player.Position, null, Color.White, 0f, player.Centre, 1.5f, SpriteEffects.None, Layers.Entity);
+            ProjectileManager.DrawProjectiles(_spriteBatch);
+            
 
             _spriteBatch.DrawString(font, player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
 
