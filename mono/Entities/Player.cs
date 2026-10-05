@@ -67,6 +67,8 @@ namespace mono.Entities
             {
                 this.Position = NewLocation;
             }
+
+            updateRect();
         }
 
         public Vector2 CalcMove(KeyboardState KB, GamePadState GP)
@@ -99,9 +101,9 @@ namespace mono.Entities
 
         public void Attack(KeyboardState KB, GamePadState GP)
         {
+            
             if (AttackCooldown == 0)
             {
-                Vector2 transformation = new Vector2(0, 0);
                 if (KB.IsKeyDown(Keys.Down))
                 {
                     ProjectileManager.Projectiles.Add(new Projectile(Position, 0, ProjectileSpeed, Range));

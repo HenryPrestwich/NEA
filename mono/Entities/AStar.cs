@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace mono
+namespace mono.Entities
 {
     internal static class AStar
     {

@@ -130,7 +130,6 @@ namespace mono.Main
             
 
             player.Move(KB, GP, enemyList, Map);
-            player.updateRect();
             player.Attack(KB, GP);
 
             foreach (Enemy e in enemyList)
@@ -142,7 +141,7 @@ namespace mono.Main
 
             camera.Track(player.Position);
 
-            GameClock = (GameClock + 1) % 3600; //reset clock every minute
+            GameClock = (GameClock + 1) % 3600; 
             base.Update(gameTime);
         }
 
