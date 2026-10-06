@@ -10,9 +10,15 @@ namespace mono
     public static class InputManager
     {
         public static KeyboardState previousKBS;
-        public static KeyboardState currentKBS;
+        public static KeyboardState currentKBS = Keyboard.GetState();
 
         public static MouseState previousMS;
-        public static MouseState currentMS;
+        public static MouseState currentMS = Mouse.GetState();
+
+        public static void UpdateInput()
+        {
+            previousKBS = currentKBS;
+            currentKBS = Keyboard.GetState();
+        }
     }
 }

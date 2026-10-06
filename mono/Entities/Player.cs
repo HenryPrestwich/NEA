@@ -24,10 +24,10 @@ namespace mono.Entities
             this.Size = new Vector2(Texture.Width, Texture.Height);
         }
 
-        public void Move(KeyboardState KB, GamePadState GP, List<Enemy> enemyList, Map map)
+        public void Move(List<Enemy> enemyList, Map map)
         {
             Vector2 OldLocation = Position;
-            Vector2 translation = CalcMove(KB, GP);
+            Vector2 translation = CalcMove();
             Vector2 NewLocation = OldLocation + translation;
 
             Rectangle newRect = RectCalc(NewLocation, Size);
@@ -71,8 +71,10 @@ namespace mono.Entities
             updateRect();
         }
 
-        public Vector2 CalcMove(KeyboardState KB, GamePadState GP)
+        public Vector2 CalcMove()
         {
+            KeyboardState KB = InputManager.currentKBS;
+
             Vector2 transformation = new Vector2(0, 0);
             if (KB.IsKeyDown(Keys.A))
             {
@@ -99,28 +101,32 @@ namespace mono.Entities
             return transformation;
         }
 
-        public void Attack(KeyboardState KB, GamePadState GP)
+        public void Attack()
         {
-            
+            KeyboardState KB = InputManager.currentKBS;
+
             if (AttackCooldown == 0)
             {
                 if (KB.IsKeyDown(Keys.Down))
                 {
-                    ProjectileManager.Projectiles.Add(new Projectile(Position, 0, ProjectileSpeed, Range));
+                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range);
+                    this.AttackCooldown = AttackSpeed;
                 }
                 if (KB.IsKeyDown(Keys.Up))
                 {
-                    ProjectileManager.Projectiles.Add(new Projectile(Position, 0, -ProjectileSpeed, Range));
+                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range);
+                    this.AttackCooldown = AttackSpeed;
                 }
                 if (KB.IsKeyDown(Keys.Left))
                 {
-                    ProjectileManager.Projectiles.Add(new Projectile(Position, -ProjectileSpeed, 0, Range));
+                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range);
+                    this.AttackCooldown = AttackSpeed;
                 }
                 if (KB.IsKeyDown(Keys.Right))
                 {
-                    ProjectileManager.Projectiles.Add(new Projectile(Position, ProjectileSpeed, 0, Range));
+                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range);
+                    this.AttackCooldown = AttackSpeed;
                 }
-                this.AttackCooldown = AttackSpeed;
             }
             else
             {

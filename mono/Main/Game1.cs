@@ -113,8 +113,7 @@ namespace mono.Main
 
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState KB = Keyboard.GetState();
-            GamePadState GP = GamePad.GetState(PlayerIndex.One);
+            InputManager.UpdateInput();
 
             ProjectileManager.UpdateProjectiles(GameClock);
 
@@ -129,8 +128,8 @@ namespace mono.Main
 
             
 
-            player.Move(KB, GP, enemyList, Map);
-            player.Attack(KB, GP);
+            player.Move(enemyList, Map);
+            player.Attack();
 
             foreach (Enemy e in enemyList)
             {

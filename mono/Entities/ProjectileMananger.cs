@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
 
@@ -8,6 +9,12 @@ namespace mono.Entities
     public static class ProjectileManager
     {
         public static List<Projectile> Projectiles = new List<Projectile>();
+
+
+        public static void AddProjectile(Vector2 position, int speedX, int speedY, int range)
+        {
+            Projectiles.Add(new Projectile(position, speedX, speedY, range));
+        }
 
 
         public static void DrawProjectiles(SpriteBatch spriteBatch)
@@ -22,6 +29,10 @@ namespace mono.Entities
             foreach (Projectile p in Projectiles)
             {
                 p.MoveProjectile();
+                if (p.RemainingTime == 0)
+                {
+                    Projectiles.Remove(p);
+                }
             }
         }
     }
@@ -53,6 +64,7 @@ namespace mono.Entities
         {
             Position = Position + Velocity;
             Rotation += 1;
+            RemainingTime -= 1;
 
             UpdateRect();
         }
