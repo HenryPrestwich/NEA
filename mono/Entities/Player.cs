@@ -105,22 +105,22 @@ namespace mono.Entities
             {
                 if (InputManager.IsKeyDown(Keys.Down))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range);
+                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range, (int)Owners.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Up))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range);
+                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range, (int)Owners.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Left))
                 {
-                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range);
+                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range, (int)Owners.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Right))
                 {
-                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range);
+                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range, (int)Owners.player);
                     this.AttackCooldown = AttackSpeed;
                 }
             }

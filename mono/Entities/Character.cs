@@ -48,17 +48,17 @@ namespace mono.Entities
         }
 
 
-        public void DrawRect(SpriteBatch spriteBatch, Texture2D pixel)
+        public void DrawRect(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(pixel, this.Position, Color.Red);
+            spriteBatch.Draw(TextureManager.GetTexture("pixel"), this.Position, Color.Red);
 
-            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
+            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
 
-            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
+            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
 
-            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
+            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
 
-            spriteBatch.Draw(pixel, new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
+            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
         }
     }
 }

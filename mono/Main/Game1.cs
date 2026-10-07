@@ -23,8 +23,6 @@ namespace mono.Main
         public Player player;
 
 
-        public Texture2D pixel;
-
 
         public Map Map;
 
@@ -92,7 +90,7 @@ namespace mono.Main
             player = new Player(Map.Rooms[0].CentrePixel.ToVector2());
 
 
-            pixel = Content.Load<Texture2D>("pixel");
+            
 
 
             for (int i = 1; i < 3; i++)
@@ -118,7 +116,7 @@ namespace mono.Main
             ProjectileManager.UpdateProjectiles(GameClock);
 
             //movement
-            if (GameClock % 40 == 0)
+            if (GameClock % 20 == 0)
             {
                 foreach (Enemy enemy in enemyList)
                 {
@@ -133,7 +131,7 @@ namespace mono.Main
 
             foreach (Enemy e in enemyList)
             {
-                e.Move(player);
+                e.Move(player, enemyList);
                 e.updateRect();
             }
 
@@ -170,7 +168,7 @@ namespace mono.Main
 
             if (HitboxesDrawn)
             {
-                //DrawHitBoxes(_spriteBatch);
+                DrawHitBoxes();
             }
 
 
@@ -180,18 +178,16 @@ namespace mono.Main
             base.Draw(gameTime);
         }
 
-        private void DrawHitBoxes(SpriteBatch spriteBatch)
+        private void DrawHitBoxes()
         {
             foreach (Enemy e in enemyList)
             {
-                e.DrawPath(_spriteBatch, pixel);
+                e.DrawPath(_spriteBatch);
+                e.DrawRect(_spriteBatch);
             }
-            Map.DrawRoomsHitbox(_spriteBatch, pixel);
-            player.DrawRect(_spriteBatch, pixel);
-            foreach (Enemy e in enemyList)
-            {
-                e.DrawRect(_spriteBatch, pixel);
-            }
+            Map.DrawRoomsHitbox(_spriteBatch);
+            player.DrawRect(_spriteBatch);
+            ProjectileManager.DrawHitboxes(_spriteBatch);
         }
     }
 }

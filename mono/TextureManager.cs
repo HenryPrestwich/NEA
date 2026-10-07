@@ -18,6 +18,7 @@ namespace mono
             Textures.Add("wall", content.Load<Texture2D>("wall"));
             Textures.Add("grass", content.Load<Texture2D>("grass"));
             Textures.Add("projectile", content.Load<Texture2D>("knife"));
+            Textures.Add("pixel", content.Load<Texture2D>("pixel"));
         }
         public static Texture2D GetTexture(string key)
         {

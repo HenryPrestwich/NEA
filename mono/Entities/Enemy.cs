@@ -19,7 +19,7 @@ namespace mono.Entities
 
             this.Texture = TextureManager.GetTexture("enemy");
 
-            
+
 
             Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
@@ -37,7 +37,7 @@ namespace mono.Entities
         {
             path = AStar.ASTAR(this.Position, player.Position, map);
         }
-        public void Move(Player p)
+        public void Move(Player p, List<Enemy> enemyL)
         {
             if (path != null && path.Count > 0)
             {
@@ -46,15 +46,20 @@ namespace mono.Entities
                 Vector2 OldLocation = Position;
                 Vector2 NewLocation = Position + CalcMove(next);
 
-                Rectangle PRect = p.Rectangle;
 
                 Rectangle ERect = RectCalc(NewLocation, Size);
 
                 bool collides = false;
 
-                foreach (Enemy e in 
+                foreach (Enemy e in enemyL)
+                {
+                    if (ERect.Intersects(e.Rectangle) && this != e)
+                    {
+                        collides = true; break;
+                    }
+                }
 
-                if (!ERect.Intersects(PRect))
+                if (!ERect.Intersects(p.Rectangle) && collides == false)
                 {
                     Vector2 distanceV = next.Position - this.Position;
                     double distanceD = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
@@ -103,19 +108,19 @@ namespace mono.Entities
 
 
         }
-        public void DrawPath(SpriteBatch spriteBatch, Texture2D pixel)
+        public void DrawPath(SpriteBatch spriteBatch)
         {
             if (path != null)
             {
                 foreach (Node n in path)
                 {
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 32, 1), Color.Red);
+                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 32, 1), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y) + 31, 32, 1), Color.Red);
+                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y) + 31, 32, 1), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
 
-                    spriteBatch.Draw(pixel, new Rectangle(Convert.ToInt32(n.Rectangle.X) + 31, Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X) + 31, Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
                 }
             }
         }
