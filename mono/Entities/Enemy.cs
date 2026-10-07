@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 
 namespace mono.Entities
 {
     public class Enemy : Character
     {
-        public int state { get; set; }
+        public EnemyState state { get; set; }
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
@@ -19,18 +20,25 @@ namespace mono.Entities
 
             this.Texture = TextureManager.GetTexture("enemy");
 
-
+            this.MaxHP = 10;
+            this.HP = MaxHP;
 
             Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
         }
 
-        public void CheckState(Player p)
+        public void SetState(Player p)
         {
+            if (HP == 0)
+            {
+                state = EnemyState.DEAD;
+
+            }
             if (state == EnemyState.IDLE)
             {
 
             }
+            
         }
 
         public void SetPath(Player player, Map map)
@@ -108,6 +116,17 @@ namespace mono.Entities
 
 
         }
+
+        public void Damage(int damage)
+        {
+            this.HP -= damage;
+        }
+
+
+
+
+
+
         public void DrawPath(SpriteBatch spriteBatch)
         {
             if (path != null)
@@ -126,8 +145,11 @@ namespace mono.Entities
         }
     }
 
-    public static class EnemyState
+    public enum EnemyState
     {
-        public const int IDLE = 0;
+        IDLE = 0,
+        CHASE,
+        ATTACK,
+        DEAD
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +12,7 @@ namespace mono.Entities
         public static List<Projectile> Projectiles = new List<Projectile>();
 
 
-        public static void AddProjectile(Vector2 position, int speedX, int speedY, int range, int owner)
+        public static void AddProjectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
         {
             Projectiles.Add(new Projectile(position, speedX, speedY, range, owner));
         }
@@ -25,7 +25,7 @@ namespace mono.Entities
                 p.DrawProjectile(spriteBatch);
             }
         }
-        public static void UpdateProjectiles(int clock)
+        public static void UpdateProjectiles(Player player, List<Enemy> eList, Map map)
         {
             foreach (Projectile p in Projectiles)
             {
@@ -33,6 +33,34 @@ namespace mono.Entities
                 if (p.RemainingTime == 0)
                 {
                     Projectiles.Remove(p);
+                }
+            }
+            CheckCollisions(player, eList, map);
+        }
+        public static void CheckCollisions(Player player, List<Enemy> eList, Map map)
+        {
+            if (Projectiles != null)
+            {
+                for (int i = 0; i < Projectiles.Count; i++)
+                {
+                    Projectile p = Projectiles[i];
+
+                    List<Node> nodes = new List<Node>();
+                    Node n = map.Grid[(int)p.Position.X / 32, (int)p.Position.Y / 32];
+                    nodes.Add(n);
+                    foreach (Node a in n.Neigbour)
+                    {
+                        nodes.Add(a);
+                    }
+                    foreach (Node a in nodes)
+                    {
+                        if (p.Rectangle.Intersects(a.Rectangle) && a.Walkable == false)
+                        {
+                            Projectiles.Remove(p);
+                            i++;
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -47,7 +75,7 @@ namespace mono.Entities
     }
     public class Projectile
     {
-        public int Owner { get; private set; }
+        public Owner Owner { get; private set; }
         public Texture2D Texture { get; private set; }
         public Vector2 Position { get; set; }
         public Rectangle Rectangle { get; private set; }
@@ -57,13 +85,13 @@ namespace mono.Entities
         public int RemainingTime { get; set; }
         float Rotation { get; set; }
 
-        public Projectile(Vector2 position, int speedX, int speedY, int range, int Owner)
+        public Projectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
         {
             this.Texture = TextureManager.GetTexture("projectile");
 
 
             this.Position = position;
-            this.Centre = new Vector2(16, 16);
+            this.Centre = new Vector2(8, 8);
             this.Size = new Vector2(Texture.Width, Texture.Height);
 
             this.Velocity = new Vector2(speedX, speedY);
@@ -72,13 +100,12 @@ namespace mono.Entities
             this.Rotation = 0f;
 
 
-            this.Owner = Owner;
+            this.Owner = owner;
         }
-
         public void MoveProjectile()
         {
             Position = Position + Velocity;
-            Rotation += 1;
+            Rotation += 0.5f;
             RemainingTime -= 1;
 
             UpdateRect();
@@ -101,19 +128,14 @@ namespace mono.Entities
         }
         public void DrawHitbox(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.GetTexture("pixel"), this.Position, Color.Red);
-
             spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
-
             spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
-
             spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
-
             spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
         }
     }
 
-    public enum Owners
+    public enum Owner
     {
         player = 0,
         enemy

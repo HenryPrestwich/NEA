@@ -113,7 +113,7 @@ namespace mono.Main
         {
             InputManager.UpdateInput();
 
-            ProjectileManager.UpdateProjectiles(GameClock);
+            ProjectileManager.UpdateProjectiles(player, enemyList, Map);
 
             //movement
             if (GameClock % 20 == 0)
@@ -133,6 +133,11 @@ namespace mono.Main
             {
                 e.Move(player, enemyList);
                 e.updateRect();
+                e.SetState(player);
+                if (e.state == EnemyState.DEAD)
+                {
+                  enemyList.Remove(e);
+                }
             }
 
 

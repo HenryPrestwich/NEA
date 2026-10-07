@@ -26,11 +26,11 @@ namespace mono.Entities
 
         public void Move(List<Enemy> enemyList, Map map)
         {
-            Vector2 OldLocation = Position;
+            Vector2 oldLocation = Position;
             Vector2 translation = CalcMove();
-            Vector2 NewLocation = OldLocation + translation;
+            Vector2 newLocation = oldLocation + translation;
 
-            Rectangle newRect = RectCalc(NewLocation, Size);
+            Rectangle newRect = RectCalc(newLocation, Size);
 
             bool intersects = false;
             foreach (Enemy E in enemyList)
@@ -43,19 +43,19 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
-                for (int i = Convert.ToInt32((this.Position.X / 32) - 20); i <= this.Position.X / 32 + 20; i++)
+                List<Node> nodes = new List<Node>();
+                Node n = map.Grid[(int)newLocation.X / 32, (int)newLocation.Y / 32];
+                nodes.Add(n);
+                foreach (Node a in n.Neigbour)
                 {
-                    for (int j = Convert.ToInt32((this.Position.Y / 32) - 20); j <= this.Position.Y / 32 + 20; j++)
+                    nodes.Add(a);
+                }
+                foreach (Node a in nodes)
+                {
+                    if (newRect.Intersects(a.Rectangle) && a.Walkable == false)
                     {
-                        if (i >= 0 && i< map.WidthNodes && j >= 0 && j < map.HeightNodes)
-                        {
-                            Node N = map.Grid[i, j];
-                            if (N.Rectangle.Intersects(newRect) && N.Walkable == false)
-                            {
-                                intersects = true;
-                                break;
-                            }
-                        }
+                        intersects = true;
+                        break;
                     }
                 }
             }
@@ -65,7 +65,7 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
-                this.Position = NewLocation;
+                this.Position = newLocation;
             }
 
             updateRect();
@@ -105,22 +105,22 @@ namespace mono.Entities
             {
                 if (InputManager.IsKeyDown(Keys.Down))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range, (int)Owners.player);
+                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Up))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range, (int)Owners.player);
+                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Left))
                 {
-                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range, (int)Owners.player);
+                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
                 else if (InputManager.IsKeyDown(Keys.Right))
                 {
-                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range, (int)Owners.player);
+                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
             }
