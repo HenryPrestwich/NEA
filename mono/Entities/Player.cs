@@ -73,22 +73,20 @@ namespace mono.Entities
 
         public Vector2 CalcMove()
         {
-            KeyboardState KB = InputManager.currentKBS;
-
             Vector2 transformation = new Vector2(0, 0);
-            if (KB.IsKeyDown(Keys.A))
+            if (InputManager.IsKeyDown(Keys.A))
             {
                 transformation.X -= 1;
             }
-            if (KB.IsKeyDown(Keys.D))
+            if (InputManager.IsKeyDown(Keys.D))
             {
                 transformation.X += 1;
             }
-            if (KB.IsKeyDown(Keys.W))
+            if (InputManager.IsKeyDown(Keys.W))
             {
                 transformation.Y -= 1;
             }
-            if (KB.IsKeyDown(Keys.S))
+            if (InputManager.IsKeyDown(Keys.S))
             {
                 transformation.Y += 1;
             }
@@ -103,26 +101,24 @@ namespace mono.Entities
 
         public void Attack()
         {
-            KeyboardState KB = InputManager.currentKBS;
-
             if (AttackCooldown == 0)
             {
-                if (KB.IsKeyDown(Keys.Down))
+                if (InputManager.IsKeyDown(Keys.Down))
                 {
                     ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range);
                     this.AttackCooldown = AttackSpeed;
                 }
-                if (KB.IsKeyDown(Keys.Up))
+                else if (InputManager.IsKeyDown(Keys.Up))
                 {
                     ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range);
                     this.AttackCooldown = AttackSpeed;
                 }
-                if (KB.IsKeyDown(Keys.Left))
+                else if (InputManager.IsKeyDown(Keys.Left))
                 {
                     ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range);
                     this.AttackCooldown = AttackSpeed;
                 }
-                if (KB.IsKeyDown(Keys.Right))
+                else if (InputManager.IsKeyDown(Keys.Right))
                 {
                     ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range);
                     this.AttackCooldown = AttackSpeed;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YamlDotNet.Core.Tokens;
 
 namespace mono
 {
@@ -19,6 +20,15 @@ namespace mono
         {
             previousKBS = currentKBS;
             currentKBS = Keyboard.GetState();
+        }
+
+        public static bool IsKeyDown(Keys key)
+        {
+            return currentKBS.IsKeyDown(key);
+        }
+        public static bool IsKeUp(Keys key)
+        {
+            return currentKBS.IsKeyUp(key);
         }
     }
 }

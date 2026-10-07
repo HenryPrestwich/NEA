@@ -50,6 +50,10 @@ namespace mono.Entities
 
                 Rectangle ERect = RectCalc(NewLocation, Size);
 
+                bool collides = false;
+
+                foreach (Enemy e in 
+
                 if (!ERect.Intersects(PRect))
                 {
                     Vector2 distanceV = next.Position - this.Position;
