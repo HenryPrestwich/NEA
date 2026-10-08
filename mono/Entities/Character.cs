@@ -48,6 +48,12 @@ namespace mono.Entities
         }
 
 
+        public virtual void DamageEntity(int damage)
+        {
+            this.HP -= damage;
+        }
+
+
         public void DrawRect(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(TextureManager.GetTexture("pixel"), this.Position, Color.Red);

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.Entities;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Timers;
 
 
@@ -129,8 +130,9 @@ namespace mono.Main
             player.Move(enemyList, Map);
             player.Attack();
 
-            foreach (Enemy e in enemyList)
+            for (int i = 0; i < enemyList.Count; i++)
             {
+                Enemy e = enemyList[i];
                 e.Move(player, enemyList);
                 e.updateRect();
                 e.SetState(player);

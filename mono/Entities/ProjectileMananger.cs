@@ -57,9 +57,29 @@ namespace mono.Entities
                         if (p.Rectangle.Intersects(a.Rectangle) && a.Walkable == false)
                         {
                             Projectiles.Remove(p);
-                            i++;
                             break;
                         }
+                    }
+                }
+            }
+            foreach (Projectile p in Projectiles)
+            {
+                if (p.Owner != Owner.enemy)
+                {
+                    foreach (Enemy e in eList)
+                    {
+                        if (p.Rectangle.Intersects(e.Rectangle))
+                        {
+                            e.DamageEntity(p.Damage);
+                            p.Pierce -= 1;
+                        }
+                    }
+                }
+                if (p.Owner != Owner.player)
+                {
+                    if (p.Rectangle.Intersects(player.Rectangle))
+                    {
+                        player.DamageEntity(p.Damage);
                     }
                 }
             }
@@ -82,14 +102,17 @@ namespace mono.Entities
         public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
         public Vector2 Velocity { get; set; }
+        public int Damage { get; set; }
         public int RemainingTime { get; set; }
+        public int Pierce { get; set; }
         float Rotation { get; set; }
 
         public Projectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
         {
             this.Texture = TextureManager.GetTexture("projectile");
 
-
+            Pierce = 1;
+            Damage = 1;
             this.Position = position;
             this.Centre = new Vector2(8, 8);
             this.Size = new Vector2(Texture.Width, Texture.Height);

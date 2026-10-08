@@ -117,16 +117,6 @@ namespace mono.Entities
 
         }
 
-        public void Damage(int damage)
-        {
-            this.HP -= damage;
-        }
-
-
-
-
-
-
         public void DrawPath(SpriteBatch spriteBatch)
         {
             if (path != null)
