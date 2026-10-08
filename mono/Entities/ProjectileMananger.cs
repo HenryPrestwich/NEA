@@ -9,7 +9,7 @@ namespace mono.Entities
 {
     public static class ProjectileManager
     {
-        public static List<Projectile> Projectiles = new List<Projectile>();
+        private static List<Projectile> Projectiles = new List<Projectile>();
 
 
         public static void AddProjectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
@@ -17,6 +17,10 @@ namespace mono.Entities
             Projectiles.Add(new Projectile(position, speedX, speedY, range, owner));
         }
 
+        public static void RemoveProjectile(Projectile p)
+        {
+            Projectiles.Remove(p);
+        }
 
         public static void DrawProjectiles(SpriteBatch spriteBatch)
         {
@@ -27,63 +31,21 @@ namespace mono.Entities
         }
         public static void UpdateProjectiles(Player player, List<Enemy> eList, Map map)
         {
-            foreach (Projectile p in Projectiles)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
+                Projectile p = Projectiles[i];
                 p.MoveProjectile();
-                if (p.RemainingTime == 0)
+                if (p.RemainingTime == 0 || p.Pierce == 0)
                 {
                     Projectiles.Remove(p);
                 }
-            }
-            CheckCollisions(player, eList, map);
-        }
-        public static void CheckCollisions(Player player, List<Enemy> eList, Map map)
-        {
-            if (Projectiles != null)
-            {
-                for (int i = 0; i < Projectiles.Count; i++)
+                else
                 {
-                    Projectile p = Projectiles[i];
-
-                    List<Node> nodes = new List<Node>();
-                    Node n = map.Grid[(int)p.Position.X / 32, (int)p.Position.Y / 32];
-                    nodes.Add(n);
-                    foreach (Node a in n.Neigbour)
-                    {
-                        nodes.Add(a);
-                    }
-                    foreach (Node a in nodes)
-                    {
-                        if (p.Rectangle.Intersects(a.Rectangle) && a.Walkable == false)
-                        {
-                            Projectiles.Remove(p);
-                            break;
-                        }
-                    }
-                }
-            }
-            foreach (Projectile p in Projectiles)
-            {
-                if (p.Owner != Owner.enemy)
-                {
-                    foreach (Enemy e in eList)
-                    {
-                        if (p.Rectangle.Intersects(e.Rectangle))
-                        {
-                            e.DamageEntity(p.Damage);
-                            p.Pierce -= 1;
-                        }
-                    }
-                }
-                if (p.Owner != Owner.player)
-                {
-                    if (p.Rectangle.Intersects(player.Rectangle))
-                    {
-                        player.DamageEntity(p.Damage);
-                    }
+                    p.CheckCollisions(player, eList, map);
                 }
             }
         }
+        
 
         public static void DrawHitboxes(SpriteBatch spriteBatch)
         {
@@ -102,6 +64,7 @@ namespace mono.Entities
         public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
         public Vector2 Velocity { get; set; }
+        public List<Enemy> HasHit {  get; private set; }
         public int Damage { get; set; }
         public int RemainingTime { get; set; }
         public int Pierce { get; set; }
@@ -122,6 +85,7 @@ namespace mono.Entities
 
             this.Rotation = 0f;
 
+            HasHit = new List<Enemy>();
 
             this.Owner = owner;
         }
@@ -143,6 +107,48 @@ namespace mono.Entities
         {
             Rectangle rect = new Rectangle(Convert.ToInt32(position.X - size.X / 2), Convert.ToInt32(position.Y - size.Y / 2), Convert.ToInt32(size.X), Convert.ToInt32(size.Y));
             return rect;
+        }
+
+        public void CheckCollisions(Player player, List<Enemy> eList, Map map)
+        {
+            bool removed = false;
+
+
+            List<Node> nodes = new List<Node>();
+            Node n = map.Grid[(int)Position.X / 32, (int)Position.Y / 32];
+            nodes.Add(n);
+            foreach (Node a in n.Neigbour)
+            {
+                nodes.Add(a);
+            }
+            foreach (Node a in nodes)
+            {
+                if (Rectangle.Intersects(a.Rectangle) && a.Walkable == false)
+                {
+                    ProjectileManager.RemoveProjectile(this);
+                    removed = true;
+                    break;
+                }
+            }
+            if (removed == false && Owner != Owner.enemy)
+            {
+                foreach (Enemy e in eList)
+                {
+                    if (!HasHit.Contains(e) && Rectangle.Intersects(e.Rectangle))
+                    {
+                        e.DamageEntity(Damage);
+                        HasHit.Add(e);
+                        Pierce -= 1;
+                    }
+                }
+            }
+            if (removed == false && Owner != Owner.player)
+            {
+                if (Rectangle.Intersects(player.Rectangle))
+                {
+                    player.DamageEntity(Damage);
+                }
+            }
         }
 
         public void DrawProjectile(SpriteBatch spriteBatch)
