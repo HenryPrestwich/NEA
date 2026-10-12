@@ -9,7 +9,7 @@ namespace mono.Entities
     {
         public static Queue<Node> ASTAR(Vector2 enemy, Vector2 player, Map Map)
         {
-            Node Start = Map.Grid[Convert.ToInt32(enemy.X) / 32, Convert.ToInt32(enemy.Y) / 32];
+            Node Start = Map.Grid[Convert.ToInt32(enemy.X + 16) / 32, Convert.ToInt32(enemy.Y + 16) / 32];
             Node Target = Map.Grid[Convert.ToInt32(player.X) / 32, Convert.ToInt32(player.Y) / 32];
           
             PriorityQueue<Node, double> Border = new PriorityQueue<Node, double>();
