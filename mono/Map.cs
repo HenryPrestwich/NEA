@@ -86,7 +86,6 @@ namespace mono
                 }
             }
         }
-
         public void BuildMap()
         {
             this.Rooms = new List<Room>();
@@ -129,7 +128,7 @@ namespace mono
 
             foreach (Connection c in Connections)
             {
-                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 48, c.RoomA.CentrePixel.Y - 48, 96, 96);
+                Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 48, c.RoomA.CentrePixel.Y - 48, 112, 112);
                 Vector2 vS = new Vector2(r.X, r.Y);
                 Vector2 vT = new Vector2(c.RoomB.CentrePixel.X, c.RoomB.CentrePixel.Y);
 
@@ -139,9 +138,9 @@ namespace mono
                     Vector2 distanceV = vT - vS;
                     double dist = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
 
-                    double n = dist / 64;
+                    double rectDist = dist / 64;
 
-                    Vector2 transform = new Vector2((float)(distanceV.X / n), (float)(distanceV.Y / n));
+                    Vector2 transform = new Vector2((float)(distanceV.X / rectDist), (float)(distanceV.Y /rectDist));
 
 
                     if (dist < 64)
@@ -156,7 +155,13 @@ namespace mono
                     r.X = Convert.ToInt32(vS.X);
                     r.Y = Convert.ToInt32(vS.Y);
 
-                    WalkableTilesFromRect(r);
+                    foreach (Node n in Grid)
+                    {
+                        if (n.Rectangle.Intersects(r))
+                        {
+                            n.Walkable = true;
+                        }
+                    }
                 }
 
                 foreach (Node n in Grid)
@@ -172,48 +177,9 @@ namespace mono
                 }
             }
 
-            //RandomExtraWalk();
+            SetRoomTypes();
         }
-        public void WalkableTilesFromRect(Rectangle r)
-        {
-            foreach (Node n in Grid)
-            {
-                if (n.Rectangle.Intersects(r))
-                {
-                    n.Walkable = true;
-                }
-            }
-        }
-        public void RandomExtraWalk()
-        {
-            List<Node> makeWalk = new List<Node>();
-
-            foreach (Node n in Grid)
-            {
-                bool walkableN = false;
-                foreach (Node o in n.Neigbour)
-                {
-                    if (o.Walkable == true)
-                    {
-                        walkableN = true;
-                        break;
-                    }
-                }
-                if (walkableN == true)
-                {
-                    if (rand.Next(0, 3) == 0)
-                    {
-                        makeWalk.Add(n);
-                    }
-                }
-            }
-            foreach (Node n in makeWalk)
-            {
-                n.Walkable = true;
-            }
-        }
-
-        public List<Connection> GenerateConnections()
+        private List<Connection> GenerateConnections()
         {
             for (int i = 0; i < Rooms.Count; i++)
             {
@@ -228,8 +194,7 @@ namespace mono
             this.Connections = PRIMS();
             return Connections;
         }
-
-        public List<Connection> PRIMS()
+        private List<Connection> PRIMS()
         {
             List<Connection> mst = new List<Connection>();
             List<Room> visited = new List<Room>();
@@ -276,7 +241,6 @@ namespace mono
 
             return mst;
         }
-
         private List<Connection> AddCycles(List<Connection> mst)
         {
             int extraCycles = 0;
@@ -311,6 +275,18 @@ namespace mono
             }
             return mst;
         }
+        private void SetRoomTypes()
+        {
+            SortedList<double, Room> RoomsByDist = new SortedList<double, Room>();
+            double dist;
+
+            for (int i = 1; i < Rooms.Count; i++)
+            {
+                dist = Math.Sqrt(Math.Pow(Rooms[i].Centre.X - Rooms[0].Centre.X, 2) + Math.Pow(Rooms[i].Centre.Y - Rooms[0].Centre.Y, 2));
+                RoomsByDist.Add(dist, Rooms[i]);
+            }
+        }
+
 
         public void DrawMap(SpriteBatch spriteBatch, Player p, int sHeight, int sWidth)
         {
@@ -421,7 +397,8 @@ namespace mono
 
     public enum RoomType
     {
-        Basic = 0,
+        Empty = 0,
+        Enemy,
         Shop,
         Loot,
         Boss
