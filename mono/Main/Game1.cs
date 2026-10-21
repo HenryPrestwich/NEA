@@ -175,7 +175,7 @@ namespace mono.Main
 
             if (HitboxesDrawn)
             {
-                DrawHitBoxes();
+                //DrawHitBoxes();
             }
 
 

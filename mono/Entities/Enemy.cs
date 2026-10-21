@@ -85,24 +85,21 @@ namespace mono.Entities
         }
         public Vector2 CalcMove(Node Next)
         {
-
-            Node next = Next;
-
             Vector2 transformation = new Vector2(0, 0);
 
-            if (next.Position.X < this.Position.X)
+            if (Next.Position.X < this.Position.X)
             {
                 transformation.X -= 1;
             }
-            if (next.Position.X > this.Position.X)
+            if (Next.Position.X > this.Position.X)
             {
                 transformation.X += 1;
             }
-            if (next.Position.Y < this.Position.Y)
+            if (Next.Position.Y < this.Position.Y)
             {
                 transformation.Y -= 1;
             }
-            if (next.Position.Y > this.Position.Y)
+            if (Next.Position.Y > this.Position.Y)
             {
                 transformation.Y += 1;
             }
