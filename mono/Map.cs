@@ -226,6 +226,8 @@ namespace mono
                     }
                 }
                 mst.Add(cheapest);
+                cheapest.RoomA.NumOfConnections += 1;
+                cheapest.RoomB.NumOfConnections += 1;
                 Connections.Remove(cheapest);
                 if (visited.Contains(cheapest.RoomA))
                 {
@@ -255,6 +257,8 @@ namespace mono
                     if (rand.Next(1, 50) == 1)
                     {
                         mst.Add(c);
+                        c.RoomA.NumOfConnections += 1;
+                        c.RoomB.NumOfConnections += 1;
                         Connections.Remove(c);
                         extraCycles++;
                         i++;
@@ -285,6 +289,28 @@ namespace mono
                 dist = Math.Sqrt(Math.Pow(Rooms[i].Centre.X - Rooms[0].Centre.X, 2) + Math.Pow(Rooms[i].Centre.Y - Rooms[0].Centre.Y, 2));
                 RoomsByDist.Add(dist, Rooms[i]);
             }
+
+            bool BossRoomSet = false;
+        
+            for (int j = 1; j < 3; j++) 
+            {
+                for (int i = RoomsByDist.Count - 1; i > RoomsByDist.Count / 2; i--)
+                {
+                    if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j)
+                    {
+                        RoomsByDist.GetValueAtIndex(i).Type = RoomType.Boss;
+                        BossRoomSet = true;
+                        break;
+                    }
+                }
+                if (BossRoomSet == true)
+                {
+                    break;
+                }
+            }
+        
+            
+
         }
 
 
@@ -378,7 +404,8 @@ namespace mono
         public Point CentrePixel { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int Type { get; set; }
+        public RoomType Type { get; set; }
+        public int NumOfConnections { get; set; }
 
         public Room(Map Map)
         {
@@ -391,6 +418,7 @@ namespace mono
             this.RectanglePixel = new Rectangle(X * 32 - 16, Y * 32 - 16, Width * 32, Height * 32);
             this.Centre = Rectangle.Center;
             this.CentrePixel = RectanglePixel.Center;
+            this.NumOfConnections = 0;
         }
     }
 
