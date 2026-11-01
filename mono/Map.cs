@@ -308,8 +308,25 @@ namespace mono
                     break;
                 }
             }
-        
-            
+
+            bool ShopRoomSet = false;
+
+            for (int j = 1; j < 3; j++)
+            {
+                for (int i = RoomsByDist.Count - 1; i > RoomsByDist.Count / 2; i--)
+                {
+                    if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type != RoomType.Boss)
+                    {
+                        RoomsByDist.GetValueAtIndex(i).Type = RoomType.Shop;
+                        ShopRoomSet = true;
+                        break;
+                    }
+                }
+                if (ShopRoomSet == true)
+                {
+                    break;
+                }
+            }
 
         }
 
