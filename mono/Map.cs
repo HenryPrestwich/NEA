@@ -121,7 +121,7 @@ namespace mono
                 {
                     if (r.RectanglePixel.Contains(n.Rectangle))
                     {
-                        n.Walkable = true;
+                        n.TileType = TileType.floor;
                         r.Nodes.Add(n);
                     }
                 }
@@ -141,7 +141,7 @@ namespace mono
 
                     double rectDist = dist / 64;
 
-                    Vector2 transform = new Vector2((float)(distanceV.X / rectDist), (float)(distanceV.Y /rectDist));
+                    Vector2 transform = new Vector2((float)(distanceV.X / rectDist), (float)(distanceV.Y / rectDist));
 
 
                     if (dist < 64)
@@ -160,21 +160,14 @@ namespace mono
                     {
                         if (n.Rectangle.Intersects(r))
                         {
-                            n.Walkable = true;
+                            n.TileType = TileType.floor;
                         }
                     }
                 }
 
                 foreach (Node n in Grid)
                 {
-                    if (n.Walkable == true)
-                    {
-                        n.Texture = TextureManager.GetTexture("grass");
-                    }
-                    else
-                    {
-                        n.Texture = TextureManager.GetTexture("wall");
-                    }
+                    n.SetTexture();
                 }
             }
 
@@ -307,12 +300,12 @@ namespace mono
                         dist += 0.5;
                     }
                 }
-                
+
             }
 
             bool BossRoomSet = false;
-        
-            for (int j = 1; j < 3; j++) 
+
+            for (int j = 1; j < 3; j++)
             {
                 for (int i = RoomsByDist.Count - 1; i > RoomsByDist.Count / 2; i--)
                 {
@@ -397,7 +390,7 @@ namespace mono
                     if (i >= 0 && i < this.WidthNodes && j >= 0 && j < this.HeightNodes)
                     {
                         Node n = this.Grid[i, j];
-                        spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
+                        spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background); 
                     }
                 }
             }
@@ -446,7 +439,7 @@ namespace mono
         public Vector2 Centre = new Vector2(16, 16);
 
         public List<Node> Neigbour { get; set; }
-        public bool Walkable { get; set; }
+        public TileType TileType { get; set; }
 
         public Texture2D Texture { get; set; }
 
@@ -461,9 +454,31 @@ namespace mono
 
             this.Neigbour = new List<Node>();
             Random rand = new Random();
-            this.Walkable = false;
+        }
+
+        public void SetTexture()
+        {
+            switch (TileType)
+            {
+                case TileType.wall:
+                    this.Texture = TextureManager.GetTexture("wall");
+                    break;
+                case TileType.water:
+                    this.Texture = TextureManager.GetTexture("water");
+                    break;
+                case TileType.floor:
+                    this.Texture = TextureManager.GetTexture("grass");
+                    break;
+            }
 
         }
+    }
+
+    public enum TileType
+    {
+        wall = 0,
+        floor,
+        water
     }
 
     public class Room
@@ -483,7 +498,7 @@ namespace mono
 
         public Room(Map Map)
         {
-             rand = new Random();
+            rand = new Random();
             Nodes = new List<Node>();
 
             this.Width = rand.Next(20, 35);
@@ -495,20 +510,20 @@ namespace mono
             this.Centre = Rectangle.Center;
             this.CentrePixel = RectanglePixel.Center;
             this.NumOfConnections = 0;
-   
+
         }
 
         public void DesignRoomLayout()
         {
             int randPuddle = rand.Next(0, 3);
-            int randStartingPoint = rand.Next(0, Nodes.Count-1);
+            int randStartingPoint = rand.Next(0, Nodes.Count - 1);
             CreatePuddle(Nodes[randStartingPoint], 1);
         }
 
         public void CreatePuddle(Node n, int chance)
         {
             int pud = rand.Next(1, chance);
-            if (pud == 1 && n.Walkable == true)
+            if (pud == 1 && n.TileType == TileType.floor)
             {
                 n.Texture = TextureManager.GetTexture("water");
                 foreach (Node neigbour in n.Neigbour)
@@ -516,11 +531,7 @@ namespace mono
                     CreatePuddle(neigbour, chance + 1);
                 }
             }
-
-
-
         }
-
     }
 
 

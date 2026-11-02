@@ -9,7 +9,7 @@ namespace mono.Entities
     {
         public static Queue<Node> ASTAR(Vector2 enemy, Vector2 player, Map Map)
         {
-            Node Start = Map.Grid[Convert.ToInt32(enemy.X + 32) / 32, Convert.ToInt32(enemy.Y + 32) / 32];
+            Node Start = Map.Grid[Convert.ToInt32(enemy.X + 64) / 32, Convert.ToInt32(enemy.Y + 64) / 32];
             Node Target = Map.Grid[Convert.ToInt32(player.X) / 32, Convert.ToInt32(player.Y) / 32];
           
             PriorityQueue<Node, double> Border = new PriorityQueue<Node, double>();
@@ -19,7 +19,7 @@ namespace mono.Entities
             CostToNode.Add(Start, 0); 
 
 
-            if (Target.Walkable == false)
+            if (Target.TileType == TileType.wall)
             {
                 return null;
             }
@@ -34,7 +34,7 @@ namespace mono.Entities
 
                 foreach(Node n in current.Neigbour)
                 {
-                    if (n.Walkable == true)
+                    if (n.TileType != TileType.wall)
                     {
                         double cost = CostToNode[current] + 1;
                         if (!CostToNode.ContainsKey(n) || cost < CostToNode[n])

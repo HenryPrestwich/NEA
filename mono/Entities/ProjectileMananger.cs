@@ -123,7 +123,7 @@ namespace mono.Entities
             }
             foreach (Node a in nodes)
             {
-                if (Rectangle.Intersects(a.Rectangle) && a.Walkable == false)
+                if (Rectangle.Intersects(a.Rectangle) && a.TileType == TileType.wall)
                 {
                     ProjectileManager.RemoveProjectile(this);
                     removed = true;

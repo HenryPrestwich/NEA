@@ -57,7 +57,7 @@ namespace mono.Entities
                 }
                 foreach (Node a in nodes)
                 {
-                    if (newRect.Intersects(a.Rectangle) && a.Walkable == false)
+                    if (newRect.Intersects(a.Rectangle) && a.TileType == TileType.wall)
                     {
                         intersects = true;
                         break;
