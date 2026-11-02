@@ -122,6 +122,7 @@ namespace mono
                     if (r.RectanglePixel.Contains(n.Rectangle))
                     {
                         n.Walkable = true;
+                        r.Nodes.Add(n);
                     }
                 }
             }
@@ -178,6 +179,11 @@ namespace mono
             }
 
             SetRoomTypes();
+
+            foreach (Room r in Rooms)
+            {
+                r.DesignRoomLayout();
+            }
         }
         private List<Connection> GenerateConnections()
         {
@@ -471,9 +477,15 @@ namespace mono
         public RoomType Type { get; set; }
         public int NumOfConnections { get; set; }
 
+        public List<Node> Nodes { get; set; }
+        Random rand;
+
+
         public Room(Map Map)
         {
-            Random rand = new Random();
+             rand = new Random();
+            Nodes = new List<Node>();
+
             this.Width = rand.Next(20, 35);
             this.Height = rand.Next(20, 35);
             int X = rand.Next(0, Map.WidthNodes);
@@ -483,7 +495,32 @@ namespace mono
             this.Centre = Rectangle.Center;
             this.CentrePixel = RectanglePixel.Center;
             this.NumOfConnections = 0;
+   
         }
+
+        public void DesignRoomLayout()
+        {
+            int randPuddle = rand.Next(0, 3);
+            int randStartingPoint = rand.Next(0, Nodes.Count-1);
+            CreatePuddle(Nodes[randStartingPoint], 1);
+        }
+
+        public void CreatePuddle(Node n, int chance)
+        {
+            int pud = rand.Next(1, chance);
+            if (pud == 1 && n.Walkable == true)
+            {
+                n.Texture = TextureManager.GetTexture("water");
+                foreach (Node neigbour in n.Neigbour)
+                {
+                    CreatePuddle(neigbour, chance + 1);
+                }
+            }
+
+
+
+        }
+
     }
 
 
