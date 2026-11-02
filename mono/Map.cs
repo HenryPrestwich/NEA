@@ -315,7 +315,7 @@ namespace mono
             {
                 for (int i = RoomsByDist.Count - 1; i > RoomsByDist.Count / 2; i--)
                 {
-                    if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type != RoomType.Boss)
+                    if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type == RoomType.Empty)
                     {
                         RoomsByDist.GetValueAtIndex(i).Type = RoomType.Shop;
                         ShopRoomSet = true;
@@ -328,6 +328,39 @@ namespace mono
                 }
             }
 
+            int LootRooms = 2;
+
+            for (int j = 1; j < 3; j++)
+            {
+                for (int i = RoomsByDist.Count - 15; i > RoomsByDist.Count / 2; i--)
+                {
+                    if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type == RoomType.Empty)
+                    {
+                        RoomsByDist.GetValueAtIndex(i).Type = RoomType.Shop;
+                        LootRooms -= 1;
+                        if (LootRooms == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (LootRooms == 0)
+                {
+                    break;
+                }
+            }
+
+            foreach (Room room in Rooms)
+            {
+                int random = rand.Next(0, 20);
+
+                if (random != 0 && room.Type == RoomType.Empty)
+                {
+                    room.Type = RoomType.Enemy;
+                }
+            }
+
+            Rooms[0].Type = RoomType.Empty;
         }
 
 
