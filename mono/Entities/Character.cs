@@ -28,7 +28,6 @@ namespace mono.Entities
 
         public Character(Vector2 position)
         {
-            this.HP = 0;
             this.Position = position;
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -47,7 +46,10 @@ namespace mono.Entities
             return rect;
         }
 
-
+        public virtual void DamageEntity()
+        {
+            
+        }
         public virtual void DamageEntity(int damage)
         {
             this.HP -= damage;

@@ -16,7 +16,7 @@ namespace mono.Main
         public Timer _timer;
         public static int GameClock = 0;
 
-        public int GameState;
+        public GameStates GameState;
         //text
         SpriteFont font;
 

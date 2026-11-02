@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mono.Main;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace mono.Entities
     {
         public double DashCool { get; set; }
         public string PlayerType { get; set; }
+        public bool Dead { get; private set; } = false;
 
         public Player(Vector2 Position) : base(Position)
         {
@@ -18,6 +20,9 @@ namespace mono.Entities
             this.AttackSpeed = 25;
             this.AttackCooldown = AttackSpeed;
             this.ProjectileSpeed = 4;
+
+            this.MaxHP = 3;
+            this.HP = MaxHP;
 
             this.Texture = TextureManager.GetTexture("player");
             this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
@@ -127,6 +132,16 @@ namespace mono.Entities
             else
             {
                 AttackCooldown -= 1;
+            }
+        }
+
+
+        public override void DamageEntity()
+        {
+            HP -= 1;
+            if (HP <= 0)
+            {
+                Dead = true;
             }
         }
     }
