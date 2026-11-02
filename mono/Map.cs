@@ -287,7 +287,20 @@ namespace mono
             for (int i = 1; i < Rooms.Count; i++)
             {
                 dist = Math.Sqrt(Math.Pow(Rooms[i].Centre.X - Rooms[0].Centre.X, 2) + Math.Pow(Rooms[i].Centre.Y - Rooms[0].Centre.Y, 2));
-                RoomsByDist.Add(dist, Rooms[i]);
+
+                bool AddedToList = false;
+                while (AddedToList == false)
+                {
+                    if (!RoomsByDist.ContainsKey(dist))
+                    {
+                        RoomsByDist.Add(dist, Rooms[i]);
+                    }
+                    else
+                    {
+                        dist += 0.5;
+                    }
+                }
+                
             }
 
             bool BossRoomSet = false;
