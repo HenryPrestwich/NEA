@@ -19,7 +19,7 @@ namespace mono.Entities
             this.Speed = 5;
             this.AttackSpeed = 25;
             this.AttackCooldown = AttackSpeed;
-            this.ProjectileSpeed = 4;
+            this.ProjectileSpeed = 7;
 
             this.MaxHP = 3;
             this.HP = MaxHP;
