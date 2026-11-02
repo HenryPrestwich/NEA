@@ -294,6 +294,7 @@ namespace mono
                     if (!RoomsByDist.ContainsKey(dist))
                     {
                         RoomsByDist.Add(dist, Rooms[i]);
+                        AddedToList = true;
                     }
                     else
                     {
