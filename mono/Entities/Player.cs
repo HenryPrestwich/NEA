@@ -38,6 +38,7 @@ namespace mono.Entities
             Rectangle newRect = RectCalc(newLocation, Size);
 
             bool intersects = false;
+            bool slow = false;
             foreach (Enemy E in enemyList)
             {
                 if (E.Rectangle.Intersects(newRect))
@@ -62,6 +63,10 @@ namespace mono.Entities
                         intersects = true;
                         break;
                     }
+                    else if (newRect.Intersects(a.Rectangle) && a.TileType == TileType.water)
+                    {
+                        slow = true;
+                    }
                 }
             }
             if (!map.RectanglePixel.Contains(newRect))
@@ -70,6 +75,11 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
+                if (slow == true)
+                {
+                    translation = translation * 0.8f;
+                    newLocation = oldLocation + translation;
+                }
                 this.Position = newLocation;
             }
 

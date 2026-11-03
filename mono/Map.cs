@@ -165,10 +165,7 @@ namespace mono
                     }
                 }
 
-                foreach (Node n in Grid)
-                {
-                    n.SetTexture();
-                }
+                
             }
 
             SetRoomTypes();
@@ -176,6 +173,11 @@ namespace mono
             foreach (Room r in Rooms)
             {
                 r.DesignRoomLayout();
+            }
+
+            foreach (Node n in Grid)
+            {
+                n.SetTexture();
             }
         }
         private List<Connection> GenerateConnections()
@@ -525,7 +527,7 @@ namespace mono
             int pud = rand.Next(1, chance);
             if (pud == 1 && n.TileType == TileType.floor)
             {
-                n.Texture = TextureManager.GetTexture("water");
+                n.TileType = TileType.water;
                 foreach (Node neigbour in n.Neigbour)
                 {
                     CreatePuddle(neigbour, chance + 1);
