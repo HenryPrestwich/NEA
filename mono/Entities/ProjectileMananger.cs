@@ -71,7 +71,7 @@ namespace mono.Entities
 
         public Projectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
         {
-            this.Texture = TextureManager.GetTexture("projectile");
+            this.Texture = TM.GetTexture("projectile");
 
             Pierce = 1;
             Damage = 1;
@@ -124,7 +124,7 @@ namespace mono.Entities
             {
                 if (Rectangle.Intersects(a.Rectangle) && a.TileType == TileType.wall)
                 {
-                    ProjectileManager.RemoveProjectile(this);
+                    PM.RemoveProjectile(this);
                     removed = true;
                     break;
                 }
@@ -156,10 +156,10 @@ namespace mono.Entities
         }
         public void DrawHitbox(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
-            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
-            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
-            spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
+            spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width, 1), Color.Red);
+            spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y + Rectangle.Height - 1, Rectangle.Width, 1), Color.Red);
+            spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Rectangle.X, Rectangle.Y, 1, Rectangle.Height), Color.Red);
+            spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
         }
     }
 
