@@ -9,7 +9,7 @@ namespace mono.Entities
 {
     public static class CM
     {
-        public static List<Enemy> EnemyList { get; private set; }
+        public static List<Enemy> EnemyList { get; private set; } = new List<Enemy>();
         public static Player Player { get; private set; }
 
 
