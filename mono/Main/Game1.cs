@@ -18,15 +18,13 @@ namespace mono.Main
         //text
         SpriteFont font;
 
-        //player
-        public Player player;
+        
 
 
 
         public Map Map;
 
-        //Logs
-        List<Enemy> enemyList;
+        
 
 
 
@@ -63,7 +61,7 @@ namespace mono.Main
             _timer = new Timer();
             _timer.Interval = 100;
             _timer.Start();
-            TextureManager.CreateTextures(Content);
+            TM.CreateTextures(Content);
 
 
 
@@ -73,7 +71,7 @@ namespace mono.Main
 
             GameState = GameStates.MainMenu;
 
-            enemyList = new List<Enemy>();
+            
 
 
 
@@ -86,7 +84,7 @@ namespace mono.Main
 
 
             //player
-            player = new Player(Map.Rooms[0].CentrePixel.ToVector2());
+            CM.CreatePlayer(Map.Rooms[0].CentrePixel.ToVector2());
 
 
 
@@ -94,7 +92,7 @@ namespace mono.Main
 
             for (int i = 1; i < 3; i++)
             {
-                enemyList.Add(new Enemy(Map.Rooms[i].CentrePixel.ToVector2()));
+                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2());
             }
 
 
@@ -110,38 +108,38 @@ namespace mono.Main
 
         protected override void Update(GameTime gameTime)
         {
-            InputManager.UpdateInput();
+            IM.UpdateInput();
 
-            ProjectileManager.UpdateProjectiles(player, enemyList, Map);
+            PM.UpdateProjectiles(CM.Player,CM.EnemyList, Map);
 
             //movement
             if (GameClock % 20 == 0)
             {
-                foreach (Enemy enemy in enemyList)
+                foreach (Enemy enemy in CM.EnemyList)
                 {
-                    enemy.SetPath(player, Map);
+                    enemy.SetPath(CM.Player, Map);
                 }
             }
 
 
 
-            player.Move(enemyList, Map);
-            player.Attack();
+            CM.Player.Move(CM.EnemyList, Map);
+            CM.Player.Attack();
 
-            for (int i = 0; i < enemyList.Count; i++)
+            for (int i = 0; i < CM.EnemyList.Count; i++)
             {
-                Enemy e = enemyList[i];
-                e.Move(player, enemyList);
+                Enemy e = CM.EnemyList[i];
+                e.Move(CM.Player, CM.EnemyList);
                 e.updateRect();
-                e.SetState(player);
+                e.SetState(CM.Player);
                 if (e.state == EnemyState.DEAD)
                 {
-                    enemyList.Remove(e);
+                    CM.EnemyList.Remove(e);
                 }
             }
 
 
-            camera.Track(player.Position);
+            camera.Track(CM.Player.Position);
 
             GameClock = (GameClock + 1) % 3600;
             base.Update(gameTime);
@@ -153,23 +151,23 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            Map.DrawMap(_spriteBatch, player, SCREEN_HEIGHT, SCREEN_WIDTH);
+            Map.DrawMap(_spriteBatch, CM.Player, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
-            player.Draw(_spriteBatch);
-            foreach (Character c in enemyList)
+            CM.Player.Draw(_spriteBatch);
+            foreach (Character c in CM.EnemyList)
             {
                 c.Draw(_spriteBatch);
 
             }
 
-            ProjectileManager.DrawProjectiles(_spriteBatch);
+            PM.DrawProjectiles(_spriteBatch);
 
 
-            _spriteBatch.DrawString(font, player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
+            _spriteBatch.DrawString(font, CM.Player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
 
 
-            _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(player.Position.X + 700, player.Position.Y + 400), Color.Black);
+            _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(CM.Player.Position.X + 700, CM.Player.Position.Y + 400), Color.Black);
 
             if (HitboxesDrawn)
             {
@@ -185,14 +183,14 @@ namespace mono.Main
 
         private void DrawHitBoxes()
         {
-            foreach (Enemy e in enemyList)
+            foreach (Enemy e in CM.EnemyList)
             {
                 e.DrawPath(_spriteBatch);
                 e.DrawRect(_spriteBatch);
             }
             Map.DrawRoomsHitbox(_spriteBatch);
-            player.DrawRect(_spriteBatch);
-            ProjectileManager.DrawHitboxes(_spriteBatch);
+            CM.Player.DrawRect(_spriteBatch);
+            PM.DrawHitboxes(_spriteBatch);
         }
     }
 }

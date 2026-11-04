@@ -399,13 +399,13 @@ namespace mono
         {
             foreach (Room r in Rooms)
             {
-                spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), (r.RectanglePixel.Width), 1), Color.Red);
+                spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), (r.RectanglePixel.Width), 1), Color.Red);
 
-                spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y) + (r.RectanglePixel.Height) - 1, (r.RectanglePixel.Width), 1), Color.Red);
+                spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y) + (r.RectanglePixel.Height) - 1, (r.RectanglePixel.Width), 1), Color.Red);
 
-                spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
+                spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X), (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
 
-                spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X) + (r.RectanglePixel.Width) - 1, (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
+                spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle((r.RectanglePixel.X) + (r.RectanglePixel.Width) - 1, (r.RectanglePixel.Y), 1, (r.RectanglePixel.Height)), Color.Red);
             }
             foreach (Connection c in Connections)
             {
@@ -415,7 +415,7 @@ namespace mono
                 float length = edge.Length() * 16;
 
                 spriteBatch.Draw(
-                    TextureManager.GetTexture("pixel"),
+                    TM.GetTexture("pixel"),
                     c.RoomA.Centre.ToVector2() * 32,
                     null,
                     Color.Red,
@@ -461,13 +461,13 @@ namespace mono
             switch (TileType)
             {
                 case TileType.wall:
-                    this.Texture = TextureManager.GetTexture("wall");
+                    this.Texture = TM.GetTexture("wall");
                     break;
                 case TileType.water:
-                    this.Texture = TextureManager.GetTexture("water");
+                    this.Texture = TM.GetTexture("water");
                     break;
                 case TileType.floor:
-                    this.Texture = TextureManager.GetTexture("grass");
+                    this.Texture = TM.GetTexture("grass");
                     break;
             }
 

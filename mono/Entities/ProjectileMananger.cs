@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace mono.Entities
 {
-    public static class ProjectileManager
+    public static class PM
     {
         private static List<Projectile> Projectiles = new List<Projectile>();
 

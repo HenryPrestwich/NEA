@@ -21,7 +21,7 @@ namespace mono.Entities
             this.MaxHP = 3;
             this.HP = MaxHP;
 
-            this.Texture = TextureManager.GetTexture("player");
+            this.Texture = TM.GetTexture("player");
             this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
         }
@@ -86,19 +86,19 @@ namespace mono.Entities
         public Vector2 CalcMove()
         {
             Vector2 transformation = new Vector2(0, 0);
-            if (InputManager.IsKeyDown(Keys.A))
+            if (IM.IsKeyDown(Keys.A))
             {
                 transformation.X -= 1;
             }
-            if (InputManager.IsKeyDown(Keys.D))
+            if (IM.IsKeyDown(Keys.D))
             {
                 transformation.X += 1;
             }
-            if (InputManager.IsKeyDown(Keys.W))
+            if (IM.IsKeyDown(Keys.W))
             {
                 transformation.Y -= 1;
             }
-            if (InputManager.IsKeyDown(Keys.S))
+            if (IM.IsKeyDown(Keys.S))
             {
                 transformation.Y += 1;
             }
@@ -115,24 +115,24 @@ namespace mono.Entities
         {
             if (AttackCooldown == 0)
             {
-                if (InputManager.IsKeyDown(Keys.Down))
+                if (IM.IsKeyDown(Keys.Down))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, ProjectileSpeed, Range, Owner.player);
+                    PM.AddProjectile(Position, 0, ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (InputManager.IsKeyDown(Keys.Up))
+                else if (IM.IsKeyDown(Keys.Up))
                 {
-                    ProjectileManager.AddProjectile(Position, 0, -ProjectileSpeed, Range, Owner.player);
+                    PM.AddProjectile(Position, 0, -ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (InputManager.IsKeyDown(Keys.Left))
+                else if (IM.IsKeyDown(Keys.Left))
                 {
-                    ProjectileManager.AddProjectile(Position, -ProjectileSpeed, 0, Range, Owner.player);
+                    PM.AddProjectile(Position, -ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (InputManager.IsKeyDown(Keys.Right))
+                else if (IM.IsKeyDown(Keys.Right))
                 {
-                    ProjectileManager.AddProjectile(Position, ProjectileSpeed, 0, Range, Owner.player);
+                    PM.AddProjectile(Position, ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
             }

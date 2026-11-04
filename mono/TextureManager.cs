@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace mono
 {
-    public static class TextureManager
+    public static class TM
     {
-        public static Dictionary<string, Texture2D>? Textures { get; private set; }
+        private static Dictionary<string, Texture2D>? Textures { get; set; }
 
         public static void CreateTextures(ContentManager content)
         {

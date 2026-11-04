@@ -10,6 +10,10 @@ namespace mono.Entities
     public class Enemy : Character
     {
         public EnemyState state { get; set; }
+        public int vision { get; set; }
+
+
+
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
@@ -18,7 +22,7 @@ namespace mono.Entities
             this.Speed = 3;
             this.state = EnemyState.IDLE;
 
-            this.Texture = TextureManager.GetTexture("enemy");
+            this.Texture = TM.GetTexture("enemy");
 
             this.MaxHP = 10;
             this.HP = MaxHP;
@@ -38,7 +42,6 @@ namespace mono.Entities
             {
 
             }
-            
         }
 
         public void SetPath(Player player, Map map)
@@ -120,13 +123,13 @@ namespace mono.Entities
             {
                 foreach (Node n in path)
                 {
-                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 32, 1), Color.Red);
+                    spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 32, 1), Color.Red);
 
-                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y) + 31, 32, 1), Color.Red);
+                    spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y) + 31, 32, 1), Color.Red);
 
-                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X), Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
 
-                    spriteBatch.Draw(TextureManager.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X) + 31, Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
+                    spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Convert.ToInt32(n.Rectangle.X) + 31, Convert.ToInt32(n.Rectangle.Y), 1, 32), Color.Red);
                 }
             }
         }

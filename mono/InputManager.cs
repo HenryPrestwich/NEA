@@ -2,7 +2,7 @@
 
 namespace mono
 {
-    public static class InputManager
+    public static class IM
     {
         public static KeyboardState previousKBS;
         public static KeyboardState currentKBS = Keyboard.GetState();
