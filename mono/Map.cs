@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using mono.Entities;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 
 
 namespace mono
@@ -166,7 +165,7 @@ namespace mono
                     }
                 }
 
-                
+
             }
 
             SetRoomTypes();
@@ -246,7 +245,7 @@ namespace mono
 
             List<Connection> cycles = new List<Connection>();
 
-            for (int i = 0; i < 4; i++) 
+            for (int i = 0; i < 4; i++)
             {
                 int randomNum = rand.Next(0, Connections.Count - 1);
                 Connection potentialC = Connections[randomNum];
@@ -391,7 +390,7 @@ namespace mono
                     if (i >= 0 && i < this.WidthNodes && j >= 0 && j < this.HeightNodes)
                     {
                         Node n = this.Grid[i, j];
-                        spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background); 
+                        spriteBatch.Draw(n.Texture, n.Position, null, Color.White, 0f, n.Centre, 1f, SpriteEffects.None, Layers.Background);
                     }
                 }
             }
@@ -459,7 +458,7 @@ namespace mono
 
         public void SetTexture()
         {
-            switch (TileType) 
+            switch (TileType)
             {
                 case TileType.wall:
                     this.Texture = TextureManager.GetTexture("wall");

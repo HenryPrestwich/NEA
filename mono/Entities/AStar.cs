@@ -1,7 +1,6 @@
-﻿using mono.Main;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 
 namespace mono.Entities
 {
@@ -11,12 +10,12 @@ namespace mono.Entities
         {
             Node Start = Map.Grid[Convert.ToInt32(enemy.X + 16) / 32, Convert.ToInt32(enemy.Y + 16) / 32];
             Node Target = Map.Grid[Convert.ToInt32(player.X + 16) / 32, Convert.ToInt32(player.Y + 16) / 32];
-          
+
             PriorityQueue<Node, double> Border = new PriorityQueue<Node, double>();
             Dictionary<Node, double> CostToNode = new Dictionary<Node, double>();
             Dictionary<Node, Node> CameFromNode = new Dictionary<Node, Node>();
             Border.Enqueue(Start, 0);
-            CostToNode.Add(Start, 0); 
+            CostToNode.Add(Start, 0);
 
 
             if (Target.TileType == TileType.wall)
@@ -32,7 +31,7 @@ namespace mono.Entities
                     break;
                 }
 
-                foreach(Node n in current.Neigbour)
+                foreach (Node n in current.Neigbour)
                 {
                     if (n.TileType != TileType.wall)
                     {

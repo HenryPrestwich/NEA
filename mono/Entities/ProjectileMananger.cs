@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 
@@ -45,7 +44,7 @@ namespace mono.Entities
                 }
             }
         }
-        
+
 
         public static void DrawHitboxes(SpriteBatch spriteBatch)
         {
@@ -64,7 +63,7 @@ namespace mono.Entities
         public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
         public Vector2 Velocity { get; set; }
-        public List<Enemy> HasHit {  get; private set; }
+        public List<Enemy> HasHit { get; private set; }
         public int Damage { get; set; }
         public int RemainingTime { get; set; }
         public int Pierce { get; set; }
@@ -167,6 +166,7 @@ namespace mono.Entities
     public enum Owner
     {
         player = 0,
-        enemy
+        enemy,
+        universal
     }
 }

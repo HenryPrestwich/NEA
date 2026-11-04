@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using mono.Main;
-using System;
 using System.Collections.Generic;
 
 namespace mono.Entities

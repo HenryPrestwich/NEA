@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
 
 
 namespace mono.Entities
@@ -22,7 +20,7 @@ namespace mono.Entities
         public int Range { get; set; }
         public int Damage { get; set; }
         public int AttackSpeed { get; set; }
-        public int AttackCooldown {  get; set; }
+        public int AttackCooldown { get; set; }
         public int ProjectileSpeed { get; set; }
 
 
@@ -48,7 +46,7 @@ namespace mono.Entities
 
         public virtual void DamageEntity()
         {
-            
+
         }
         public virtual void DamageEntity(int damage)
         {

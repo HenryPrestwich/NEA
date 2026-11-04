@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using mono.Entities;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Timers;
 
 
@@ -29,8 +27,8 @@ namespace mono.Main
 
         //Logs
         List<Enemy> enemyList;
-        
-        
+
+
 
         //camera
         Camera2D camera;
@@ -66,9 +64,9 @@ namespace mono.Main
             _timer.Interval = 100;
             _timer.Start();
             TextureManager.CreateTextures(Content);
-            
 
-            
+
+
 
             //SETTINGS
             HitboxesDrawn = true;
@@ -91,7 +89,7 @@ namespace mono.Main
             player = new Player(Map.Rooms[0].CentrePixel.ToVector2());
 
 
-            
+
 
 
             for (int i = 1; i < 3; i++)
@@ -125,7 +123,7 @@ namespace mono.Main
                 }
             }
 
-            
+
 
             player.Move(enemyList, Map);
             player.Attack();
@@ -138,14 +136,14 @@ namespace mono.Main
                 e.SetState(player);
                 if (e.state == EnemyState.DEAD)
                 {
-                  enemyList.Remove(e);
+                    enemyList.Remove(e);
                 }
             }
 
 
             camera.Track(player.Position);
 
-            GameClock = (GameClock + 1) % 3600; 
+            GameClock = (GameClock + 1) % 3600;
             base.Update(gameTime);
         }
 
@@ -166,7 +164,7 @@ namespace mono.Main
             }
 
             ProjectileManager.DrawProjectiles(_spriteBatch);
-            
+
 
             _spriteBatch.DrawString(font, player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
 
