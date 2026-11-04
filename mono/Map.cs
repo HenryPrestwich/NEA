@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using mono.Entities;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 
 namespace mono
@@ -127,7 +128,7 @@ namespace mono
                 }
             }
 
-            foreach (Connection c in Connections)
+            foreach (Connection c in Connections)   //moves a rectangle across connections to build corridors
             {
                 Rectangle r = new Rectangle(c.RoomA.CentrePixel.X - 48, c.RoomA.CentrePixel.Y - 48, 112, 112);
                 Vector2 vS = new Vector2(r.X, r.Y);
@@ -192,7 +193,7 @@ namespace mono
                     Connections.Add(new Connection(a, b));
                 }
             }
-            this.Connections = PRIMS();
+            this.Connections = PRIMS(); //run prims algorithm 
             return Connections;
         }
         private List<Connection> PRIMS()
@@ -240,44 +241,38 @@ namespace mono
                 }
             }
 
-            mst = AddCycles(mst);
 
-            return mst;
-        }
-        private List<Connection> AddCycles(List<Connection> mst)
-        {
-            int extraCycles = 0;
+            //adds cycles to the MST
 
-            List<Connection> toRemove = new List<Connection>();
+            List<Connection> cycles = new List<Connection>();
 
-            while (extraCycles < 4)
+            for (int i = 0; i < 4; i++) 
             {
-                for (int i = 0; i < Connections.Count; i++)
-                {
-                    Connection c = Connections[i];
-                    if (rand.Next(1, 50) == 1)
-                    {
-                        mst.Add(c);
-                        c.RoomA.NumOfConnections += 1;
-                        c.RoomB.NumOfConnections += 1;
-                        Connections.Remove(c);
-                        extraCycles++;
-                        i++;
+                int randomNum = rand.Next(0, Connections.Count - 1);
+                Connection potentialC = Connections[randomNum];
 
-                        foreach (Connection c2 in Connections)
-                        {
-                            if (c2.RoomA == c.RoomA || c2.RoomA == c.RoomB || c2.RoomB == c.RoomA || c2.RoomB == c.RoomB)
-                            {
-                                toRemove.Add(c2);
-                            }
-                        }
-                        foreach (Connection r in toRemove)
-                        {
-                            Connections.Remove(r);
-                        }
+                bool accept = true;
+                foreach (Connection c in cycles) //check if there is a cycle being added which already connects to each of the potential connections rooms
+                {
+                    if (potentialC.RoomA == c.RoomA || potentialC.RoomA == c.RoomB || potentialC.RoomB == c.RoomA || potentialC.RoomB == c.RoomB)
+                    {
+                        i--;
+                        accept = false;
                     }
                 }
+                if (accept == true)
+                {
+                    cycles.Add(potentialC);
+                }
+                potentialC.RoomA.NumOfConnections += 1;
+                potentialC.RoomB.NumOfConnections += 1;
+                Connections.Remove(potentialC);
             }
+            foreach (Connection c in cycles) //adds chosen connections to the MST
+            {
+                mst.Add(c);
+            }
+
             return mst;
         }
         private void SetRoomTypes()
@@ -290,7 +285,7 @@ namespace mono
                 dist = Math.Sqrt(Math.Pow(Rooms[i].Centre.X - Rooms[0].Centre.X, 2) + Math.Pow(Rooms[i].Centre.Y - Rooms[0].Centre.Y, 2));
 
                 bool AddedToList = false;
-                while (AddedToList == false)
+                while (AddedToList == false) //checks to ensure 2 distances dont have the same key
                 {
                     if (!RoomsByDist.ContainsKey(dist))
                     {
@@ -299,11 +294,15 @@ namespace mono
                     }
                     else
                     {
-                        dist += 0.5;
+                        dist += 0.1;
                     }
                 }
 
             }
+
+            // selects rooms based on distance to spawn relative to other room distances
+            //prioritizes rooms with a single connection 
+
 
             bool BossRoomSet = false;
 
@@ -328,7 +327,7 @@ namespace mono
 
             for (int j = 1; j < 3; j++)
             {
-                for (int i = RoomsByDist.Count - 1; i > RoomsByDist.Count / 2; i--)
+                for (int i = RoomsByDist.Count / 4 * 3; i > RoomsByDist.Count / 2; i--)   //starts from 3/4 out
                 {
                     if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type == RoomType.Empty)
                     {
@@ -347,7 +346,7 @@ namespace mono
 
             for (int j = 1; j < 3; j++)
             {
-                for (int i = RoomsByDist.Count - 15; i > RoomsByDist.Count / 2; i--)
+                for (int i = RoomsByDist.Count / 2; i > RoomsByDist.Count / 2; i--)   //starts from 1/2 out so loot room is closer
                 {
                     if (RoomsByDist.GetValueAtIndex(i).NumOfConnections == j && RoomsByDist.GetValueAtIndex(i).Type == RoomType.Empty)
                     {
@@ -460,7 +459,7 @@ namespace mono
 
         public void SetTexture()
         {
-            switch (TileType)
+            switch (TileType) 
             {
                 case TileType.wall:
                     this.Texture = TextureManager.GetTexture("wall");
@@ -522,7 +521,7 @@ namespace mono
             CreatePuddle(Nodes[randStartingPoint], 1);
         }
 
-        public void CreatePuddle(Node n, int chance)
+        public void CreatePuddle(Node n, int chance)   //expands water from random nore unsing decreased chance each expansion
         {
             int pud = rand.Next(1, chance);
             if (pud == 1 && n.TileType == TileType.floor)
