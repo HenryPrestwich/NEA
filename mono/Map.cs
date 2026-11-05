@@ -531,22 +531,7 @@ namespace mono
                     CreatePuddle(neigbour, chance + 1);
                 }
             }
-
-            foreach (Node node in Nodes)
-            {
-                bool makeWater = true;
-                foreach (Node neigbour in node.Neigbour)
-                {
-                    if (neigbour.TileType != TileType.water)
-                    {
-                        makeWater = false;
-                    }
-                }
-                if (makeWater == true)
-                {
-                    node.TileType = TileType.water;
-                }
-            }
+            
         }
     }
 
