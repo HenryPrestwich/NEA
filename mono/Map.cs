@@ -29,8 +29,8 @@ namespace mono
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
 
-            this.Rectangle = new Rectangle(0, 0, WidthNodes, HeightNodes);
-            this.RectanglePixel = new Rectangle(0, 0, WidthNodes * 32, HeightNodes * 32);
+            this.Rectangle = new Rectangle(1, 1, WidthNodes - 1, HeightNodes - 1);
+            this.RectanglePixel = new Rectangle(32, 32, WidthNodes * 32 - 32, HeightNodes * 32 - 32);
 
 
             this.Grid = new Node[WidthNodes, HeightNodes];
@@ -431,8 +431,8 @@ namespace mono
 
     public class Node
     {
-        public Vector2 GridLocation { get; set; }
-        public Vector2 Position { get; set; }
+        public Vector2 GridLocation { get; private set; }
+        public Vector2 Position { get; private set; }
         public Rectangle Rectangle { get; set; }
 
         public Vector2 Size = new Vector2(32, 32);
@@ -441,7 +441,7 @@ namespace mono
         public List<Node> Neigbour { get; set; }
         public TileType TileType { get; set; }
 
-        public Texture2D Texture { get; set; }
+        public Texture2D Texture { get; private set; }
 
         public Node(int x, int y)
         {
@@ -529,6 +529,22 @@ namespace mono
                 foreach (Node neigbour in n.Neigbour)
                 {
                     CreatePuddle(neigbour, chance + 1);
+                }
+            }
+
+            foreach (Node node in Nodes)
+            {
+                bool makeWater = true;
+                foreach (Node neigbour in node.Neigbour)
+                {
+                    if (neigbour.TileType != TileType.water)
+                    {
+                        makeWater = false;
+                    }
+                }
+                if (makeWater == true)
+                {
+                    node.TileType = TileType.water;
                 }
             }
         }
