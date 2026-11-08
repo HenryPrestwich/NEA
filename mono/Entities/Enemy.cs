@@ -44,9 +44,9 @@ namespace mono.Entities
             }
         }
 
-        public void SetPath(Player player, Map map)
+        public void SetPath(Map map)
         {
-            path = AStar.ASTAR(this.Position, player.Position, map);
+            path = AStar.ASTAR(this.Position, map);
         }
         public void Move(Player p, List<Enemy> enemyL)
         {

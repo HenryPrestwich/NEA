@@ -377,15 +377,15 @@ namespace mono
         }
 
 
-        public void DrawMap(SpriteBatch spriteBatch, Player p, int sHeight, int sWidth)
+        public void DrawMap(SpriteBatch spriteBatch, int sHeight, int sWidth)
         {
 
             int sNHeight = sHeight / 32;
             int sNWidth = sWidth / 32;
 
-            for (int i = Convert.ToInt32((p.Position.X / 32) - 2 - sNWidth / 2); i <= p.Position.X / 32 + 2 + sNWidth / 2; i++)
+            for (int i = Convert.ToInt32((CM.Player.Position.X / 32) - 2 - sNWidth / 2); i <= CM.Player.Position.X / 32 + 2 + sNWidth / 2; i++)
             {
-                for (int j = Convert.ToInt32((p.Position.Y / 32) - 2 - sNHeight / 2); j <= p.Position.Y / 32 + 2 + sNHeight / 2; j++)
+                for (int j = Convert.ToInt32((CM.Player.Position.Y / 32) - 2 - sNHeight / 2); j <= CM.Player.Position.Y / 32 + 2 + sNHeight / 2; j++)
                 {
                     if (i >= 0 && i < this.WidthNodes && j >= 0 && j < this.HeightNodes)
                     {
@@ -520,7 +520,7 @@ namespace mono
             CreatePuddle(Nodes[randStartingPoint], 1);
         }
 
-        public void CreatePuddle(Node n, int chance)   //expands water from random nore unsing decreased chance each expansion
+        public void CreatePuddle(Node n, int chance)   //expands water from random node unsing decreased chance each expansion
         {
             int pud = rand.Next(1, chance);
             if (pud == 1 && n.TileType == TileType.floor)

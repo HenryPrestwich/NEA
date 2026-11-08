@@ -117,7 +117,7 @@ namespace mono.Main
             {
                 foreach (Enemy enemy in CM.EnemyList)
                 {
-                    enemy.SetPath(CM.Player, Map);
+                    enemy.SetPath(Map);
                 }
             }
 
@@ -151,7 +151,7 @@ namespace mono.Main
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
 
-            Map.DrawMap(_spriteBatch, CM.Player, SCREEN_HEIGHT, SCREEN_WIDTH);
+            Map.DrawMap(_spriteBatch, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
             CM.Player.Draw(_spriteBatch);
