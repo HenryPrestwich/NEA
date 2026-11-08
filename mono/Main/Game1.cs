@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using mono.Entities;
-using System.Collections.Generic;
 using System.Timers;
 
 
@@ -18,13 +17,13 @@ namespace mono.Main
         //text
         SpriteFont font;
 
-        
+
 
 
 
         public Map Map;
 
-        
+
 
 
 
@@ -71,7 +70,7 @@ namespace mono.Main
 
             GameState = GameStates.MainMenu;
 
-            
+
 
 
 
@@ -110,7 +109,7 @@ namespace mono.Main
         {
             IM.UpdateInput();
 
-            PM.UpdateProjectiles(CM.Player,CM.EnemyList, Map);
+            PM.UpdateProjectiles(CM.Player, CM.EnemyList, Map);
 
             //movement
             if (GameClock % 20 == 0)
@@ -147,37 +146,49 @@ namespace mono.Main
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkSlateGray);
-
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
-
-            Map.DrawMap(_spriteBatch, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
-            CM.Player.Draw(_spriteBatch);
-            foreach (Character c in CM.EnemyList)
+
+            switch (GameState)
             {
-                c.Draw(_spriteBatch);
+                case GameStates.MainMenu:
+
+                    GraphicsDevice.Clear(Color.Black);
+                    break;
+                case GameStates.Game:
+
+                    GraphicsDevice.Clear(Color.DarkSlateGray);
+
+                    _spriteBatch.Begin(SpriteSortMode.BackToFront, transformMatrix: camera.GetCamMatrix());
+
+                    Map.DrawMap(_spriteBatch, SCREEN_HEIGHT, SCREEN_WIDTH);
+
+
+                    CM.Player.Draw(_spriteBatch);
+                    foreach (Character c in CM.EnemyList)
+                    {
+                        c.Draw(_spriteBatch);
+
+                    }
+
+                    PM.DrawProjectiles(_spriteBatch);
+
+
+                    _spriteBatch.DrawString(font, CM.Player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
+
+
+                    _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(CM.Player.Position.X + 700, CM.Player.Position.Y + 400), Color.Black);
+
+                    if (HitboxesDrawn)
+                    {
+                        DrawHitBoxes();
+                    }
+
+                    break;
+
+                    _spriteBatch.End();
 
             }
-
-            PM.DrawProjectiles(_spriteBatch);
-
-
-            _spriteBatch.DrawString(font, CM.Player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
-
-
-            _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(CM.Player.Position.X + 700, CM.Player.Position.Y + 400), Color.Black);
-
-            if (HitboxesDrawn)
-            {
-                DrawHitBoxes();
-            }
-
-
-            _spriteBatch.End();
-
-
             base.Draw(gameTime);
         }
 
