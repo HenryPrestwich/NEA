@@ -143,13 +143,15 @@ namespace mono.Entities
         }
 
 
-        public override void DamageEntity()
+        public override void DamageEntity(int damage)
         {
-            HP -= 1;
+            HP -= damage;
             if (HP <= 0)
             {
                 Dead = true;
             }
         }
+
+
     }
 }

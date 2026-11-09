@@ -114,6 +114,13 @@ namespace mono.Main
             {
                 case GameStates.MainMenu:
 
+                    if (IM.IsMouseClick(MouseButton.Left))
+                    {
+                        GameState = GameStates.Game;
+                        base.Update(gameTime);
+                    }
+
+
                     break;
 
                 case GameStates.Game:
@@ -198,9 +205,11 @@ namespace mono.Main
                         DrawHitBoxes();
                     }
 
+                    _spriteBatch.End();
+
                     break;
 
-                    _spriteBatch.End();
+                    
 
             }
             base.Draw(gameTime);

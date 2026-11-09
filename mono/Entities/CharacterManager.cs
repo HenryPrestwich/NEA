@@ -26,10 +26,19 @@ namespace mono.Entities
         {
             EnemyList.Add(new Enemy(position));
         }
+
+        public static void DrawCharacters(SpriteBatch spritebatch)
+        {
+            Player.Draw(spritebatch);
+            foreach (Enemy enemy in EnemyList)
+            {
+                enemy.Draw(spritebatch);
+            }
+        }
     }
 
 
-    public class Character
+    public abstract class Character
     {
         public Vector2 Position { get; set; }
         public Texture2D Texture { get; set; }
@@ -52,7 +61,7 @@ namespace mono.Entities
         {
             this.Position = position;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public  void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
         }
@@ -68,15 +77,7 @@ namespace mono.Entities
             return rect;
         }
 
-        public virtual void DamageEntity()
-        {
-
-        }
-        public virtual void DamageEntity(int damage)
-        {
-            this.HP -= damage;
-        }
-
+        public abstract void DamageEntity(int damage);
 
         public void DrawRect(SpriteBatch spriteBatch)
         {

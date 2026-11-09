@@ -133,6 +133,16 @@ namespace mono.Entities
                 }
             }
         }
+
+
+        public override void DamageEntity(int damage)
+        {
+            HP -= damage;
+            if (HP < 0)
+            {
+                state = EnemyState.DEAD;
+            }
+        }
     }
 
     public enum EnemyState
