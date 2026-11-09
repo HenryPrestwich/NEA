@@ -14,6 +14,9 @@ namespace mono
         {
             previousKBS = currentKBS;
             currentKBS = Keyboard.GetState();
+
+            previousMS = currentMS;
+            currentMS = Mouse.GetState();
         }
 
         public static bool IsKeyDown(Keys key)
@@ -24,5 +27,30 @@ namespace mono
         {
             return currentKBS.IsKeyUp(key);
         }
+
+
+        public static bool IsMouseClick(MouseButton button)
+        {
+            switch (button)
+            {
+                case MouseButton.Left:
+                    return currentMS.LeftButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    return currentMS.MiddleButton == ButtonState.Pressed;
+                case MouseButton.Right:
+                    return currentMS.RightButton == ButtonState.Pressed;
+                default: 
+                    return false;
+
+            }
+        }
+    }
+
+    
+    public enum MouseButton
+    {
+        Left,
+        Middle,
+        Right
     }
 }

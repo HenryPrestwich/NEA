@@ -107,7 +107,7 @@ namespace mono.Main
 
         protected override void Update(GameTime gameTime)
         {
-
+            IM.UpdateInput();
 
 
             switch (GameState)
@@ -117,8 +117,6 @@ namespace mono.Main
                     break;
 
                 case GameStates.Game:
-
-                    IM.UpdateInput();
 
                     PM.UpdateProjectiles(CM.Player, CM.EnemyList, Map);
 
