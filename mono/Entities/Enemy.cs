@@ -44,6 +44,7 @@ namespace mono.Entities
             }
         }
 
+
         public void SetPath(Map map)
         {
             path = AStar.ASTAR(this.Position, map);
