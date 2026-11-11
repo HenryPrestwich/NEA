@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using mono.Entities;
 using System.Timers;
 
@@ -158,10 +159,25 @@ namespace mono.Main
 
                     GameClock = (GameClock + 1) % 3600;
 
+
+
+                    if (IM.KeyJustPressed(Keys.Escape))
+                    {
+                        GameState = GameStates.Settings;
+                    }
+
+                    break;
+
+                case GameStates.Settings:
+
+                    if (IM.KeyJustPressed(Keys.Escape))
+                    {
+                        GameState = GameStates.Game;
+                    }
                     break;
 
             }
-            
+
             base.Update(gameTime);
         }
 
@@ -195,10 +211,6 @@ namespace mono.Main
                     PM.DrawProjectiles(_spriteBatch);
 
 
-                    _spriteBatch.DrawString(font, CM.Player.DashCool.ToString(), new Vector2(30, 30), Color.Black);
-
-
-                    _spriteBatch.DrawString(font, GameClock.ToString(), new Vector2(CM.Player.Position.X + 700, CM.Player.Position.Y + 400), Color.Black);
 
                     if (HitboxesDrawn)
                     {
@@ -208,8 +220,11 @@ namespace mono.Main
                     _spriteBatch.End();
 
                     break;
+                case GameStates.Settings:
+                    GraphicsDevice.Clear(Color.Green);
+                    break;
 
-                    
+
 
             }
             base.Draw(gameTime);

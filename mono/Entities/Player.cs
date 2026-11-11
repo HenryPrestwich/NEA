@@ -86,19 +86,19 @@ namespace mono.Entities
         public Vector2 CalcMove()
         {
             Vector2 transformation = new Vector2(0, 0);
-            if (IM.IsKeyDown(Keys.A))
+            if (IM.KeyDown(Keys.A))
             {
                 transformation.X -= 1;
             }
-            if (IM.IsKeyDown(Keys.D))
+            if (IM.KeyDown(Keys.D))
             {
                 transformation.X += 1;
             }
-            if (IM.IsKeyDown(Keys.W))
+            if (IM.KeyDown(Keys.W))
             {
                 transformation.Y -= 1;
             }
-            if (IM.IsKeyDown(Keys.S))
+            if (IM.KeyDown(Keys.S))
             {
                 transformation.Y += 1;
             }
@@ -115,22 +115,22 @@ namespace mono.Entities
         {
             if (AttackCooldown == 0)
             {
-                if (IM.IsKeyDown(Keys.Down))
+                if (IM.KeyDown(Keys.Down))
                 {
                     PM.AddProjectile(Position, 0, ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (IM.IsKeyDown(Keys.Up))
+                else if (IM.KeyDown(Keys.Up))
                 {
                     PM.AddProjectile(Position, 0, -ProjectileSpeed, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (IM.IsKeyDown(Keys.Left))
+                else if (IM.KeyDown(Keys.Left))
                 {
                     PM.AddProjectile(Position, -ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;
                 }
-                else if (IM.IsKeyDown(Keys.Right))
+                else if (IM.KeyDown(Keys.Right))
                 {
                     PM.AddProjectile(Position, ProjectileSpeed, 0, Range, Owner.player);
                     this.AttackCooldown = AttackSpeed;

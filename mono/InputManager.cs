@@ -19,11 +19,21 @@ namespace mono
             currentMS = Mouse.GetState();
         }
 
-        public static bool IsKeyDown(Keys key)
+        public static bool KeyDown(Keys key)
         {
             return currentKBS.IsKeyDown(key);
         }
-        public static bool IsKeUp(Keys key)
+        public static bool KeyJustPressed(Keys key)
+        {
+            bool JustPressed = false;
+            if (currentKBS.IsKeyDown(key) && previousKBS.IsKeyUp(key))
+            {
+                JustPressed = true;
+            }
+            return JustPressed;
+        }
+
+        public static bool KeUp(Keys key)
         {
             return currentKBS.IsKeyUp(key);
         }
