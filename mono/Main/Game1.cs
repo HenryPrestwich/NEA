@@ -145,7 +145,7 @@ namespace mono.Main
                     for (int i = 0; i < CM.EnemyList.Count; i++)
                     {
                         Enemy e = CM.EnemyList[i];
-                        e.Move(CM.Player, CM.EnemyList);
+                        e.Move(CM.EnemyList);
                         e.updateRect();
                         e.SetState(CM.Player);
                         if (e.state == EnemyState.DEAD)

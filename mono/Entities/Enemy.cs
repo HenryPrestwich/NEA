@@ -49,7 +49,7 @@ namespace mono.Entities
         {
             path = AStar.ASTAR(this.Position, map);
         }
-        public void Move(Player p, List<Enemy> enemyL)
+        public void Move(List<Enemy> enemyL)
         {
             if (path != null && path.Count > 0)
             {
@@ -71,7 +71,7 @@ namespace mono.Entities
                     }
                 }
 
-                if (!ERect.Intersects(p.Rectangle) && collides == false)
+                if (!ERect.Intersects(CM.Player.Rectangle) && collides == false)
                 {
                     Vector2 distanceV = next.Position - this.Position;
                     double distanceD = Math.Sqrt(Math.Pow(distanceV.X, 2) + Math.Pow(distanceV.Y, 2));
