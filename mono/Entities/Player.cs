@@ -111,7 +111,7 @@ namespace mono.Entities
             return transformation;
         }
 
-        public void Attack()
+        public override void Attack()
         {
             if (AttackCooldown == 0)
             {
@@ -151,7 +151,5 @@ namespace mono.Entities
                 Dead = true;
             }
         }
-
-
     }
 }

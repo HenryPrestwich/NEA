@@ -77,6 +77,7 @@ namespace mono.Entities
             return rect;
         }
 
+        public abstract void Attack();
         public abstract void DamageEntity(int damage);
 
         public void DrawRect(SpriteBatch spriteBatch)

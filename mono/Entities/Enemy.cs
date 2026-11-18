@@ -135,6 +135,10 @@ namespace mono.Entities
             }
         }
 
+        public override void Attack()
+        {
+            
+        }
 
         public override void DamageEntity(int damage)
         {
