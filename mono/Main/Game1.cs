@@ -92,7 +92,7 @@ namespace mono.Main
 
             for (int i = 1; i < 3; i++)
             {
-                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2());
+                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), EnemyType.cheese);
             }
 
 

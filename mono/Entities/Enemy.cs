@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 
 namespace mono.Entities
@@ -17,9 +16,9 @@ namespace mono.Entities
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
-        public Enemy(Vector2 Position) : base(Position)
+        public Enemy(Vector2 position, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed, string texture) :
+                base(position, texture, speed, maxHP, range, damage, attackSpeed, projectileSpeed)
         {
-            this.Speed = 3;
             this.state = EnemyState.IDLE;
 
             this.Texture = TM.GetTexture("enemy");
@@ -33,15 +32,27 @@ namespace mono.Entities
 
         public void SetState(Player p)
         {
-            if (HP == 0)
+            switch (state)
             {
-                state = EnemyState.DEAD;
+                case EnemyState.IDLE:
+                    if (path != null && path.Count < vision)
+                    {
+                        this.state = EnemyState.CHASE;
+                    }
+                    break;
+                case EnemyState.CHASE:
+                    if (path != null && path.Count < Range)
+                    {
+                        this.state = EnemyState.ATTACK;
+                    }
+                    break;
+                case EnemyState.ATTACK:
+                    
+                        break;
 
             }
-            if (state == EnemyState.IDLE)
-            {
 
-            }
+
         }
 
 
@@ -137,7 +148,7 @@ namespace mono.Entities
 
         public override void Attack()
         {
-            
+
         }
 
         public override void DamageEntity(int damage)

@@ -2,8 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace mono.Entities
@@ -18,13 +21,13 @@ namespace mono.Entities
         {
             if (Player == null)
             {
-                Player = new Player(position);
+                
             }
         }
 
-        public static void CreateEnemy(Vector2 position)
+        public static void CreateEnemy(Vector2 position, EnemyType enemyType)
         {
-            EnemyList.Add(new Enemy(position));
+            
         }
 
         public static void DrawCharacters(SpriteBatch spritebatch)
@@ -34,6 +37,11 @@ namespace mono.Entities
             {
                 enemy.Draw(spritebatch);
             }
+        }
+
+        public static void readJSON()
+        {
+            
         }
     }
 
@@ -57,9 +65,19 @@ namespace mono.Entities
         public int ProjectileSpeed { get; set; }
 
 
-        public Character(Vector2 position)
+        public Character(Vector2 position, string texture, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed)
         {
             this.Position = position;
+            this.Speed = speed;
+            this.MaxHP = maxHP;
+            this.Range = range;
+            this.Damage = damage;
+            this.AttackSpeed = attackSpeed;
+            this.ProjectileSpeed = projectileSpeed;
+
+            AttackCooldown = attackSpeed;
+
+            this.Texture = TM.GetTexture(texture); 
         }
         public  void Draw(SpriteBatch spriteBatch)
         {
@@ -92,5 +110,13 @@ namespace mono.Entities
 
             spriteBatch.Draw(TM.GetTexture("pixel"), new Rectangle(Rectangle.X + Rectangle.Width - 1, Rectangle.Y, 1, Rectangle.Height), Color.Red);
         }
+    }
+
+
+    public enum EnemyType
+    {
+        evil = 0,
+        bat,
+        cheese
     }
 }

@@ -1,0 +1,22 @@
+﻿[
+  {
+    "name": "evil",
+    "texture": "enemy",
+    "speed": 3,
+    "maxHP": 10,
+    "range": 2,
+    "damage": 20,
+    "attackSpeed": 30,
+    "projectileSpeed": 0
+  },
+  {
+    "name": "cheese",
+    "texture": "enemy",
+    "speed": 6,
+    "maxHP": 10,
+    "range": 2,
+    "damage": 20,
+    "attackSpeed": 30,
+    "projectileSpeed": 0
+  }
+]

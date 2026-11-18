@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace mono.Entities
@@ -10,16 +12,12 @@ namespace mono.Entities
         public string PlayerType { get; set; }
         public bool Dead { get; private set; } = false;
 
-        public Player(Vector2 Position) : base(Position)
+        public Player(Vector2 position, string texture, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed) :
+                 base(position, texture, speed, maxHP, range, damage, attackSpeed, projectileSpeed)
         {
             this.DashCool = 120;
-            this.Speed = 5;
-            this.AttackSpeed = 25;
-            this.AttackCooldown = AttackSpeed;
-            this.ProjectileSpeed = 7;
-
-            this.MaxHP = 3;
-            this.HP = MaxHP;
+            
+            
 
             this.Texture = TM.GetTexture("player");
             this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
