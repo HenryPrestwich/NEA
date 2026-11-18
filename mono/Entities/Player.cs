@@ -12,16 +12,15 @@ namespace mono.Entities
         public string PlayerType { get; set; }
         public bool Dead { get; private set; } = false;
 
-        public Player(Vector2 position, string texture, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed) :
-                 base(position, texture, speed, maxHP, range, damage, attackSpeed, projectileSpeed)
+        public Player(Vector2 position, CharacterData data) :
+                 base(position, data)
         {
             this.DashCool = 120;
             
             
 
-            this.Texture = TM.GetTexture("player");
-            this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
-            this.Size = new Vector2(Texture.Width, Texture.Height);
+            
+            
         }
 
         public void Move(List<Enemy> enemyList, Map map)

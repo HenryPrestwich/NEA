@@ -61,6 +61,7 @@ namespace mono.Main
             _timer = new Timer();
             _timer.Interval = 100;
             _timer.Start();
+            DM.ReadJSON();
             TM.CreateTextures(Content);
 
 
@@ -84,7 +85,7 @@ namespace mono.Main
 
 
             //player
-            CM.CreatePlayer(Map.Rooms[0].CentrePixel.ToVector2());
+            CM.CreatePlayer(Map.Rooms[0].CentrePixel.ToVector2(), CharacterType.Marvin);
 
 
 
@@ -92,8 +93,13 @@ namespace mono.Main
 
             for (int i = 1; i < 3; i++)
             {
-                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), EnemyType.cheese);
+                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), CharacterType.Evil);
             }
+            for (int i = 1; i < 3; i++)
+            {
+                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), CharacterType.Cheese);
+            }
+
 
 
 

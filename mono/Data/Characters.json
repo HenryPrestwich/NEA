@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Name": "Evil",
+    "Texture": "enemy",
+    "Speed": 3,
+    "MaxHP": 10,
+    "Range": 2,
+    "Damage": 20,
+    "AttackSpeed": 30,
+    "ProjectileSpeed": 0
+  },
+  {
+    "Name": "Cheese",
+    "Texture": "enemy",
+    "Speed": 6,
+    "MaxHP": 10,
+    "Range": 2,
+    "Damage": 20,
+    "AttackSpeed": 30,
+    "ProjectileSpeed": 0
+  },
+  {
+    "Name": "Marvin",
+    "Texture": "player",
+    "Speed": 5,
+    "MaxHP": 100,
+    "Range": 100,
+    "Damage": 20,
+    "AttackSpeed": 25,
+    "ProjectileSpeed": 8
+  }
+]

@@ -17,17 +17,17 @@ namespace mono.Entities
         public static Player Player { get; private set; }
 
 
-        public static void CreatePlayer(Vector2 position)
+        public static void CreatePlayer(Vector2 position, CharacterType playerType)
         {
             if (Player == null)
             {
-                
+                Player = new Player(position, DM.GetData(playerType));
             }
         }
 
-        public static void CreateEnemy(Vector2 position, EnemyType enemyType)
+        public static void CreateEnemy(Vector2 position, CharacterType enemyType)
         {
-            
+            EnemyList.Add(new Enemy(position, DM.GetData(enemyType)));
         }
 
         public static void DrawCharacters(SpriteBatch spritebatch)
@@ -65,19 +65,21 @@ namespace mono.Entities
         public int ProjectileSpeed { get; set; }
 
 
-        public Character(Vector2 position, string texture, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed)
+        public Character(Vector2 position, CharacterData data)
         {
             this.Position = position;
-            this.Speed = speed;
-            this.MaxHP = maxHP;
-            this.Range = range;
-            this.Damage = damage;
-            this.AttackSpeed = attackSpeed;
-            this.ProjectileSpeed = projectileSpeed;
+            this.Speed = data.Speed;
+            this.MaxHP = data.MaxHP;
+            this.Range = data.Range;
+            this.Damage = data.Damage;
+            this.AttackSpeed = data.AttackSpeed;
+            this.ProjectileSpeed = data.ProjectileSpeed;
 
-            AttackCooldown = attackSpeed;
+            AttackCooldown = data.AttackSpeed;
 
-            this.Texture = TM.GetTexture(texture); 
+            this.Texture = TM.GetTexture(data.Texture);
+            this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            this.Size = new Vector2(Texture.Width, Texture.Height);
         }
         public  void Draw(SpriteBatch spriteBatch)
         {
@@ -113,10 +115,14 @@ namespace mono.Entities
     }
 
 
-    public enum EnemyType
+    public enum CharacterType
     {
-        evil = 0,
-        bat,
-        cheese
+        Evil = 0,
+        Bat,
+        Cheese,
+
+
+
+        Marvin
     }
 }

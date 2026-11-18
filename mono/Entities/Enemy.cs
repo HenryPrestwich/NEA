@@ -9,25 +9,18 @@ namespace mono.Entities
     public class Enemy : Character
     {
         public EnemyState state { get; set; }
-        public int vision { get; set; }
+        public int Vision { get; set; }
 
 
 
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
-        public Enemy(Vector2 position, int speed, int maxHP, int range, int damage, int attackSpeed, int projectileSpeed, string texture) :
-                base(position, texture, speed, maxHP, range, damage, attackSpeed, projectileSpeed)
+        public Enemy(Vector2 position, CharacterData data) :
+                base(position, data)
         {
             this.state = EnemyState.IDLE;
-
-            this.Texture = TM.GetTexture("enemy");
-
-            this.MaxHP = 10;
-            this.HP = MaxHP;
-
-            Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
-            this.Size = new Vector2(Texture.Width, Texture.Height);
+            this.Vision = 20;
         }
 
         public void SetState(Player p)
@@ -35,7 +28,7 @@ namespace mono.Entities
             switch (state)
             {
                 case EnemyState.IDLE:
-                    if (path != null && path.Count < vision)
+                    if (path != null && path.Count < Vision)
                     {
                         this.state = EnemyState.CHASE;
                     }
