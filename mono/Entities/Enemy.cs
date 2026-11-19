@@ -20,7 +20,7 @@ namespace mono.Entities
                 base(position, data)
         {
             this.state = EnemyState.IDLE;
-            this.Vision = 20;
+            this.Vision = data.Vision;
         }
 
         public void SetState(Player p)

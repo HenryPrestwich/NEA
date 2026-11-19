@@ -14,7 +14,7 @@ namespace mono
 
         public static void ReadJSON()
         {
-            string json = File.ReadAllText("C:\\1Code\\NEA\\mono\\Data\\Characters.json");
+            string json = File.ReadAllText("..\\..\\..\\Data\\Characters.json");
 
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter());
@@ -41,5 +41,6 @@ namespace mono
         public int Damage { get; set; }
         public int AttackSpeed { get; set; }
         public int ProjectileSpeed { get; set; }
+        public int Vision {  get; set; }
     }
 }

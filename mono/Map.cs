@@ -29,7 +29,7 @@ namespace mono
             this.WidthNodes = width / 32;
             this.HeightNodes = height / 32;
 
-            this.Rectangle = new Rectangle(1, 1, WidthNodes - 1, HeightNodes - 1);
+            this.Rectangle = new Rectangle(1, 1, WidthNodes - 2, HeightNodes - 2);
             this.RectanglePixel = new Rectangle(32, 32, WidthNodes * 32 - 32, HeightNodes * 32 - 32);
 
 
