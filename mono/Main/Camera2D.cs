@@ -31,9 +31,14 @@ namespace mono.Main
                 Matrix.CreateTranslation(viewport.Width / 2f, viewport.Height / 2f, 0);   
         }
 
-        public void Track(Vector2 Plocate)
+        public void Snap(Vector2 location)
         {
-            Position = Vector2.Lerp(Position, Plocate, 0.35f);
+            Position = location;
+        }
+
+        public void Track(Vector2 location)
+        {
+            Position = Vector2.Lerp(Position, location, 0.35f);
         }
     }
 }

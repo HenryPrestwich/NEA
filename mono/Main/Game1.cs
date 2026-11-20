@@ -72,13 +72,6 @@ namespace mono.Main
 
             GameState = GameStates.MainMenu;
 
-
-
-
-
-
-
-
             //MAP
             Map = new Map(12800, 12800);
             Map.BuildMap();
@@ -105,6 +98,7 @@ namespace mono.Main
 
             //camera
             camera = new Camera2D(GraphicsDevice.Viewport);
+
 
             font = Content.Load<SpriteFont>("font");
 
@@ -133,32 +127,15 @@ namespace mono.Main
                 case GameStates.Game:
 
                     PM.UpdateProjectiles(CM.Player, CM.EnemyList, Map);
-
+                    CM.UpdateCharacters(GameClock, Map);
                     //movement
-                    if (GameClock % 20 == 0)
-                    {
-                        foreach (Enemy enemy in CM.EnemyList)
-                        {
-                            enemy.SetPath(Map);
-                        }
-                    }
+                    
 
 
 
-                    CM.Player.Move(CM.EnemyList, Map);
-                    CM.Player.Attack();
+                    
 
-                    for (int i = 0; i < CM.EnemyList.Count; i++)
-                    {
-                        Enemy e = CM.EnemyList[i];
-                        e.Move(CM.EnemyList);
-                        e.updateRect();
-                        e.SetState(CM.Player);
-                        if (e.state == EnemyState.DEAD)
-                        {
-                            CM.EnemyList.Remove(e);
-                        }
-                    }
+                    
 
 
                     camera.Track(CM.Player.Position);

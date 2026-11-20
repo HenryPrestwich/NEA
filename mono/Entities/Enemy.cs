@@ -23,7 +23,7 @@ namespace mono.Entities
             this.Vision = data.Vision;
         }
 
-        public void SetState(Player p)
+        public void SetState()
         {
             switch (state)
             {
@@ -53,7 +53,7 @@ namespace mono.Entities
         {
             path = AStar.ASTAR(this.Position, map);
         }
-        public void Move(List<Enemy> enemyL)
+        public void Move()
         {
             if (path != null && path.Count > 0)
             {
@@ -67,7 +67,7 @@ namespace mono.Entities
 
                 bool collides = false;
 
-                foreach (Enemy e in enemyL)
+                foreach (Enemy e in CM.EnemyList)
                 {
                     if (ERect.Intersects(e.Rectangle) && this != e)
                     {

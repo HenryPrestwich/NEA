@@ -39,9 +39,32 @@ namespace mono.Entities
             }
         }
 
-        public static void readJSON()
+        public static void UpdateCharacters(int gameClock, Map map)
         {
-            
+            if (gameClock % 15 == 0)
+            {
+                foreach (Enemy enemy in EnemyList)
+                {
+                    enemy.SetPath(map);
+                }
+            }
+
+
+            Player.Move(EnemyList, map);
+            Player.Attack();
+
+
+            for (int i = 0; i < EnemyList.Count; i++)
+            {
+                Enemy e = EnemyList[i];
+                e.Move();
+                e.updateRect();
+                e.SetState();
+                if (e.state == EnemyState.DEAD)
+                {
+                    EnemyList.Remove(e);
+                }
+            }
         }
     }
 
