@@ -90,7 +90,7 @@ namespace mono.Main
             }
             for (int i = 1; i < 3; i++)
             {
-                CM.CreateEnemy(Map.Rooms[i+3].CentrePixel.ToVector2(), CharacterType.Cheese);
+                CM.CreateEnemy(Map.Rooms[i + 3].CentrePixel.ToVector2(), CharacterType.Cheese);
             }
 
 
@@ -128,20 +128,10 @@ namespace mono.Main
 
                     PM.UpdateProjectiles(CM.Player, CM.EnemyList, Map);
                     CM.UpdateCharacters(GameClock, Map);
-                    //movement
-                    
-
-
-
-                    
-
-                    
-
 
                     camera.Track(CM.Player.Position);
 
                     GameClock = (GameClock + 1) % 3600;
-
 
 
                     if (IM.KeyJustPressed(Keys.Escape))
