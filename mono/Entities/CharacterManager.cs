@@ -49,11 +49,6 @@ namespace mono.Entities
                 }
             }
 
-
-            Player.Move(EnemyList, map);
-            Player.Attack();
-
-
             for (int i = 0; i < EnemyList.Count; i++)
             {
                 Enemy e = EnemyList[i];
@@ -65,6 +60,10 @@ namespace mono.Entities
                     EnemyList.Remove(e);
                 }
             }
+
+
+            Player.Move(map);
+            Player.Attack();
         }
     }
 
@@ -93,6 +92,7 @@ namespace mono.Entities
             this.Position = position;
             this.Speed = data.Speed;
             this.MaxHP = data.MaxHP;
+            this.HP = MaxHP;
             this.Range = data.Range;
             this.Damage = data.Damage;
             this.AttackSpeed = data.AttackSpeed;
@@ -121,7 +121,7 @@ namespace mono.Entities
         }
 
         public abstract void Attack();
-        public abstract void DamageEntity(int damage);
+        public abstract void DamageEntity(int damage, Vector2 position);
 
         public void DrawRect(SpriteBatch spriteBatch)
         {

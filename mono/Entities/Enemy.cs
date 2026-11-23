@@ -60,7 +60,7 @@ namespace mono.Entities
                 Node next = path.Peek();
 
                 Vector2 OldLocation = Position;
-                Vector2 NewLocation = Position + CalcMove(next);
+                Vector2 NewLocation = Position + CalcMove(next.Position);
 
 
                 Rectangle ERect = RectCalc(NewLocation, Size);
@@ -91,23 +91,23 @@ namespace mono.Entities
                 }
             }
         }
-        public Vector2 CalcMove(Node Next)
+        public Vector2 CalcMove(Vector2 nextPosition)
         {
             Vector2 transformation = new Vector2(0, 0);
 
-            if (Next.Position.X < this.Position.X)
+            if (nextPosition.X < this.Position.X)
             {
                 transformation.X -= 1;
             }
-            if (Next.Position.X > this.Position.X)
+            if (nextPosition.X > this.Position.X)
             {
                 transformation.X += 1;
             }
-            if (Next.Position.Y < this.Position.Y)
+            if (nextPosition.Y < this.Position.Y)
             {
                 transformation.Y -= 1;
             }
-            if (Next.Position.Y > this.Position.Y)
+            if (nextPosition.Y > this.Position.Y)
             {
                 transformation.Y += 1;
             }
@@ -144,9 +144,15 @@ namespace mono.Entities
 
         }
 
-        public override void DamageEntity(int damage)
+        public override void DamageEntity(int damage, Vector2 p)
         {
             HP -= damage;
+
+            Vector2 knockback = CalcMove(p);
+            knockback.Rotate((float)Math.PI);
+
+            this.Position += knockback;
+
             if (HP < 0)
             {
                 state = EnemyState.DEAD;

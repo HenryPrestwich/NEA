@@ -135,7 +135,7 @@ namespace mono.Entities
                 {
                     if (!HasHit.Contains(e) && Rectangle.Intersects(e.Rectangle))
                     {
-                        e.DamageEntity(Damage);
+                        e.DamageEntity(Damage, this.Position);
                         HasHit.Add(e);
                         Pierce -= 1;
                     }
@@ -145,7 +145,7 @@ namespace mono.Entities
             {
                 if (Rectangle.Intersects(player.Rectangle))
                 {
-                    player.DamageEntity(Damage);
+                    player.DamageEntity(Damage, this.Position);
                 }
             }
         }

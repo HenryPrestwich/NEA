@@ -23,7 +23,7 @@ namespace mono.Entities
             
         }
 
-        public void Move(List<Enemy> enemyList, Map map)
+        public void Move(Map map)
         {
             Vector2 oldLocation = Position;
             Vector2 translation = CalcMove();
@@ -33,7 +33,7 @@ namespace mono.Entities
 
             bool intersects = false;
             bool slow = false;
-            foreach (Enemy E in enemyList)
+            foreach (Enemy E in CM.EnemyList)
             {
                 if (E.Rectangle.Intersects(newRect))
                 {
@@ -140,7 +140,7 @@ namespace mono.Entities
         }
 
 
-        public override void DamageEntity(int damage)
+        public override void DamageEntity(int damage, Vector2 p)
         {
             HP -= damage;
             if (HP <= 0)
