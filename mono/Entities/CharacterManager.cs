@@ -143,6 +143,7 @@ namespace mono.Entities
         Evil = 0,
         Bat,
         Cheese,
+        Boss,
 
 
 

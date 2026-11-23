@@ -13,13 +13,24 @@
   {
     "Name": "Cheese",
     "Texture": "enemy",
-    "Speed": 6,
+    "Speed": 5,
     "MaxHP": 50,
     "Range": 2,
     "Damage": 20,
     "AttackSpeed": 30,
     "ProjectileSpeed": 0,
     "Vision": 12
+  },
+  {
+  "Name": "Boss",
+    "Texture": "boss",
+    "Speed": 3,
+    "MaxHP": 100,
+    "Range": 2,
+    "Damage": 20,
+    "AttackSpeed": 30,
+    "ProjectileSpeed": 0,
+    "Vision": 10
   },
   {
     "Name": "Marvin",
