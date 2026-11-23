@@ -153,7 +153,7 @@ namespace mono.Entities
 
             this.Position += knockback;
 
-            if (HP < 0)
+            if (HP <= 0)
             {
                 state = EnemyState.DEAD;
             }

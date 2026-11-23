@@ -11,9 +11,9 @@ namespace mono.Entities
         private static List<Projectile> Projectiles = new List<Projectile>();
 
 
-        public static void AddProjectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
+        public static void AddProjectile(Vector2 position, int damage, int pierce, int speedX, int speedY, int range, Owner owner)
         {
-            Projectiles.Add(new Projectile(position, speedX, speedY, range, owner));
+            Projectiles.Add(new Projectile(position, damage, pierce, speedX, speedY, range, owner));
         }
 
         public static void RemoveProjectile(Projectile p)
@@ -69,12 +69,12 @@ namespace mono.Entities
         public int Pierce { get; set; }
         float Rotation { get; set; }
 
-        public Projectile(Vector2 position, int speedX, int speedY, int range, Owner owner)
+        public Projectile(Vector2 position, int damage, int pierce, int speedX, int speedY, int range, Owner owner)
         {
             this.Texture = TM.GetTexture("projectile");
 
-            Pierce = 1;
-            Damage = 1;
+            Pierce = pierce;
+            Damage = damage;
             this.Position = position;
             this.Centre = new Vector2(8, 8);
             this.Size = new Vector2(Texture.Width, Texture.Height);
