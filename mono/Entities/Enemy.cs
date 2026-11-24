@@ -55,7 +55,7 @@ namespace mono.Entities
         }
         public void Move()
         {
-            if (path != null && path.Count > 0)
+            if (path != null && path.Count > 0 && state == EnemyState.CHASE)
             {
                 Node next = path.Peek();
 
