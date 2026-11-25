@@ -76,8 +76,19 @@ namespace mono.Entities
         public Vector2 Centre { get; set; }
         public Rectangle Rectangle { get; set; }
 
-
-        public int Speed { get; set; }
+        private int speed;
+        public int Speed 
+        { 
+            get 
+            {
+                if (this.Effects.Contains(CharacterEffect.Slow))
+                {
+                    return ((int)(this.speed * 0.8));
+                }
+                return this.speed;
+            }
+            set => speed = value;
+        } 
         public int HP { get; set; }
         public int MaxHP { get; set; }
         public int Range { get; set; }
@@ -85,6 +96,8 @@ namespace mono.Entities
         public int AttackSpeed { get; set; }
         public int AttackCooldown { get; set; }
         public int ProjectileSpeed { get; set; }
+
+        public Dictionary<CharacterEffect, bool> Effects { get; set; }
 
 
         public Character(Vector2 position, CharacterData data)
@@ -103,6 +116,11 @@ namespace mono.Entities
             this.Texture = TM.GetTexture(data.Texture);
             this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
+
+            for (int i = 0; i < (int)CharacterEffect.count; i++)
+            {
+                Effects.Add((CharacterEffect)i, false);
+            }
         }
         public  void Draw(SpriteBatch spriteBatch)
         {
@@ -137,6 +155,17 @@ namespace mono.Entities
         }
     }
 
+
+    public enum CharacterEffect
+    {
+        Slow,
+        Fire,
+        Trap,
+
+        
+        
+        count
+    }
 
     public enum CharacterType
     {

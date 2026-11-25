@@ -25,9 +25,19 @@ namespace mono.Entities
 
         public void Move(Map map)
         {
-            Vector2 oldLocation = Position;
+            List<Node> nodes = new List<Node>();
+            Node n = map.Grid[(int)Position.X / 32, (int)Position.Y / 32];
+            nodes.Add(n);
+            foreach (Node a in n.Neigbour)
+            {
+                nodes.Add(a);
+                if (Rectangle.Intersects(a.Rectangle) && a.TileType == TileType.water)
+                {
+                    Effects[CharacterEffect.Slow] = true;
+                }
+            }
+            
             Vector2 translation = CalcMove();
-            Vector2 newLocation = oldLocation + translation;
 
             Rectangle newRect = RectCalc(newLocation, Size);
 
@@ -43,13 +53,7 @@ namespace mono.Entities
             }
             if (intersects == false)
             {
-                List<Node> nodes = new List<Node>();
-                Node n = map.Grid[(int)newLocation.X / 32, (int)newLocation.Y / 32];
-                nodes.Add(n);
-                foreach (Node a in n.Neigbour)
-                {
-                    nodes.Add(a);
-                }
+                
                 foreach (Node a in nodes)
                 {
                     if (newRect.Intersects(a.Rectangle) && a.TileType == TileType.wall)
@@ -57,10 +61,7 @@ namespace mono.Entities
                         intersects = true;
                         break;
                     }
-                    else if (newRect.Intersects(a.Rectangle) && a.TileType == TileType.water)
-                    {
-                        slow = true;
-                    }
+                    
                 }
             }
             if (!map.RectanglePixel.Contains(newRect))
@@ -106,6 +107,11 @@ namespace mono.Entities
             transformation = transformation * Speed;
 
             return transformation;
+        }
+
+        public (bool, bool) Collides()
+        {
+
         }
 
         public override void Attack()
