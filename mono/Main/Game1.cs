@@ -78,7 +78,7 @@ namespace mono.Main
 
 
             //player
-            CM.CreatePlayer(Map.Rooms[0].CentrePixel.ToVector2(), CharacterType.Marvin);
+            CM.CreatePlayer(Map.Rooms[0].CentrePixel.ToVector2(), CharacterType.Marvin, Map);
 
 
 
@@ -86,11 +86,11 @@ namespace mono.Main
 
             for (int i = 1; i < 3; i++)
             {
-                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), CharacterType.Evil);
+                CM.CreateEnemy(Map.Rooms[i].CentrePixel.ToVector2(), CharacterType.Evil, Map);
             }
             for (int i = 1; i < 3; i++)
             {
-                CM.CreateEnemy(Map.Rooms[i + 3].CentrePixel.ToVector2(), CharacterType.Boss);
+                CM.CreateEnemy(Map.Rooms[i + 3].CentrePixel.ToVector2(), CharacterType.Boss, Map);
             }
 
 

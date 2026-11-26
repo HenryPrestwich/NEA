@@ -16,8 +16,8 @@ namespace mono.Entities
         public Queue<Node> path = new Queue<Node>();
         public Node NextNode { get; private set; }
 
-        public Enemy(Vector2 position, CharacterData data) :
-                base(position, data)
+        public Enemy(Vector2 position, CharacterData data, Map map) :
+                base(position, data, map)
         {
             this.state = EnemyState.IDLE;
             this.Vision = data.Vision;
@@ -53,7 +53,7 @@ namespace mono.Entities
         {
             path = AStar.ASTAR(this.Position, map);
         }
-        public void Move()
+        public override void Move(Map map)
         {
             if (path != null && path.Count > 0 && state == EnemyState.CHASE)
             {

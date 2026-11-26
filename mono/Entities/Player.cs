@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 
 namespace mono.Entities
@@ -12,110 +10,136 @@ namespace mono.Entities
         public string PlayerType { get; set; }
         public bool Dead { get; private set; } = false;
 
-        public Player(Vector2 position, CharacterData data) :
-                 base(position, data)
+        public Player(Vector2 position, CharacterData data, Map map) :
+                 base(position, data, map)
         {
             this.DashCool = 120;
-            
-            
 
-            
-            
+
+
+
+
         }
 
-        public void Move(Map map)
+        public override void Move(Map map)
         {
-            List<Node> nodes = new List<Node>();
-            Node n = map.Grid[(int)Position.X / 32, (int)Position.Y / 32];
-            nodes.Add(n);
-            foreach (Node a in n.Neigbour)
-            {
-                nodes.Add(a);
-                
-            }
-            
             Vector2 translation = CalcMove();
-
-            Rectangle newRect = RectCalc(newLocation, Size);
-
-            bool intersects = false;
-            bool slow = false;
-            foreach (Enemy E in CM.EnemyList)
-            {
-                if (E.Rectangle.Intersects(newRect))
-                {
-                    intersects = true;
-                    break;
-                }
-            }
-            if (intersects == false)
-            {
-                
-                foreach (Node a in nodes)
-                {
-                    if (newRect.Intersects(a.Rectangle) && a.TileType == TileType.wall)
-                    {
-                        intersects = true;
-                        break;
-                    }
-                    
-                }
-            }
             
-            if (intersects == false)
+            if (Collides(translation, map) == false)
             {
-                if (slow == true)
-                {
-                    translation = translation * 0.8f;
-                    newLocation = oldLocation + translation;
-                }
-                this.Position = newLocation;
+                this.Position += translation;
             }
+            else
+            {
+                if (ApproachWall(translation, map, 1) == false)
+                {
+                    if (Collides(new Vector2(translation.X, 0), map) == true)
+                    {
+                        this.Position += new Vector2(translation.X, 0);
+                    }
+                    else if (Collides(new Vector2(0, translation.Y), map) == true)
+                    {
+                        this.Position += new Vector2(0, translation.Y);
+                    }
+                }
+            }
+
+
+
 
             updateRect(map);
             if (this.CurrentNode.TileType == TileType.water)
             {
                 Effects[CharacterEffect.Slow] = true;
             }
+            if (this.CurrentNode.TileType == TileType.floor)
+            {
+                Effects[CharacterEffect.Slow] = false;
+            }
         }
+
+        public bool ApproachWall(Vector2 translation, Map map, float multiplier)
+        {
+            if (multiplier <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                if (Collides(translation * multiplier, map) == false)
+                {
+                    this.Position += translation * multiplier;
+                    return true;
+                }
+                else
+                {
+                    return ApproachWall(translation, map, multiplier - 0.1f);
+                }
+            }
+        }
+
+
 
         public Vector2 CalcMove()
         {
-            Vector2 transformation = new Vector2(0, 0);
+            Vector2 translation = new Vector2(0, 0);
             if (IM.KeyDown(Keys.A))
             {
-                transformation.X -= 1;
+                translation.X -= 1;
             }
             if (IM.KeyDown(Keys.D))
             {
-                transformation.X += 1;
+                translation.X += 1;
             }
             if (IM.KeyDown(Keys.W))
             {
-                transformation.Y -= 1;
+                translation.Y -= 1;
             }
             if (IM.KeyDown(Keys.S))
             {
-                transformation.Y += 1;
+                translation.Y += 1;
             }
-            if (transformation != Vector2.Zero)
+            if (translation != Vector2.Zero)
             {
-                transformation.Normalize();
+                translation.Normalize();
             }
-            transformation = transformation * Speed;
+            translation = translation * Speed;
 
-            return transformation;
+            return translation;
         }
 
-        public bool Collides(Rectangle R, Map map)
+        public bool Collides(Vector2 translation, Map map)
         {
+            Vector2 newPosition = this.Position + translation;
+            Rectangle R = RectCalc(newPosition, Size);
+
             if (!map.RectanglePixel.Contains(R))
             {
                 return true;
             }
 
+            List<Node> nodes = new List<Node>();
+            Node n = CM.Player.CurrentNode;
+            nodes.Add(n);
+            foreach (Node a in n.Neigbour)
+            {
+                nodes.Add(a);
+            }
+            foreach (Enemy E in CM.EnemyList)
+            {
+                if (E.Rectangle.Intersects(R))
+                {
+                    return true;
+                }
+            }
+            foreach (Node a in nodes)
+            {
+                if (R.Intersects(a.Rectangle) && a.TileType == TileType.wall)
+                {
+                    return true;
+                }
 
-
+            }
 
             return false;
         }

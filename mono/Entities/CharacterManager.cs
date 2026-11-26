@@ -17,17 +17,17 @@ namespace mono.Entities
         public static Player Player { get; private set; }
 
 
-        public static void CreatePlayer(Vector2 position, CharacterType playerType)
+        public static void CreatePlayer(Vector2 position, CharacterType playerType, Map map)
         {
             if (Player == null)
             {
-                Player = new Player(position, DM.GetData(playerType));
+                Player = new Player(position, DM.GetData(playerType), map);
             }
         }
 
-        public static void CreateEnemy(Vector2 position, CharacterType enemyType)
+        public static void CreateEnemy(Vector2 position, CharacterType enemyType, Map map)
         {
-            EnemyList.Add(new Enemy(position, DM.GetData(enemyType)));
+            EnemyList.Add(new Enemy(position, DM.GetData(enemyType), map));
         }
 
         public static void DrawCharacters(SpriteBatch spritebatch)
@@ -52,8 +52,8 @@ namespace mono.Entities
             for (int i = 0; i < EnemyList.Count; i++)
             {
                 Enemy e = EnemyList[i];
-                e.Move();
-                e.updateRect();
+                e.Move(map);
+                e.updateRect(map);
                 e.SetState();
                 if (e.state == EnemyState.DEAD)
                 {
@@ -101,7 +101,7 @@ namespace mono.Entities
         public Dictionary<CharacterEffect, bool> Effects { get; set; }
 
 
-        public Character(Vector2 position, CharacterData data)
+        public Character(Vector2 position, CharacterData data, Map map)
         {
             this.Position = position;
             this.Speed = data.Speed;
@@ -118,10 +118,13 @@ namespace mono.Entities
             this.Centre = new Vector2(Texture.Width / 2, Texture.Height / 2);
             this.Size = new Vector2(Texture.Width, Texture.Height);
 
+            Effects = new Dictionary<CharacterEffect, bool>();
             for (int i = 0; i < (int)CharacterEffect.count; i++)
             {
                 Effects.Add((CharacterEffect)i, false);
             }
+
+            updateRect(map);
         }
         public  void Draw(SpriteBatch spriteBatch)
         {
@@ -139,6 +142,8 @@ namespace mono.Entities
             Rectangle rect = new Rectangle(Convert.ToInt32(position.X - size.X / 2), Convert.ToInt32(position.Y - size.Y / 2), Convert.ToInt32(size.X), Convert.ToInt32(size.Y));
             return rect;
         }
+
+        public abstract void Move(Map map);
 
         public abstract void Attack();
         public abstract void DamageEntity(int damage, Vector2 position);
