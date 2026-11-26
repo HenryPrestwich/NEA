@@ -75,13 +75,14 @@ namespace mono.Entities
         public Vector2 Size { get; set; }
         public Vector2 Centre { get; set; }
         public Rectangle Rectangle { get; set; }
+        public Node CurrentNode { get; set; }
 
         private int speed;
         public int Speed 
         { 
             get 
             {
-                if (this.Effects.Contains(CharacterEffect.Slow))
+                if (this.Effects[CharacterEffect.Slow] == true)
                 {
                     return ((int)(this.speed * 0.8));
                 }
@@ -126,10 +127,11 @@ namespace mono.Entities
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0f, Centre, 1f, SpriteEffects.None, Layers.Entity);
         }
-        public void updateRect()
+        public void updateRect(Map map)
         {
             Rectangle rect = RectCalc(this.Position, this.Size);
             this.Rectangle = rect;
+            this.CurrentNode = map.Grid[(int)Position.X / 32, (int)Position.Y / 32];
         }
 
         public static Rectangle RectCalc(Vector2 position, Vector2 size)

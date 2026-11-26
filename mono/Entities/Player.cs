@@ -31,10 +31,7 @@ namespace mono.Entities
             foreach (Node a in n.Neigbour)
             {
                 nodes.Add(a);
-                if (Rectangle.Intersects(a.Rectangle) && a.TileType == TileType.water)
-                {
-                    Effects[CharacterEffect.Slow] = true;
-                }
+                
             }
             
             Vector2 translation = CalcMove();
@@ -64,10 +61,7 @@ namespace mono.Entities
                     
                 }
             }
-            if (!map.RectanglePixel.Contains(newRect))
-            {
-                intersects = true;
-            }
+            
             if (intersects == false)
             {
                 if (slow == true)
@@ -78,7 +72,11 @@ namespace mono.Entities
                 this.Position = newLocation;
             }
 
-            updateRect();
+            updateRect(map);
+            if (this.CurrentNode.TileType == TileType.water)
+            {
+                Effects[CharacterEffect.Slow] = true;
+            }
         }
 
         public Vector2 CalcMove()
@@ -109,9 +107,17 @@ namespace mono.Entities
             return transformation;
         }
 
-        public (bool, bool) Collides()
+        public bool Collides(Rectangle R, Map map)
         {
+            if (!map.RectanglePixel.Contains(R))
+            {
+                return true;
+            }
 
+
+
+
+            return false;
         }
 
         public override void Attack()
