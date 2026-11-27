@@ -181,8 +181,6 @@ namespace mono.Entities
         Cheese,
         Boss,
 
-
-
         Marvin
     }
 }

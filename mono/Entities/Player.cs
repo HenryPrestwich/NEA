@@ -33,11 +33,11 @@ namespace mono.Entities
             {
                 if (ApproachWall(translation, map, 1) == false)
                 {
-                    if (Collides(new Vector2(translation.X, 0), map) == true)
+                    if (Collides(new Vector2(translation.X, 0), map) == false)
                     {
                         this.Position += new Vector2(translation.X, 0);
                     }
-                    else if (Collides(new Vector2(0, translation.Y), map) == true)
+                    else if (Collides(new Vector2(0, translation.Y), map) == false)
                     {
                         this.Position += new Vector2(0, translation.Y);
                     }

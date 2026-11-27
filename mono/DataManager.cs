@@ -18,7 +18,7 @@ namespace mono
 
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.Converters.Add(new JsonStringEnumConverter());
-            
+
 
             List<CharacterData> characterdata = JsonSerializer.Deserialize<List<CharacterData>>(json, options);
 
@@ -41,6 +41,6 @@ namespace mono
         public int Damage { get; set; }
         public int AttackSpeed { get; set; }
         public int ProjectileSpeed { get; set; }
-        public int Vision {  get; set; }
+        public int Vision { get; set; }
     }
 }
